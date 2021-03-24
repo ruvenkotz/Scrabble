@@ -1,0 +1,36 @@
+added: [
+  "bin/usegtrip" {"F:S8665088T1612799449.03"}
+  "doc/uuseg" {"D"}
+  "doc/uuseg/CHANGES.md" {"F:S1751T1612799453.25"}
+  "doc/uuseg/LICENSE.md" {"F:S739T1612799453.42"}
+  "doc/uuseg/README.md" {"F:S1864T1612799453.58"}
+  "doc/uuseg/examples.ml" {"F:S661T1612799454.05"}
+  "doc/uuseg/odoc-pages" {"D"}
+  "doc/uuseg/odoc-pages/index.mld" {"F:S164T1612799453.88"}
+  "lib/uuseg" {"D"}
+  "lib/uuseg/META" {"F:S549T1612799449.39"}
+  "lib/uuseg/opam" {"F:S1655T1612799449.2"}
+  "lib/uuseg/string" {"D"}
+  "lib/uuseg/string/uuseg_string.a" {"F:S19352T1612799451.83"}
+  "lib/uuseg/string/uuseg_string.cma" {"F:S27909T1612799452."}
+  "lib/uuseg/string/uuseg_string.cmi" {"F:S1773T1612799452.18"}
+  "lib/uuseg/string/uuseg_string.cmti" {"F:S16515T1612799452.36"}
+  "lib/uuseg/string/uuseg_string.cmx" {"F:S1931T1612799452.51"}
+  "lib/uuseg/string/uuseg_string.cmxa" {"F:S619T1612799452.68"}
+  "lib/uuseg/string/uuseg_string.cmxs" {"F:S38136T1612799452.82"}
+  "lib/uuseg/string/uuseg_string.mli" {"F:S4997T1612799452.97"}
+  "lib/uuseg/uuseg.a" {"F:S103438T1612799449.58"}
+  "lib/uuseg/uuseg.cma" {"F:S120026T1612799449.78"}
+  "lib/uuseg/uuseg.cmi" {"F:S2628T1612799449.96"}
+  "lib/uuseg/uuseg.cmti" {"F:S29267T1612799450.14"}
+  "lib/uuseg/uuseg.cmx" {"F:S2476T1612799450.3"}
+  "lib/uuseg/uuseg.cmxa" {"F:S3432T1612799450.48"}
+  "lib/uuseg/uuseg.cmxs" {"F:S83088T1612799450.66"}
+  "lib/uuseg/uuseg.mli" {"F:S9619T1612799450.83"}
+  "lib/uuseg/uuseg_base.cmx" {"F:S522T1612799450.98"}
+  "lib/uuseg/uuseg_buf.cmx" {"F:S1042T1612799451.14"}
+  "lib/uuseg/uuseg_grapheme_cluster.cmx" {"F:S862T1612799451.31"}
+  "lib/uuseg/uuseg_line_break.cmx" {"F:S1263T1612799451.49"}
+  "lib/uuseg/uuseg_sentence.cmx" {"F:S1904T1612799451.67"}
+  "lib/uuseg/uuseg_word.cmx" {"F:S1142T1612799453.09"}
+]

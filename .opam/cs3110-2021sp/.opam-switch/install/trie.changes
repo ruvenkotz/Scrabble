@@ -1,0 +1,18 @@
+added: [
+  "doc/trie" {"D"}
+  "doc/trie/LICENSE" {"F:S1091T1612799427.35"}
+  "lib/trie" {"D"}
+  "lib/trie/META" {"F:S142T1612799425.12"}
+  "lib/trie/dune-package" {"F:S318T1612799425.28"}
+  "lib/trie/opam" {"F:S421T1612799425.43"}
+  "lib/trie/trie.a" {"F:S9586T1612799425.6"}
+  "lib/trie/trie.cma" {"F:S17253T1612799425.75"}
+  "lib/trie/trie.cmi" {"F:S1979T1612799425.93"}
+  "lib/trie/trie.cmt" {"F:S33300T1612799426.09"}
+  "lib/trie/trie.cmti" {"F:S9982T1612799426.26"}
+  "lib/trie/trie.cmx" {"F:S694T1612799426.43"}
+  "lib/trie/trie.cmxa" {"F:S308T1612799426.6"}
+  "lib/trie/trie.cmxs" {"F:S24504T1612799426.77"}
+  "lib/trie/trie.ml" {"F:S1962T1612799426.94"}
+  "lib/trie/trie.mli" {"F:S849T1612799427.16"}
+]

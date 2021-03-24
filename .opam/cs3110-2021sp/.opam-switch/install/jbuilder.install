@@ -1,0 +1,27 @@
+lib: [
+  "_build/install/default/lib/jbuilder/META" {"META"}
+  "_build/install/default/lib/jbuilder/opam" {"opam"}
+]
+bin: "_build/install/default/bin/jbuilder" {"jbuilder"}
+doc: [
+  "_build/install/default/doc/jbuilder/README.md"
+  "_build/install/default/doc/jbuilder/LICENSE.md"
+  "_build/install/default/doc/jbuilder/CHANGES.md"
+]
+man: [
+  "_build/install/default/man/man1/jbuilder.1"
+  "_build/install/default/man/man5/dune-config.5"
+  "_build/install/default/man/man1/jbuilder-build.1"
+  "_build/install/default/man/man1/jbuilder-clean.1"
+  "_build/install/default/man/man1/jbuilder-exec.1"
+  "_build/install/default/man/man1/jbuilder-external-lib-deps.1"
+  "_build/install/default/man/man1/jbuilder-help.1"
+  "_build/install/default/man/man1/jbuilder-install.1"
+  "_build/install/default/man/man1/jbuilder-installed-libraries.1"
+  "_build/install/default/man/man1/jbuilder-promote.1"
+  "_build/install/default/man/man1/jbuilder-rules.1"
+  "_build/install/default/man/man1/jbuilder-runtest.1"
+  "_build/install/default/man/man1/jbuilder-subst.1"
+  "_build/install/default/man/man1/jbuilder-uninstall.1"
+  "_build/install/default/man/man1/jbuilder-utop.1"
+]
