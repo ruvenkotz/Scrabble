@@ -1,0 +1,18 @@
+### Starting build.
+# Target: bag.mli.depends, tags: { extension:mli, file:bag.mli, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -modules bag.mli > bag.mli.depends
+# Target: bag.cmi, tags: { byte, compile, extension:mli, file:bag.mli, interf, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -o bag.cmi bag.mli
+# Target: bag.ml.depends, tags: { extension:ml, file:bag.ml, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -modules bag.ml > bag.ml.depends # cached
+# Target: bag.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:bag.cmo, file:bag.ml, implem, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -o bag.cmo bag.ml
+# Target: hand.mli.depends, tags: { extension:mli, file:hand.mli, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -modules hand.mli > hand.mli.depends
+# Target: hand.cmi, tags: { byte, compile, extension:mli, file:hand.mli, interf, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -o hand.cmi hand.mli
+# Target: hand.ml.depends, tags: { extension:ml, file:hand.ml, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -modules hand.ml > hand.ml.depends
+# Target: hand.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:hand.cmo, file:hand.ml, implem, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -o hand.cmo hand.ml
+# Compilation successful.

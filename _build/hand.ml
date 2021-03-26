@@ -1,4 +1,4 @@
-
+module Hand = struct
 type tile = {
   letter : char;
   value : int;
@@ -71,3 +71,4 @@ Pre-condition: Hand must be exactly 7 tiles*)
 
 
 
+ end
