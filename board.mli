@@ -6,11 +6,6 @@
 (** The abstract type t represents a board. *)
 type t
 
-(** The type containing what is in a space *)
-type space = 
-| Empty
-| Char of char
-
 (** Raised when location called outside of board's range *)
 exception UnknownPos
 
@@ -20,12 +15,21 @@ exception PosOccupied
 (** Raised when trying to convert an empty space into a character *)
 exception EmptySpace
 
+(** [board_init] is a 15 x 15 board, with all spaces empty *)
+val board_init : t
+
+(** [is_Empty board row col] is true if no character is stored at [row] [col], 
+    and false otherwise.
+    Raises UnknownPos if [row] or [col] is not wihtin the range o 0 and 14.  *)
+val is_empty : t -> int -> int -> bool
+
 (** [get_char board row col] is the character located at [row] [col].
     (The leftmost column is column 0, and increases as we move to the right. 
     The topmost row is row 0, and the row number increases as we move down)
     Requires: row and col both be be within 0 and 14. 
-    Raises: UnknownPos if either [row] or [col] is not within 0 and 14. *)
-val get_char : t -> int -> int -> space
+    Raises: UnknownPos if either [row] or [col] is not within 0 and 14. 
+            EmptySpace if no character is stored at [row] [col] *)
+val get_char : t -> int -> int -> char
 
 (** [set_char board row col chr] returns a new board, based on [board], but with
     [chr] placed at [row] [col]. 
@@ -35,6 +39,5 @@ val get_char : t -> int -> int -> space
     PosOccupied if a letter is already in [row] [col]] *)
 val set_char : t -> int -> int -> char -> t
 
-(** [char_of_space space] converts a space into its character.
-    Raises: EmptySpace if the space is Empty*)
-val char_of_space : space -> char
+(** [print_board board] prints [board] to console *)
+val print_board : t -> unit

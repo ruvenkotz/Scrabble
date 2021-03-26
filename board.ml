@@ -36,10 +36,61 @@ Example: The board:
 Requires: must be 15 rows long *)
 type t = row list
 
-let get_char (board : t) (row : int) (col : int) : space =
+
+(** [space_of_char chr] converts chr into an object of type space with 
+    character [chr] *)
+let space_of_char (chr : char) : space = Char(chr)
+
+(** [char_of_space spce] converts an object of type space into a character. 
+    Raises EmptySpace if [spce] is Empty. *)
+let char_of_space (spce : space) : char = match spce with
+| Empty -> raise(EmptySpace)
+| Char(chr) -> chr
+
+let board_init : t =
+  [[Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;
+    Empty;Empty;Empty];
+    [Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;
+    Empty;Empty;Empty];
+    [Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;
+    Empty;Empty;Empty];
+    [Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;
+    Empty;Empty;Empty];
+    [Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;
+    Empty;Empty;Empty];
+    [Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;
+    Empty;Empty;Empty];
+    [Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;
+    Empty;Empty;Empty];
+    [Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;
+    Empty;Empty;Empty];
+    [Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;
+    Empty;Empty;Empty];
+    [Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;
+    Empty;Empty;Empty];
+    [Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;
+    Empty;Empty;Empty];
+    [Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;
+    Empty;Empty;Empty];
+    [Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;
+    Empty;Empty;Empty];
+    [Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;
+    Empty;Empty;Empty];
+    [Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;
+    Empty;Empty;Empty]]
+
+let is_empty board row col =
   if row > 14 || row < 0 || col > 14 || col < 0 then raise(UnknownPos) else
     let current_row = List.nth board row in
-    List.nth current_row col
+    let current_space = List.nth current_row col in
+    match current_space with
+    | Empty -> true
+    | Char(_) -> false
+
+let get_char (board : t) (row : int) (col : int) : char =
+  if row > 14 || row < 0 || col > 14 || col < 0 then raise(UnknownPos) else
+    let current_row = List.nth board row in
+    List.nth current_row col |> char_of_space
 
 (** [updated_list_helper left_lst right_lst index chr] iterates over the 
     right_lst until we reach the index we're looking for.
@@ -91,16 +142,6 @@ let rec update_row_helper (left_lst : row list) (right_lst : row list)
 let update_row (board : t) (index : int) (new_row : row) : t = 
   if index < 0 || index > 14 then raise(IndexOutOfBounds) else
     update_row_helper [] board index new_row
-
-(** [space_of_char chr] converts chr into an object of type space with 
-    character [chr] *)
-let space_of_char (chr : char) : space = Char(chr)
-
-(** [char_of_space spce] converts an object of type space into a character. 
-    Raises EmptySpace if [spce] is Empty. *)
-let char_of_space (spce : space) : char = match spce with
-| Empty -> raise(EmptySpace)
-| Char(chr) -> chr
 
 let set_char (board : t) (row : int) (col: int) (chr : char) : t =
   if row > 14 || row < 0 || col > 14 || col < 0 then raise(UnknownPos) else
