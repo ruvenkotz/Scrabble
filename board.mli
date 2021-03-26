@@ -15,6 +15,10 @@ exception PosOccupied
 (** Raised when trying to convert an empty space into a character *)
 exception EmptySpace
 
+(** Raised when attempting to set a character, but the character isn't within 
+    A-Z or a-z. *)
+exception CharacterNotInAlphabet
+
 (** [board_init] is a 15 x 15 board, with all spaces empty *)
 val board_init : t
 
@@ -36,7 +40,8 @@ val get_char : t -> int -> int -> char
     Requires: [row] and [col] are both wihtin 0 and 14. 
     No letter currently occupies [row] [col]
     Raises: UnknownPos if the either [row] or [col] is not within 0 and 14. 
-    PosOccupied if a letter is already in [row] [col]] *)
+            PosOccupied if a letter is already in [row] [col]
+            CharacterNotInAlphabet if the character is not in A-Z or a-z.  *)
 val set_char : t -> int -> int -> char -> t
 
 (** [print_board board] prints [board] to console *)

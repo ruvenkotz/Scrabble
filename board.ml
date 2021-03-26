@@ -10,6 +10,8 @@ exception PosOccupied
 
 exception EmptySpace
 
+exception CharacterNotInAlphabet
+
 (** Raised when attemptng to access an index of a list outside of the list's 
     size*)
 exception IndexOutOfBounds
@@ -145,6 +147,9 @@ let update_row (board : t) (index : int) (new_row : row) : t =
 
 let set_char (board : t) (row : int) (col: int) (chr : char) : t =
   if row > 14 || row < 0 || col > 14 || col < 0 then raise(UnknownPos) else
+    let capital_chr = Char.uppercase_ascii chr in
+    if Char.code capital_chr < 65 || Char.code capital_chr > 90 then 
+      raise(CharacterNotInAlphabet) else
     let current_row = List.nth board row in
     let new_row = update_space current_row col (space_of_char chr) in
     update_row board row new_row
