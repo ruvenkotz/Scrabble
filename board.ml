@@ -148,3 +148,20 @@ let set_char (board : t) (row : int) (col: int) (chr : char) : t =
     let current_row = List.nth board row in
     let new_row = update_space current_row col (space_of_char chr) in
     update_row board row new_row
+
+(** [print_row r] iterates over each space in the row, and prints each 
+    character. If the space is empty, a star is printed instead. *)
+let rec print_row (r : row) : unit = match r with
+| [] -> print_newline();
+| h :: t -> 
+  match h with
+  | Empty -> print_string ("* "); print_row t
+  | Char(chr) -> print_string (Char.escaped chr ^ " "); print_row t
+
+(** [print_board_helper row_lst] Iterates over the list of rows, and calls 
+    [print_row r] on each row. *)
+let rec print_board_helper (row_lst : row list) : unit = match row_lst with
+| [] -> print_newline();
+| h :: t -> print_row h; print_board_helper t
+
+let print_board (board : t) : unit = print_board_helper board
