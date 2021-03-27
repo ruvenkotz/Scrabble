@@ -1,5 +1,8 @@
-MODULES=bag hand
+MODULES=board
 OBJECTS=$(MODULES:=.cmo)
+MLS=$(MODULES:=.ml)
+MLIS=$(MODULES:=.mli)
+TEST=test.byte
 OCAMLBUILD=ocamlbuild -use-ocamlfind
 
 default: build
@@ -9,21 +12,24 @@ build:
 	$(OCAMLBUILD) $(OBJECTS)
 
 test:
-	$(OCAMLBUILD) -tag 'debug' $(TEST) && ./$(TEST) -runner sequential
-
-check:
-	@bash check.sh
-	
-finalcheck:
-	@bash check.sh final
+	$(OCAMLBUILD) -tag 'debug' $(TEST) && ./$(TEST)
 
 zip:
-	zip enigma.zip *.ml* *.sh _tags .merlin .ocamlinit LICENSE Makefile
+	zip scrabble.zip *.ml* *.sh _tags .merlin .ocamlinit LICENSE Makefile
 
-docs:
-	mkdir -p _doc
-	ocamldoc -d _doc -html enigma.ml
+docs: build docs-public docs-private
+	
+docs-public:
+	mkdir -p _doc.public
+	ocamlfind ocamldoc -I _build -package yojson,ANSITerminal \
+		-html -stars -d _doc.public $(MLIS)
+
+docs-private:
+	mkdir -p _doc.private
+	ocamlfind ocamldoc -I _build -package yojson,ANSITerminal \
+		-html -stars -d _doc.private \
+		-inv-merge-ml-mli -m A $(MLIS) $(MLS)
 
 clean:
 	ocamlbuild -clean
-	rm -rf _doc enigma.zip
+	rm -rf _doc _doc.public _doc.private scrabble.zip
