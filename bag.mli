@@ -3,15 +3,33 @@
 This module represents the dynamic bag of tiles in a scrabble game. It is 
 updated whenever a player places tiles or tries to exchange tiles*) 
 
-(*Abstract value representing the bag*)
+(**Abstract value representing the bag*)
 type t
 
-type tile = {
-  letter : string;
-  value : int;
-}
+(**Raised when there is no tiles left in the bag*)
+exception EmptyBag
 
-(*Prints out the value of the tile drawn, and then returns a mutated bag with 
-an updated amount of tiles.*)
-val next_tile: t-> tile
+(**Raised when the tile is not present in the bag*)
+exception TileNotFound
 
+(***Raised when the charactr is not between A-Z*)
+exception InvalidChar
+
+(**[init_bag] makes the initial bag with 102 tiles, with the appropriate counts 
+for them.*)
+val init_bag: t
+
+(**[next_tile] prints out the value of the tile drawn, and then returns a 
+    mutated bag with an updated amount of tiles.
+    Raises: *)
+val next_tile: t-> t
+
+(**[tile_value] is the value associated in scrabble with a character of a 
+given value*)
+val tile_value: t -> char -> int 
+
+(** [tile_count] is the amount of tiles with given char in the bag *)
+val tile_count: t -> char -> int
+
+(** [total_count] is the amount of tiles with given char in the bag *)
+val total_count: t -> int
