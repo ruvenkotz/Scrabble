@@ -30,12 +30,12 @@ val init_bag: t
     Raises: *)
 val next_tile: t-> (t * tile)
 
+
+
 (**[tile_value] is the value associated in scrabble with a character of a 
 given value*)
 val tile_value: t -> char -> int 
 
-(** [tile_count] is the amount of tiles with given char in the bag *)
-val tile_count: t -> char -> int
-
 (** [total_count] is the amount of tiles with given char in the bag *)
 val total_count: t -> int
+

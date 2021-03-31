@@ -126,23 +126,13 @@ let bag_helper_test2 name bag f expected_output =
   name >:: fun _ -> assert_equal expected_output (f bag)
   ~printer:string_of_int
 let init = init_bag
-
-let update_bag = fst (next_tile init)
-let update_2 = fst(next_tile update_bag )
+let update_bag = fst(next_tile init)
+let update_2 = fst(next_tile update_bag)
 let bag_test = [
   bag_helper_test "Asserting value of A is correct" init 'A' tile_value 1;
   bag_helper_test "Asserting value of Z is correct" init 'Z' tile_value 10; 
-  bag_helper_test "Asserting initial count of Z is correct" init 'Z' tile_count 
-  1;
-  bag_helper_test "Asserting initial count of 0 is correct" init 'O' tile_count 
-  8; 
-   bag_helper_test2 "Asserting total tiles is updated" update_bag total_count
-  101; 
-  bag_helper_test2 "Asserting total tiles is updated after 2 tiles drawn" 
-  update_2 total_count 100;
-  bag_helper_test "Tiles Count is properly updated for O" update_bag 'O' tile_count 
-  7; 
-
+  bag_helper_test2 "Asserting total tiles is updated after 2 draws" update_2 
+  total_count 98;
 ]
 
  let generate_hand_test name hand expected_output =
@@ -156,7 +146,7 @@ let hand_test = [
 (** Test suite of all scrabble test*)
 let suite =
   "test suite of all Scrabble Tests"
-  >::: List.flatten [ board_test; hand_test]
+  >::: List.flatten [ board_test;bag_test; hand_test]
 
 (** Runs the test suite on run *)
 let _ = run_test_tt_main suite

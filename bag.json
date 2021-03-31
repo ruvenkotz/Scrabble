@@ -2,138 +2,403 @@
   "bag": [
     {
       "char": "A",
-      "val": 1,
-      "count": 9
+      "val": 1
+    },
+    {
+      "char": "A",
+      "val": 1
+    },
+    {
+      "char": "A",
+      "val": 1
+    },
+    {
+      "char": "A",
+      "val": 1
+    },
+    {
+      "char": "A",
+      "val": 1
+    },
+    {
+      "char": "A",
+      "val": 1
+    },
+    {
+      "char": "A",
+      "val": 1
+    },
+    {
+      "char": "A",
+      "val": 1
+    },
+    {
+      "char": "A",
+      "val": 1
     },
     {
       "char": "B",
-      "val": 3,
-      "count": 2
+      "val": 3
+    },
+    {
+      "char": "B",
+      "val": 3
     },
     {
       "char": "C",
-      "val": 3,
-      "count": 2
+      "val": 3
+    },
+    {
+      "char": "C",
+      "val": 3
     },
     {
       "char": "D",
-      "val": 2,
-      "count": 4
+      "val": 2
+    },
+    {
+      "char": "D",
+      "val": 2
+    },
+    {
+      "char": "D",
+      "val": 2
+    },
+    {
+      "char": "D",
+      "val": 2
     },
     {
       "char": "E",
-      "val": 1,
-      "count": 12
+      "val": 1
+    },
+    {
+      "char": "E",
+      "val": 1
+    },
+    {
+      "char": "E",
+      "val": 1
+    },
+    {
+      "char": "E",
+      "val": 1
+    },
+    {
+      "char": "E",
+      "val": 1
+    },
+    {
+      "char": "E",
+      "val": 1
+    },
+    {
+      "char": "E",
+      "val": 1
+    },
+    {
+      "char": "E",
+      "val": 1
+    },
+    {
+      "char": "E",
+      "val": 1
+    },
+    {
+      "char": "E",
+      "val": 1
+    },
+    {
+      "char": "E",
+      "val": 1
+    },
+    {
+      "char": "E",
+      "val": 1
     },
     {
       "char": "F",
-      "val": 4,
-      "count": 2
+      "val": 4
+    },
+    {
+      "char": "F",
+      "val": 4
     },
     {
       "char": "G",
-      "val": 2,
-      "count": 3
+      "val": 2
+    },
+    {
+      "char": "G",
+      "val": 2
+    },
+    {
+      "char": "G",
+      "val": 2
     },
     {
       "char": "H",
-      "val": 4,
-      "count": 2
+      "val": 4
+    },
+    {
+      "char": "H",
+      "val": 4
     },
     {
       "char": "I",
-      "val": 1,
-      "count": 9
+      "val": 1
+    },
+    {
+      "char": "I",
+      "val": 1
+    },
+    {
+      "char": "I",
+      "val": 1
+    },
+    {
+      "char": "I",
+      "val": 1
+    },
+    {
+      "char": "I",
+      "val": 1
+    },
+    {
+      "char": "I",
+      "val": 1
+    },
+    {
+      "char": "I",
+      "val": 1
+    },
+    {
+      "char": "I",
+      "val": 1
+    },
+    {
+      "char": "I",
+      "val": 1
     },
     {
       "char": "J",
-      "val": 8,
-      "count": 1
+      "val": 8
     },
     {
       "char": "K",
-      "val": 5,
-      "count": 1
+      "val": 5
     },
     {
       "char": "L",
-      "val": 1,
-      "count": 4
+      "val": 1
+    },
+    {
+      "char": "L",
+      "val": 1
+    },
+    {
+      "char": "L",
+      "val": 1
+    },
+    {
+      "char": "L",
+      "val": 1
     },
     {
       "char": "M",
-      "val": 3,
-      "count": 2
+      "val": 3
+    },
+    {
+      "char": "M",
+      "val": 3
     },
     {
       "char": "N",
-      "val": 1,
-      "count": 6
+      "val": 1
+    },
+    {
+      "char": "N",
+      "val": 1
+    },
+    {
+      "char": "N",
+      "val": 1
+    },
+    {
+      "char": "N",
+      "val": 1
+    },
+    {
+      "char": "N",
+      "val": 1
+    },
+    {
+      "char": "N",
+      "val": 1
     },
     {
       "char": "O",
-      "val": 1,
-      "count": 8
+      "val": 1
+    },
+    {
+      "char": "O",
+      "val": 1
+    },
+    {
+      "char": "O",
+      "val": 1
+    },
+    {
+      "char": "O",
+      "val": 1
+    },
+    {
+      "char": "O",
+      "val": 1
+    },
+    {
+      "char": "O",
+      "val": 1
+    },
+    {
+      "char": "O",
+      "val": 1
+    },
+    {
+      "char": "O",
+      "val": 1
     },
     {
       "char": "P",
-      "val": 3,
-      "count": 2
+      "val": 3
+    },
+    {
+      "char": "P",
+      "val": 3
     },
     {
       "char": "Q",
-      "val": 10,
-      "count": 1
+      "val": 10
     },
     {
       "char": "R",
-      "val": 1,
-      "count": 6
+      "val": 1
+    },
+    {
+      "char": "R",
+      "val": 1
+    },
+    {
+      "char": "R",
+      "val": 1
+    },
+    {
+      "char": "R",
+      "val": 1
+    },
+    {
+      "char": "R",
+      "val": 1
+    },
+    {
+      "char": "R",
+      "val": 1
     },
     {
       "char": "S",
-      "val": 1,
-      "count": 4
+      "val": 1
+    },
+    {
+      "char": "S",
+      "val": 1
+    },
+    {
+      "char": "S",
+      "val": 1
+    },
+    {
+      "char": "S",
+      "val": 1
     },
     {
       "char": "T",
-      "val": 1,
-      "count": 6
+      "val": 1
+    },
+    {
+      "char": "T",
+      "val": 1
+    },
+    {
+      "char": "T",
+      "val": 1
+    },
+    {
+      "char": "T",
+      "val": 1
+    },
+    {
+      "char": "T",
+      "val": 1
+    },
+    {
+      "char": "T",
+      "val": 1
     },
     {
       "char": "U",
-      "val": 1,
-      "count": 4
+      "val": 1
+    },
+    {
+      "char": "U",
+      "val": 1
+    },
+    {
+      "char": "U",
+      "val": 1
+    },
+    {
+      "char": "U",
+      "val": 1
     },
     {
       "char": "V",
-      "val": 4,
-      "count": 2
+      "val": 4
+    },
+    {
+      "char": "V",
+      "val": 4
     },
     {
       "char": "W",
-      "val": 4,
-      "count": 2
+      "val": 4
+    },
+    {
+      "char": "W",
+      "val": 4
     },
     {
       "char": "X",
-      "val": 8,
-      "count": 1
+      "val": 8
     },
     {
       "char": "Y",
-      "val": 4,
-      "count": 2
+      "val": 4
+    },
+    {
+      "char": "Y",
+      "val": 4
     },
     {
       "char": "Z",
-      "val": 10,
-      "count": 1
+      "val": 10
     },
     {
       "char": " ",
-      "val": 0,
-      "count": 2
+      "val": 0
+    },
+    {
+      "char": " ",
+      "val": 0
     }
   ]
 }
