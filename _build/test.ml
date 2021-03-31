@@ -1,7 +1,7 @@
 open OUnit2
 open Board
 open Bag
-
+open Hand
 (** [board_is_empty_test name board row col] is an oUnit test named [name] which
     checks that [Board.is_empty board row col] is [expecetd_bool] *)
 let board_is_empty_test name board row col expected_bool =
@@ -128,9 +128,9 @@ let bag_helper_test2 name bag f expected_output =
 let init = init_bag
 
 let update_bag = next_tile init
-let update_2 = next_tile update_bag
+(* let update_2 = next_tile update_bag *)
 let bag_test = [
-  bag_helper_test "Asserting value of A is correct" init 'A' tile_value 1;
+  (* bag_helper_test "Asserting value of A is correct" init 'A' tile_value 1;
   bag_helper_test "Asserting value of Z is correct" init 'Z' tile_value 10; 
   bag_helper_test "Asserting initial count of Z is correct" init 'Z' tile_count 
   1;
@@ -141,13 +141,22 @@ let bag_test = [
   bag_helper_test2 "Asserting total tiles is updated after 2 tiles drawn" 
   update_2 total_count 100;
   bag_helper_test "Tiles Count is properly updated for O" update_bag 'O' tile_count 
-  7;
+  7; *)
+
+]
+
+ let generate_hand_test name hand expected_output =
+  name >:: fun _ -> assert_equal expected_output (List.length (Hand.generate_hand hand))
+  
+let hand_test = [
+
+  generate_hand_test "Test size of Hand" [] 7;
 
 ]
 (** Test suite of all scrabble test*)
 let suite =
   "test suite of all Scrabble Tests"
-  >::: List.flatten [ board_test;bag_test]
+  >::: List.flatten [ board_test; hand_test]
 
 (** Runs the test suite on run *)
 let _ = run_test_tt_main suite

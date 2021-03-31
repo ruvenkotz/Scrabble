@@ -1,5 +1,7 @@
 #require "ounit2";;
 #require "yojson";;
 #directory "_build";;
-#load "hand.cmo";;
 #load "bag.cmo";;
+#load "hand.cmo";;
+#load "board.cmo";;
+

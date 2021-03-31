@@ -19,6 +19,7 @@ type t =
 {bag: tile_count list;
 total_tiles: int }
 
+
 let tile_count_of_json j= 
 {
   ti ={letter = (j |> member "char" |> to_string).[0];
@@ -56,7 +57,8 @@ let next_tile b =
     bag= new_bag;
     total_tiles = b.total_tiles -1
   }
-in b1
+in (b1,tile_drawn)
+
 
 let rec tile_value (b:t) (c:char) = 
   match b.bag with 
