@@ -3,7 +3,7 @@ open Bag
 let bag = init_bag
 let rec generate_hand hand = if List.length hand < 7 then let tile = snd (next_tile bag) in
 generate_hand ( {letter = tile.letter; value = tile.value } :: hand) else hand  
-(* let new_hand = generate_hand []    *)
+
 let print_hor hand =  
   print_endline"+---------------------------+";
   print_endline (
@@ -25,7 +25,6 @@ let print_hor hand =
   " | " ^ (string_of_int (List.nth hand 6).value)  ^ 
   " |");
   print_endline"+---------------------------+"
-
 
  let print_vert hand = 
   print_endline"+-----+";
