@@ -1,8 +1,9 @@
-MODULES=board bag hand
+MODULES=bag hand board main author
 OBJECTS=$(MODULES:=.cmo)
 MLS=$(MODULES:=.ml)
 MLIS=$(MODULES:=.mli)
 TEST=test.byte
+MAIN=main.byte
 OCAMLBUILD=ocamlbuild -use-ocamlfind
 
 default: build
@@ -13,6 +14,9 @@ build:
 
 test:
 	$(OCAMLBUILD) -tag 'debug' $(TEST) && ./$(TEST)
+
+play:
+	$(OCAMLBUILD) -tag 'debug' $(MAIN) && OCAMLRUNPARAM=b ./$(MAIN)
 
 zip:
 	zip scrabble.zip *.ml* *.sh _tags .merlin .ocamlinit LICENSE Makefile

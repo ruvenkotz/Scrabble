@@ -38,8 +38,9 @@ let next_tile b =
   print_endline ("Tile Drawn is: ");
   print_endline (Char.escaped tile_drawn.letter);
   print_endline ("Value is: ");
-  (*print_endline (tile_drawn.value|> string_of_int);*)
+  print_endline (tile_drawn.value|> string_of_int);
   b.total_tiles <-  b.total_tiles -1;
+  print_endline ("Tiles Left is: ");
   print_endline(b.total_tiles|>string_of_int);
   let new_bag = if tile_index = b.total_tiles then 
     Array.sub b.bag 0 b.total_tiles
