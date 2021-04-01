@@ -4,6 +4,7 @@ MLS=$(MODULES:=.ml)
 MLIS=$(MODULES:=.mli)
 TEST=test.byte
 MAIN=main.byte
+INSTALL=install.txt
 OCAMLBUILD=ocamlbuild -use-ocamlfind
 
 default: build
@@ -19,7 +20,7 @@ play:
 	$(OCAMLBUILD) -tag 'debug' $(MAIN) && OCAMLRUNPARAM=b ./$(MAIN)
 
 zip:
-	zip scrabble.zip *.ml* *.sh _tags .merlin .ocamlinit LICENSE Makefile
+	zip scrabble.zip *.ml* *.sh *.json $(INSTALL) _tags .merlin .ocamlinit Makefile
 
 docs: build docs-public docs-private
 	
@@ -36,4 +37,4 @@ docs-private:
 
 clean:
 	ocamlbuild -clean
-	rm -rf _doc _doc.public _doc.private scrabble.zip $(TEST) $(MAIN)
+	rm -rf _doc _doc.public _doc.private scrabble.zip *.byte
