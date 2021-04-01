@@ -36,4 +36,4 @@ docs-private:
 
 clean:
 	ocamlbuild -clean
-	rm -rf _doc _doc.public _doc.private scrabble.zip $(TEST)
+	rm -rf _doc _doc.public _doc.private scrabble.zip $(TEST) $(MAIN)
