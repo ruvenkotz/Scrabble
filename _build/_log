@@ -2,6 +2,7 @@
 # Target: board.mli.depends, tags: { package(ounit2), package(yojson), extension:mli, file:board.mli, ocaml, ocamldep, quiet, traverse }
 ocamlfind ocamldep -package ounit2 -package yojson -modules board.mli > board.mli.depends # cached
 # Target: board.cmi, tags: { package(ounit2), package(yojson), byte, compile, extension:mli, file:board.mli, interf, ocaml, quiet, traverse }
+<<<<<<< HEAD
 ocamlfind ocamlc -c -package ounit2 -package yojson -o board.cmi board.mli # cached
 # Target: board.ml.depends, tags: { package(ounit2), package(yojson), extension:ml, file:board.ml, ocaml, ocamldep, quiet, traverse }
 ocamlfind ocamldep -package ounit2 -package yojson -modules board.ml > board.ml.depends # cached
@@ -23,4 +24,27 @@ ocamlfind ocamlc -c -package ounit2 -package yojson -o hand.cmi hand.mli # cache
 ocamlfind ocamldep -package ounit2 -package yojson -modules hand.ml > hand.ml.depends # cached
 # Target: hand.cmo, tags: { package(ounit2), package(yojson), byte, compile, extension:cmo, extension:ml, file:hand.cmo, file:hand.ml, implem, ocaml, quiet, traverse }
 ocamlfind ocamlc -c -package ounit2 -package yojson -o hand.cmo hand.ml # cached
+=======
+ocamlfind ocamlc -c -package ounit2 -package yojson -o board.cmi board.mli
+# Target: board.ml.depends, tags: { package(ounit2), package(yojson), extension:ml, file:board.ml, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package ounit2 -package yojson -modules board.ml > board.ml.depends # cached
+# Target: board.cmo, tags: { package(ounit2), package(yojson), byte, compile, extension:cmo, extension:ml, file:board.cmo, file:board.ml, implem, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package ounit2 -package yojson -o board.cmo board.ml
+# Target: bag.mli.depends, tags: { package(ounit2), package(yojson), extension:mli, file:bag.mli, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package ounit2 -package yojson -modules bag.mli > bag.mli.depends # cached
+# Target: bag.cmi, tags: { package(ounit2), package(yojson), byte, compile, extension:mli, file:bag.mli, interf, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package ounit2 -package yojson -o bag.cmi bag.mli
+# Target: bag.ml.depends, tags: { package(ounit2), package(yojson), extension:ml, file:bag.ml, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package ounit2 -package yojson -modules bag.ml > bag.ml.depends # cached
+# Target: bag.cmo, tags: { package(ounit2), package(yojson), byte, compile, extension:cmo, extension:ml, file:bag.cmo, file:bag.ml, implem, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package ounit2 -package yojson -o bag.cmo bag.ml
+# Target: hand.mli.depends, tags: { package(ounit2), package(yojson), extension:mli, file:hand.mli, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package ounit2 -package yojson -modules hand.mli > hand.mli.depends # cached
+# Target: hand.cmi, tags: { package(ounit2), package(yojson), byte, compile, extension:mli, file:hand.mli, interf, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package ounit2 -package yojson -o hand.cmi hand.mli
+# Target: hand.ml.depends, tags: { package(ounit2), package(yojson), extension:ml, file:hand.ml, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package ounit2 -package yojson -modules hand.ml > hand.ml.depends # cached
+# Target: hand.cmo, tags: { package(ounit2), package(yojson), byte, compile, extension:cmo, extension:ml, file:hand.cmo, file:hand.ml, implem, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package ounit2 -package yojson -o hand.cmo hand.ml
+>>>>>>> 5000952af7a43464346ffc5b72911fa914a0792a
 # Compilation successful.
