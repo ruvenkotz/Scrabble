@@ -1,0 +1,12 @@
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#04 I: Start test test suite of all Scrabble Tests:3:Pos 14 14 of full board is not empty.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#04 I: Test test suite of all Scrabble Tests:3:Pos 14 14 of full board is not empty is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#04 I: End test test suite of all Scrabble Tests:3:Pos 14 14 of full board is not empty.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#04 I: Start test test suite of all Scrabble Tests:7:Pos 10 9 of half_board raises 'EmptySpace'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#04 I: Test test suite of all Scrabble Tests:7:Pos 10 9 of half_board raises 'EmptySpace' is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#04 I: End test test suite of all Scrabble Tests:7:Pos 10 9 of half_board raises 'EmptySpace'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#04 I: Start test test suite of all Scrabble Tests:14:Set pos -1 100 of empty board raises UnknownPos.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#04 I: Test test suite of all Scrabble Tests:14:Set pos -1 100 of empty board raises UnknownPos is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#04 I: End test test suite of all Scrabble Tests:14:Set pos -1 100 of empty board raises UnknownPos.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#04 I: Start test test suite of all Scrabble Tests:17:Asserting value of Z is correct.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#04 I: Test test suite of all Scrabble Tests:17:Asserting value of Z is correct is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#04 I: End test test suite of all Scrabble Tests:17:Asserting value of Z is correct.

@@ -1,0 +1,181 @@
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Runner: processes
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Chooser: simple
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Configuration suite_name = "test suite of all Scrabble Tests"
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Configuration cache_filename = "/home/rk658/Scrabble/cs3110-scrabble/_build/oUnit-$(suite_name).cache"
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Configuration run_gc_full_major = "true"
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Configuration display = "true"
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Configuration results_style_1_X = "false"
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Configuration testdata_dir = "none"
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Configuration health_check_interval = "1."
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Configuration verbose = "false"
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Configuration chooser = "simple"
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Configuration output_html_dir = "none"
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Configuration processes_kill_period = "5."
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Configuration runner = "processes"
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Configuration shards = "6"
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Configuration processes_grace_period = "5."
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Configuration log_encoding = "utf-8"
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Configuration output_junit_file = "none"
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Configuration ci = "false"
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Configuration output_file = "/home/rk658/Scrabble/cs3110-scrabble/_build/oUnit-$(suite_name)-$(shard_id).log"
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Using 6 workers maximum.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Starting worker number DESKTOP-CQSJJNJ#01.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Worker DESKTOP-CQSJJNJ#01 started.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Starting worker number DESKTOP-CQSJJNJ#02.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Worker DESKTOP-CQSJJNJ#02 started.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Starting worker number DESKTOP-CQSJJNJ#03.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Worker DESKTOP-CQSJJNJ#03 started.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Starting worker number DESKTOP-CQSJJNJ#04.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Worker DESKTOP-CQSJJNJ#04 started.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Starting worker number DESKTOP-CQSJJNJ#05.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Worker DESKTOP-CQSJJNJ#05 started.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Starting worker number DESKTOP-CQSJJNJ#06.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Worker DESKTOP-CQSJJNJ#06 started.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: 6 tests running: test suite of all Scrabble Tests:5:Pos 0 0 of half board is 'A', test suite of all Scrabble Tests:4:Pos 0 0 of empty_board raises 'EmptySpace', test suite of all Scrabble Tests:3:Pos 14 14 of full board is not empty, test suite of all Scrabble Tests:2:Pos 14 14 of half_board is empty, test suite of all Scrabble Tests:1:Pos 0 0 of full_board is not empty, test suite of all Scrabble Tests:0:Pos 0 0 on an empty board should be empty.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#01 I: Start test test suite of all Scrabble Tests:0:Pos 0 0 on an empty board should be empty.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#02 I: Start test test suite of all Scrabble Tests:1:Pos 0 0 of full_board is not empty.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#03 I: Start test test suite of all Scrabble Tests:2:Pos 14 14 of half_board is empty.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#04 I: Start test test suite of all Scrabble Tests:3:Pos 14 14 of full board is not empty.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#05 I: Start test test suite of all Scrabble Tests:4:Pos 0 0 of empty_board raises 'EmptySpace'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: 6 tests running: test suite of all Scrabble Tests:5:Pos 0 0 of half board is 'A', test suite of all Scrabble Tests:4:Pos 0 0 of empty_board raises 'EmptySpace', test suite of all Scrabble Tests:3:Pos 14 14 of full board is not empty, test suite of all Scrabble Tests:2:Pos 14 14 of half_board is empty, test suite of all Scrabble Tests:1:Pos 0 0 of full_board is not empty, test suite of all Scrabble Tests:0:Pos 0 0 on an empty board should be empty.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#01 I: Test test suite of all Scrabble Tests:0:Pos 0 0 on an empty board should be empty is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#02 I: Test test suite of all Scrabble Tests:1:Pos 0 0 of full_board is not empty is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#03 I: Test test suite of all Scrabble Tests:2:Pos 14 14 of half_board is empty is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#04 I: Test test suite of all Scrabble Tests:3:Pos 14 14 of full board is not empty is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#05 I: Test test suite of all Scrabble Tests:4:Pos 0 0 of empty_board raises 'EmptySpace' is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: 6 tests running: test suite of all Scrabble Tests:5:Pos 0 0 of half board is 'A', test suite of all Scrabble Tests:4:Pos 0 0 of empty_board raises 'EmptySpace', test suite of all Scrabble Tests:3:Pos 14 14 of full board is not empty, test suite of all Scrabble Tests:2:Pos 14 14 of half_board is empty, test suite of all Scrabble Tests:1:Pos 0 0 of full_board is not empty, test suite of all Scrabble Tests:0:Pos 0 0 on an empty board should be empty.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#01 I: End test test suite of all Scrabble Tests:0:Pos 0 0 on an empty board should be empty.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#02 I: End test test suite of all Scrabble Tests:1:Pos 0 0 of full_board is not empty.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#03 I: End test test suite of all Scrabble Tests:2:Pos 14 14 of half_board is empty.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#04 I: End test test suite of all Scrabble Tests:3:Pos 14 14 of full board is not empty.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#05 I: End test test suite of all Scrabble Tests:4:Pos 0 0 of empty_board raises 'EmptySpace'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#06 I: Start test test suite of all Scrabble Tests:5:Pos 0 0 of half board is 'A'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: 6 tests running: test suite of all Scrabble Tests:5:Pos 0 0 of half board is 'A', test suite of all Scrabble Tests:4:Pos 0 0 of empty_board raises 'EmptySpace', test suite of all Scrabble Tests:3:Pos 14 14 of full board is not empty, test suite of all Scrabble Tests:2:Pos 14 14 of half_board is empty, test suite of all Scrabble Tests:1:Pos 0 0 of full_board is not empty, test suite of all Scrabble Tests:0:Pos 0 0 on an empty board should be empty.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: 6 tests running: test suite of all Scrabble Tests:10:Set the top left corner of empty_board to be 'A', test suite of all Scrabble Tests:9:Pos 14 14 of full_board is 'Q', test suite of all Scrabble Tests:8:Pos 10 9 of full_board is 'S', test suite of all Scrabble Tests:7:Pos 10 9 of half_board raises 'EmptySpace', test suite of all Scrabble Tests:6:Pos 0 14 of half_board is 'O', test suite of all Scrabble Tests:5:Pos 0 0 of half board is 'A'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#05 I: Start test test suite of all Scrabble Tests:6:Pos 0 14 of half_board is 'O'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#04 I: Start test test suite of all Scrabble Tests:7:Pos 10 9 of half_board raises 'EmptySpace'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#03 I: Start test test suite of all Scrabble Tests:8:Pos 10 9 of full_board is 'S'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#02 I: Start test test suite of all Scrabble Tests:9:Pos 14 14 of full_board is 'Q'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#01 I: Start test test suite of all Scrabble Tests:10:Set the top left corner of empty_board to be 'A'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: 6 tests running: test suite of all Scrabble Tests:10:Set the top left corner of empty_board to be 'A', test suite of all Scrabble Tests:9:Pos 14 14 of full_board is 'Q', test suite of all Scrabble Tests:8:Pos 10 9 of full_board is 'S', test suite of all Scrabble Tests:7:Pos 10 9 of half_board raises 'EmptySpace', test suite of all Scrabble Tests:6:Pos 0 14 of half_board is 'O', test suite of all Scrabble Tests:5:Pos 0 0 of half board is 'A'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#02 I: Test test suite of all Scrabble Tests:9:Pos 14 14 of full_board is 'Q' is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: 6 tests running: test suite of all Scrabble Tests:10:Set the top left corner of empty_board to be 'A', test suite of all Scrabble Tests:9:Pos 14 14 of full_board is 'Q', test suite of all Scrabble Tests:8:Pos 10 9 of full_board is 'S', test suite of all Scrabble Tests:7:Pos 10 9 of half_board raises 'EmptySpace', test suite of all Scrabble Tests:6:Pos 0 14 of half_board is 'O', test suite of all Scrabble Tests:5:Pos 0 0 of half board is 'A'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#04 I: Test test suite of all Scrabble Tests:7:Pos 10 9 of half_board raises 'EmptySpace' is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#03 I: Test test suite of all Scrabble Tests:8:Pos 10 9 of full_board is 'S' is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#02 I: End test test suite of all Scrabble Tests:9:Pos 14 14 of full_board is 'Q'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#01 I: Test test suite of all Scrabble Tests:10:Set the top left corner of empty_board to be 'A' is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: 6 tests running: test suite of all Scrabble Tests:10:Set the top left corner of empty_board to be 'A', test suite of all Scrabble Tests:9:Pos 14 14 of full_board is 'Q', test suite of all Scrabble Tests:8:Pos 10 9 of full_board is 'S', test suite of all Scrabble Tests:7:Pos 10 9 of half_board raises 'EmptySpace', test suite of all Scrabble Tests:6:Pos 0 14 of half_board is 'O', test suite of all Scrabble Tests:5:Pos 0 0 of half board is 'A'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#06 I: Test test suite of all Scrabble Tests:5:Pos 0 0 of half board is 'A' is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#05 I: Test test suite of all Scrabble Tests:6:Pos 0 14 of half_board is 'O' is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#04 I: End test test suite of all Scrabble Tests:7:Pos 10 9 of half_board raises 'EmptySpace'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#03 I: End test test suite of all Scrabble Tests:8:Pos 10 9 of full_board is 'S'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#01 I: End test test suite of all Scrabble Tests:10:Set the top left corner of empty_board to be 'A'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: 6 tests running: test suite of all Scrabble Tests:11:Set Pos 6 6 of empty_board to character 'Z', test suite of all Scrabble Tests:10:Set the top left corner of empty_board to be 'A', test suite of all Scrabble Tests:8:Pos 10 9 of full_board is 'S', test suite of all Scrabble Tests:7:Pos 10 9 of half_board raises 'EmptySpace', test suite of all Scrabble Tests:6:Pos 0 14 of half_board is 'O', test suite of all Scrabble Tests:5:Pos 0 0 of half board is 'A'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#06 I: End test test suite of all Scrabble Tests:5:Pos 0 0 of half board is 'A'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#05 I: End test test suite of all Scrabble Tests:6:Pos 0 14 of half_board is 'O'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: 6 tests running: test suite of all Scrabble Tests:14:Set pos -1 100 of empty board raises UnknownPos, test suite of all Scrabble Tests:13:Set pos 6 6 of half_board to character 'Z', test suite of all Scrabble Tests:12:Set pos 14 14 of half_board to 'F', test suite of all Scrabble Tests:11:Set Pos 6 6 of empty_board to character 'Z', test suite of all Scrabble Tests:6:Pos 0 14 of half_board is 'O', test suite of all Scrabble Tests:5:Pos 0 0 of half board is 'A'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#02 I: Start test test suite of all Scrabble Tests:11:Set Pos 6 6 of empty_board to character 'Z'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#01 I: Start test test suite of all Scrabble Tests:12:Set pos 14 14 of half_board to 'F'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#03 I: Start test test suite of all Scrabble Tests:13:Set pos 6 6 of half_board to character 'Z'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#04 I: Start test test suite of all Scrabble Tests:14:Set pos -1 100 of empty board raises UnknownPos.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: 6 tests running: test suite of all Scrabble Tests:16:Asserting value of A is correct, test suite of all Scrabble Tests:15:Set pos 0 0 of empty_board to '@' raises 
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I:     CharacterNotInAlphabet, test suite of all Scrabble Tests:14:Set pos -1 100 of empty board raises UnknownPos, test suite of all Scrabble Tests:13:Set pos 6 6 of half_board to character 'Z', test suite of all Scrabble Tests:12:Set pos 14 14 of half_board to 'F', test suite of all Scrabble Tests:11:Set Pos 6 6 of empty_board to character 'Z'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#05 I: Start test test suite of all Scrabble Tests:15:Set pos 0 0 of empty_board to '@' raises 
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#05 I:     CharacterNotInAlphabet.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#06 I: Start test test suite of all Scrabble Tests:16:Asserting value of A is correct.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: 6 tests running: test suite of all Scrabble Tests:16:Asserting value of A is correct, test suite of all Scrabble Tests:15:Set pos 0 0 of empty_board to '@' raises 
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I:     CharacterNotInAlphabet, test suite of all Scrabble Tests:14:Set pos -1 100 of empty board raises UnknownPos, test suite of all Scrabble Tests:13:Set pos 6 6 of half_board to character 'Z', test suite of all Scrabble Tests:12:Set pos 14 14 of half_board to 'F', test suite of all Scrabble Tests:11:Set Pos 6 6 of empty_board to character 'Z'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#01 I: Test test suite of all Scrabble Tests:12:Set pos 14 14 of half_board to 'F' is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#04 I: Test test suite of all Scrabble Tests:14:Set pos -1 100 of empty board raises UnknownPos is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: 6 tests running: test suite of all Scrabble Tests:16:Asserting value of A is correct, test suite of all Scrabble Tests:15:Set pos 0 0 of empty_board to '@' raises 
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I:     CharacterNotInAlphabet, test suite of all Scrabble Tests:14:Set pos -1 100 of empty board raises UnknownPos, test suite of all Scrabble Tests:13:Set pos 6 6 of half_board to character 'Z', test suite of all Scrabble Tests:12:Set pos 14 14 of half_board to 'F', test suite of all Scrabble Tests:11:Set Pos 6 6 of empty_board to character 'Z'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#02 I: Test test suite of all Scrabble Tests:11:Set Pos 6 6 of empty_board to character 'Z' is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#01 I: End test test suite of all Scrabble Tests:12:Set pos 14 14 of half_board to 'F'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#04 I: End test test suite of all Scrabble Tests:14:Set pos -1 100 of empty board raises UnknownPos.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: 6 tests running: test suite of all Scrabble Tests:16:Asserting value of A is correct, test suite of all Scrabble Tests:15:Set pos 0 0 of empty_board to '@' raises 
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I:     CharacterNotInAlphabet, test suite of all Scrabble Tests:14:Set pos -1 100 of empty board raises UnknownPos, test suite of all Scrabble Tests:13:Set pos 6 6 of half_board to character 'Z', test suite of all Scrabble Tests:12:Set pos 14 14 of half_board to 'F', test suite of all Scrabble Tests:11:Set Pos 6 6 of empty_board to character 'Z'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#02 I: End test test suite of all Scrabble Tests:11:Set Pos 6 6 of empty_board to character 'Z'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#03 I: Test test suite of all Scrabble Tests:13:Set pos 6 6 of half_board to character 'Z' is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Still 6 tests running : test suite of all Scrabble Tests:18:Test size of Hand, test suite of all Scrabble Tests:17:Asserting value of Z is correct, test suite of all Scrabble Tests:16:Asserting value of A is correct, test suite of all Scrabble Tests:15:Set pos 0 0 of empty_board to '@' raises 
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I:     CharacterNotInAlphabet, test suite of all Scrabble Tests:13:Set pos 6 6 of half_board to character 'Z', test suite of all Scrabble Tests:11:Set Pos 6 6 of empty_board to character 'Z'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: 6 tests running: test suite of all Scrabble Tests:18:Test size of Hand, test suite of all Scrabble Tests:17:Asserting value of Z is correct, test suite of all Scrabble Tests:16:Asserting value of A is correct, test suite of all Scrabble Tests:15:Set pos 0 0 of empty_board to '@' raises 
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I:     CharacterNotInAlphabet, test suite of all Scrabble Tests:13:Set pos 6 6 of half_board to character 'Z', test suite of all Scrabble Tests:11:Set Pos 6 6 of empty_board to character 'Z'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#03 I: End test test suite of all Scrabble Tests:13:Set pos 6 6 of half_board to character 'Z'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#05 I: Test test suite of all Scrabble Tests:15:Set pos 0 0 of empty_board to '@' raises 
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#05 I:     CharacterNotInAlphabet is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#04 I: Start test test suite of all Scrabble Tests:17:Asserting value of Z is correct.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#01 I: Start test test suite of all Scrabble Tests:18:Test size of Hand.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Still 5 tests running : test suite of all Scrabble Tests:18:Test size of Hand, test suite of all Scrabble Tests:17:Asserting value of Z is correct, test suite of all Scrabble Tests:16:Asserting value of A is correct, test suite of all Scrabble Tests:15:Set pos 0 0 of empty_board to '@' raises 
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I:     CharacterNotInAlphabet, test suite of all Scrabble Tests:13:Set pos 6 6 of half_board to character 'Z'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: 5 tests running: test suite of all Scrabble Tests:18:Test size of Hand, test suite of all Scrabble Tests:17:Asserting value of Z is correct, test suite of all Scrabble Tests:16:Asserting value of A is correct, test suite of all Scrabble Tests:15:Set pos 0 0 of empty_board to '@' raises 
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I:     CharacterNotInAlphabet, test suite of all Scrabble Tests:13:Set pos 6 6 of half_board to character 'Z'.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#05 I: End test test suite of all Scrabble Tests:15:Set pos 0 0 of empty_board to '@' raises 
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#05 I:     CharacterNotInAlphabet.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#06 I: Test test suite of all Scrabble Tests:16:Asserting value of A is correct is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Still 4 tests running : test suite of all Scrabble Tests:18:Test size of Hand, test suite of all Scrabble Tests:17:Asserting value of Z is correct, test suite of all Scrabble Tests:16:Asserting value of A is correct, test suite of all Scrabble Tests:15:Set pos 0 0 of empty_board to '@' raises 
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I:     CharacterNotInAlphabet.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: 4 tests running: test suite of all Scrabble Tests:18:Test size of Hand, test suite of all Scrabble Tests:17:Asserting value of Z is correct, test suite of all Scrabble Tests:16:Asserting value of A is correct, test suite of all Scrabble Tests:15:Set pos 0 0 of empty_board to '@' raises 
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I:     CharacterNotInAlphabet.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#06 I: End test test suite of all Scrabble Tests:16:Asserting value of A is correct.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#01 I: Test test suite of all Scrabble Tests:18:Test size of Hand is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Still 3 tests running : test suite of all Scrabble Tests:18:Test size of Hand, test suite of all Scrabble Tests:17:Asserting value of Z is correct, test suite of all Scrabble Tests:16:Asserting value of A is correct.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: 3 tests running: test suite of all Scrabble Tests:18:Test size of Hand, test suite of all Scrabble Tests:17:Asserting value of Z is correct, test suite of all Scrabble Tests:16:Asserting value of A is correct.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#01 I: End test test suite of all Scrabble Tests:18:Test size of Hand.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Still 2 tests running : test suite of all Scrabble Tests:18:Test size of Hand, test suite of all Scrabble Tests:17:Asserting value of Z is correct.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: 2 tests running: test suite of all Scrabble Tests:18:Test size of Hand, test suite of all Scrabble Tests:17:Asserting value of Z is correct.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#04 I: Test test suite of all Scrabble Tests:17:Asserting value of Z is correct is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Still 1 tests running : test suite of all Scrabble Tests:17:Asserting value of Z is correct.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: 1 tests running: test suite of all Scrabble Tests:17:Asserting value of Z is correct.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#04 I: End test test suite of all Scrabble Tests:17:Asserting value of Z is correct.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Still 1 tests running : test suite of all Scrabble Tests:17:Asserting value of Z is correct.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: 1 tests running: test suite of all Scrabble Tests:17:Asserting value of Z is correct.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: 0 tests running: .
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Worker DESKTOP-CQSJJNJ#02 has ended.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Worker DESKTOP-CQSJJNJ#03 has ended.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Worker DESKTOP-CQSJJNJ#05 has ended.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Worker DESKTOP-CQSJJNJ#06 has ended.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Worker DESKTOP-CQSJJNJ#01 has ended.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Worker DESKTOP-CQSJJNJ#04 has ended.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Used 6 worker during test execution.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Run 4 tests with shard DESKTOP-CQSJJNJ#04.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Run 3 tests with shard DESKTOP-CQSJJNJ#03.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Run 2 tests with shard DESKTOP-CQSJJNJ#06.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Run 4 tests with shard DESKTOP-CQSJJNJ#01.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Run 3 tests with shard DESKTOP-CQSJJNJ#05.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Run 3 tests with shard DESKTOP-CQSJJNJ#02.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Check health of shard DESKTOP-CQSJJNJ#04, 1 times.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Check health of shard DESKTOP-CQSJJNJ#03, 6 times.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Check health of shard DESKTOP-CQSJJNJ#06, 4 times.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Check health of shard DESKTOP-CQSJJNJ#01, 3 times.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Check health of shard DESKTOP-CQSJJNJ#05, 5 times.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Check health of shard DESKTOP-CQSJJNJ#02, 7 times.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: ==============
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Summary:
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Test test suite of all Scrabble Tests:17:Asserting value of Z is correct is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Test test suite of all Scrabble Tests:18:Test size of Hand is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Test test suite of all Scrabble Tests:16:Asserting value of A is correct is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Test test suite of all Scrabble Tests:15:Set pos 0 0 of empty_board to '@' raises 
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I:     CharacterNotInAlphabet is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Test test suite of all Scrabble Tests:13:Set pos 6 6 of half_board to character 'Z' is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Test test suite of all Scrabble Tests:11:Set Pos 6 6 of empty_board to character 'Z' is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Test test suite of all Scrabble Tests:14:Set pos -1 100 of empty board raises UnknownPos is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Test test suite of all Scrabble Tests:12:Set pos 14 14 of half_board to 'F' is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Test test suite of all Scrabble Tests:6:Pos 0 14 of half_board is 'O' is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Test test suite of all Scrabble Tests:5:Pos 0 0 of half board is 'A' is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Test test suite of all Scrabble Tests:10:Set the top left corner of empty_board to be 'A' is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Test test suite of all Scrabble Tests:8:Pos 10 9 of full_board is 'S' is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Test test suite of all Scrabble Tests:7:Pos 10 9 of half_board raises 'EmptySpace' is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Test test suite of all Scrabble Tests:9:Pos 14 14 of full_board is 'Q' is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Test test suite of all Scrabble Tests:4:Pos 0 0 of empty_board raises 'EmptySpace' is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Test test suite of all Scrabble Tests:3:Pos 14 14 of full board is not empty is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Test test suite of all Scrabble Tests:2:Pos 14 14 of half_board is empty is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Test test suite of all Scrabble Tests:1:Pos 0 0 of full_board is not empty is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Test test suite of all Scrabble Tests:0:Pos 0 0 on an empty board should be empty is successful.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Ran: 19 tests in: 0.14 seconds.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Cases: 19.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Tried: 19.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Errors: 0.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Failures: 0.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Skip: 0.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Todo: 0.
+2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#00 I: Timeout: 0.

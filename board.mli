@@ -22,6 +22,12 @@ exception CharacterNotInAlphabet
 (** [board_init] is a 15 x 15 board, with all spaces empty *)
 val board_init : t
 
+(** [space] represents the value contained at a location. It is either Empty, or
+  a Char *)
+type space = 
+  | Empty
+  | Char of char
+
 (** [is_Empty board row col] is true if no character is stored at [row] [col], 
     and false otherwise.
     Raises UnknownPos if [row] or [col] is not wihtin the range o 0 and 14.  *)

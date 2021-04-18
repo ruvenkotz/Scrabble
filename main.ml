@@ -2,16 +2,28 @@ open Bag
 open Hand
 open Board
 
+(* let rec player_gen (s) =
+  try let num = (int_of_string s) in
+    if (num=2 || num=3 || num=4) then 
+      for i=0 to num-1 do 
+        print_hor (init_hand)
+      done
+    else failwith ""
+  with failure -> 
+    print_endline("Please enter a valid number of players!");
+    player_gen (read_line()) *)
+
 let rec player_gen (s) =
   try let num = (int_of_string s) in
     if (num=2 || num=3 || num=4) then 
       for i=0 to num-1 do 
-        print_hor (generate_hand [])
+        print_hor (init_hand)
       done
     else failwith ""
   with failure -> 
     print_endline("Please enter a valid number of players!");
     player_gen (read_line())
+
 
 let main () =
   print_endline("Welcome to Scrabble!");
