@@ -2,4 +2,7 @@
 *.cmo
 *.byte
 *.DS_Store
+*.zip
 _build
+_doc.private
+_doc.public
