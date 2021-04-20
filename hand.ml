@@ -9,7 +9,6 @@ let board = Board.board_init
 
 type t = Bag.tile list list
 
-
 let rec generate_hand_helper hand =  if List.length hand < 7 then let tile = snd (next_tile bag) in
 generate_hand_helper ( {letter = tile.letter; value = tile.value } :: hand) else hand 
 

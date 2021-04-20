@@ -10,6 +10,7 @@ open Board
   (**Raised when there s player chooses a letter that isn't in their hand*)
   exception LetterNotFound
 
+  val generate_hand_helper : Bag.tile list -> Bag.tile list
   (** [init_hand] uses the [next_tile] function from Bag to add seven tiles 
 into a player's hand*)
   val init_hand : Bag.tile list

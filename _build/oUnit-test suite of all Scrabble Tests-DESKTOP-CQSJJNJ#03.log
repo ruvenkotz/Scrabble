@@ -1,9 +1,0 @@
-2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#03 I: Start test test suite of all Scrabble Tests:2:Pos 14 14 of half_board is empty.
-2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#03 I: Test test suite of all Scrabble Tests:2:Pos 14 14 of half_board is empty is successful.
-2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#03 I: End test test suite of all Scrabble Tests:2:Pos 14 14 of half_board is empty.
-2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#03 I: Start test test suite of all Scrabble Tests:8:Pos 10 9 of full_board is 'S'.
-2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#03 I: Test test suite of all Scrabble Tests:8:Pos 10 9 of full_board is 'S' is successful.
-2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#03 I: End test test suite of all Scrabble Tests:8:Pos 10 9 of full_board is 'S'.
-2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#03 I: Start test test suite of all Scrabble Tests:13:Set pos 6 6 of half_board to character 'Z'.
-2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#03 I: Test test suite of all Scrabble Tests:13:Set pos 6 6 of half_board to character 'Z' is successful.
-2021-04-18T17:42:12+00:00 DESKTOP-CQSJJNJ#03 I: End test test suite of all Scrabble Tests:13:Set pos 6 6 of half_board to character 'Z'.

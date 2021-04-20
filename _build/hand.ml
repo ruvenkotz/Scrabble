@@ -9,7 +9,6 @@ let board = Board.board_init
 
 type t = Bag.tile list list
 
-
 let rec generate_hand_helper hand =  if List.length hand < 7 then let tile = snd (next_tile bag) in
 generate_hand_helper ( {letter = tile.letter; value = tile.value } :: hand) else hand 
 
@@ -18,7 +17,6 @@ let rec init_hand = generate_hand_helper []
 let hands : t = []
 
 let rec add_a_hand : t = (generate_hand_helper []) :: hands
-
 
 
 let print_hor hand =  
@@ -62,7 +60,7 @@ let rec remove_tile letter front = function
 
 (*Checks to see that the letter chosen is in the player's hand. 
   Throws [LetterNotFound] if not*)
-let rec check_letter letter = function
+let rec check_letter letter hand = match hand with
 |[] -> raise(LetterNotFound)
 |h :: t -> if h.letter = letter then () else check_letter letter t
 
