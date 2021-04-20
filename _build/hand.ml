@@ -55,6 +55,10 @@ let print_hor hand =
   print_endline ("+-----+"); )
  
 
+(*Removes a tile from a hand*)
+let rec remove_tile letter front = function
+|[] -> failwith "Tried to remove a tile that doesn't exist"
+|h::t -> if h.letter = letter then front @ t else remove_tile letter (h::front) t
 
 (*Checks to see that the letter chosen is in the player's hand. 
   Throws [LetterNotFound] if not*)
@@ -69,13 +73,13 @@ let place_letter board letter pos =
   let col = List.nth row_col 1 |> int_of_string in
   set_char board row col letter 
 
-
   
 let play_a_word board hand bag = 
   print_endline("Choose a tile a play: ");
   let letter = read_line() in check_letter (String.get letter 0) hand;
   print_endline("Choose a row and to place your tiles ");
   let pos = read_line() in place_letter board (String.get letter 0) pos;
+
   
 
 
