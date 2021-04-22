@@ -2,6 +2,15 @@ open Bag
 open Hand
 open Board
 
+let hand1 = Array.make 7 {letter = 'A'; value = 10 }
+let hand2 = Array.make 7 {letter = 'A'; value = 10 }
+let hand3 = Array.make 7 {letter = 'A'; value = 10 }
+let hand4 = Array.make 7 {letter = 'A'; value = 10 }
+
+let num_of_players = ref 0
+let hands = [| hand1; hand2; hand3; hand4|]
+
+
 let rec player_act player_number = 
   print_endline("Choose an action player " ^ (string_of_int player_number) 
   ^ "! You can pass, exchange tiles, or place tiles on board!");
@@ -32,13 +41,24 @@ else
   done;
   turn (turn_num+1) play_num
 
+
+let set_hands ()= 
+  for i = 0 to !num_of_players do
+     create_starting_hand (Array.get hands i)
+done
+
+let print_hands () = 
+  for i = 0 to !num_of_players - 1 do
+    print_hor (Array.get hands i)
+done
+
 let rec player_gen (s) =
-  try let num = (int_of_string s) in
+  try let num = (int_of_string s) in 
     if (num=2 || num=3 || num=4) then begin
+      num_of_players := num;
       print_endline("The Hands are:");
-      for i=0 to num-1 do 
-        print_hor ((*Used to be init but doesn't seem to work anymore*)generate_hand_helper [])
-      done;
+      set_hands ();
+      print_hands ();
       print_endline("The Board is: ");
       print_board board_init;
       print_endline("Let the game begin!");
