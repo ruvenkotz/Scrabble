@@ -5,7 +5,7 @@ open Board
     This Module stores what tiles each player has in their hand*)
   
   (*Abstract value representing a hands*)
-  type t = Bag.tile array array
+  type t = Bag.tile array 
 
   (**Raised when there s player chooses a letter that isn't in their hand*)
   exception LetterNotFound
@@ -15,16 +15,16 @@ open Board
 into a player's hand*)
   (* val init_hand : Bag.tile list *)
 
-  val create_starting_hand : Bag.tile array-> unit
+  val create_starting_hand : t-> unit
   (** [print_hor] prints out a horizontal visualization of the board. 
       This is used for the top and bottom player*)
-  val print_hor : Bag.tile array -> unit
+  val print_hor : t-> unit
 
   (* [play_a_word] plays a word from a player's hand onto the board*)
-  (* val play_a_word : Board.t-> Bag.tile list -> tile list  -> Board.t *)
+  val play_a_word : Board.t-> t -> unit
 
    (** [print_vert] prints out a vertical visualization of the board. 
       This is used for the right and left player*)
-  val print_vert : Bag.tile array -> unit
+  val print_vert : t -> unit
 
   

@@ -6,11 +6,10 @@ let hand1 = Array.make 7 {letter = 'A'; value = 10 }
 let hand2 = Array.make 7 {letter = 'A'; value = 10 }
 let hand3 = Array.make 7 {letter = 'A'; value = 10 }
 let hand4 = Array.make 7 {letter = 'A'; value = 10 }
-
 let num_of_players = ref 0
 let hands = [| hand1; hand2; hand3; hand4|]
 
-
+(*Ruven: I'll change [board_init] once the board is made mutable *)
 let rec player_act player_number = 
   print_endline("Choose an action player " ^ (string_of_int player_number) 
   ^ "! You can pass, exchange tiles, or place tiles on board!");
@@ -21,7 +20,7 @@ let rec player_act player_number =
   else if s = "pass" then 
     print_endline("Skipping turn!")
   else if s = "place" then
-    print_endline("Skipping turn!")
+    play_a_word board_init (Array.get hands (player_number-1)) 
   else failwith ""
 with failure -> 
   print_endline("Please enter a valid action");
