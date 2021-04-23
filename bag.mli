@@ -39,3 +39,5 @@ val tile_value: t -> char -> int
 (** [total_count] is the amount of tiles with given char in the bag *)
 val total_count: t -> int
 
+val return_tile: tile->t->unit
+

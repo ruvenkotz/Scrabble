@@ -12,7 +12,7 @@ type t = Bag.tile array
 (*Used for testing purposes*)
 let hand1 = Array.make 7 {letter = 'A'; value = 10 }
 
-let create_starting_hand hand = 
+let create_starting_hand hand bag= 
     for i = 0 to 6 do
     let tile = snd (next_tile bag) in
     set hand i {letter = tile.letter; value = tile.value } 
@@ -67,6 +67,17 @@ let rec check_letter letter hand =  match hand with
 |[] -> raise(LetterNotFound)
 |h :: t -> if h.letter = letter then letter else check_letter letter t
 
+(*Returns the tile with the letter value letter in hand. 
+  Throws [LetterNotFound] if not*)
+let rec tile_getter letter hand ind =  (*match hand with
+|[] -> raise(LetterNotFound)
+|h :: t -> if h.letter = letter then letter else check_letter letter t*)
+  if ind<7 then
+  if (Array.get hand ind).letter = letter then Array.get hand ind
+  else tile_getter letter hand (ind+1)
+else 
+  raise(LetterNotFound)
+
 (*Splits a word into a list of its characters*)
 let rec split_word l word = match word with
 |"" -> List.rev l
@@ -107,8 +118,17 @@ let play_a_word board hand =
   print_endline("Choose a position to end your word ");
   let end_pos = read_line() in ();
   print_endline("Write your word: ");
-  let word = read_line() in place_word board word start_pos end_pos (to_list hand);
+  let word = read_line() in place_word board word start_pos end_pos (to_list hand)
 
   
+let rec find_first_tile tile hand acc= match hand with 
+  |[]-> raise (TileNotFound)
+  |h::t -> if tile = h then acc else find_first_tile tile t (acc+1)
+ 
+
+let tile_replace tile hand bag= 
+  let ind = find_first_tile tile (to_list hand) 0 in 
+  let new_tile = snd (next_tile bag) in
+  set hand ind {letter = new_tile.letter; value = new_tile.value }
 
 

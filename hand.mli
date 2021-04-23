@@ -15,7 +15,7 @@ open Board
 into a player's hand*)
   (* val init_hand : Bag.tile list *)
 
-  val create_starting_hand : t-> unit
+  val create_starting_hand : t-> Bag.t-> unit
   (** [print_hor] prints out a horizontal visualization of the board. 
       This is used for the top and bottom player*)
   val print_hor : t-> unit
@@ -26,5 +26,9 @@ into a player's hand*)
    (** [print_vert] prints out a vertical visualization of the board. 
       This is used for the right and left player*)
   val print_vert : t -> unit
+
+  val tile_getter: char-> t -> int -> Bag.tile
+
+  val tile_replace: Bag.tile -> t -> Bag.t -> unit
 
   
