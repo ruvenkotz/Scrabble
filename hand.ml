@@ -5,7 +5,6 @@ exception LetterNotFound
 exception WordDoesNotFit
 exception InvalidPositioning
 
-let bag = Bag.init_bag
 
 type t = Bag.tile array 
 
@@ -69,9 +68,7 @@ let rec check_letter letter hand =  match hand with
 
 (*Returns the tile with the letter value letter in hand. 
   Throws [LetterNotFound] if not*)
-let rec tile_getter letter hand ind =  (*match hand with
-|[] -> raise(LetterNotFound)
-|h :: t -> if h.letter = letter then letter else check_letter letter t*)
+let rec tile_getter letter hand ind =  
   if ind<7 then
   if (Array.get hand ind).letter = letter then Array.get hand ind
   else tile_getter letter hand (ind+1)

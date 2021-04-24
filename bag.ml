@@ -1,3 +1,4 @@
+Random.self_init ();;
 open Yojson.Basic.Util
 
 exception EmptyBag
