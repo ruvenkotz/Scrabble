@@ -11,6 +11,9 @@ type t = Bag.tile array
 (*Used for testing purposes*)
 let hand1 = Array.make 7 {letter = 'A'; value = 10 }
 
+let bag = init_bag
+let board = board_init
+
 let create_starting_hand hand bag= 
     for i = 0 to 6 do
     let tile = snd (next_tile bag) in
@@ -52,19 +55,13 @@ let print_hor hand =
   print_endline ("+-----+"); )
  
 
-(*Removes a tile from a hand*)
+(*Return the index of a tile given a character. Raise [LetterNotFound] if it
+  does not exist.*)
 
-(* let rec find_tile letter hand index =
-  match (to_list hand) with
-|[] -> failwith "Tried to remove a tile that doesn't exist"
-|h::t -> if h.letter = letter then index else find_tile letter hand index+1 *)
+ let rec index letter i = function
+ |[] -> raise(LetterNotFound)
+ |h :: t -> if h.letter = letter then i else index letter (i+1) t
 
-
-(*Checks to see that the letter chosen is in the player's hand. 
-  Throws [LetterNotFound] if not*)
-let rec check_letter letter hand =  match hand with
-|[] -> raise(LetterNotFound)
-|h :: t -> if h.letter = letter then letter else check_letter letter t
 
 (*Returns the tile with the letter value letter in hand. 
   Throws [LetterNotFound] if not*)
@@ -75,11 +72,23 @@ let rec tile_getter letter hand ind =
 else 
   raise(LetterNotFound)
 
+(*Checks to see that the letter chosen is in the player's hand. 
+  Throws [LetterNotFound] if not*)
+    let rec check_letter letter hand =  match hand with
+  |[] -> raise(LetterNotFound)
+  |h :: t -> if h.letter = letter then letter else check_letter letter t
+
 (*Splits a word into a list of its characters*)
 let rec split_word l word = match word with
 |"" -> List.rev l
 |_ -> split_word ((String.get word 0) :: l) (String.sub word 1 (String.length word - 1))
 
+(*[new_tiles] removes all the tiles played and picks new ones*)
+let rec new_tiles word hand bag = let char_list = split_word [] word in 
+for i = 0 to List.length char_list - 1 do
+  let tile = snd (next_tile bag) in  
+  set hand (index (List.nth char_list i) 0 (to_list hand)) {letter = tile.letter; value = tile.value} 
+done
 
 (*Parses the position and places the letter on the board. 
 Raises a variety of exceptions*)
@@ -107,15 +116,16 @@ let rec place_word board word start_pos end_pos hand =
         done
   else 
       raise(InvalidPositioning)
+  
 
 
-let play_a_word board hand = 
+let play_a_word board hand bag = 
   print_endline("Choose a position to start your word ");
   let start_pos = read_line() in ();
   print_endline("Choose a position to end your word ");
   let end_pos = read_line() in ();
   print_endline("Write your word: ");
-  let word = read_line() in place_word board word start_pos end_pos (to_list hand)
+  let word = read_line() in place_word board word start_pos end_pos (to_list hand); new_tiles word hand bag
 
   
 let rec find_first_tile tile hand acc= match hand with 

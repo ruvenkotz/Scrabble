@@ -21,7 +21,7 @@ into a player's hand*)
   val print_hor : t-> unit
 
   (* [play_a_word] plays a word from a player's hand onto the board*)
-  val play_a_word : Board.t-> t -> unit
+  val play_a_word : Board.t-> t -> Bag.t -> unit
 
    (** [print_vert] prints out a vertical visualization of the board. 
       This is used for the right and left player*)

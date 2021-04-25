@@ -61,7 +61,7 @@ let rec player_act player_number hand=
 else if s = "pass" then 
     print_endline("Skipping turn!")
   else if s = "place" then
-    play_a_word board_init hand 
+    play_a_word board_init hand bag
   else failwith ""
 with failure -> 
   print_endline("Please enter a valid action");
