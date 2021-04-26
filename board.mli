@@ -3,8 +3,16 @@
     This module stores what letter is stored in what location. *)
 
 
+(** [space] represents the value contained at a location. It is either Empty, or
+  a Char *)
+  type space = 
+  | Empty
+  | Char of char
+
+type row = space array
+
 (** The abstract type t represents a board. *)
-type t
+type t = row array
 
 (** Raised when location called outside of board's range *)
 exception UnknownPos
@@ -19,15 +27,6 @@ exception EmptySpace
     A-Z or a-z. *)
 exception CharacterNotInAlphabet
 
-(** [board_init] is a 15 x 15 board, with all spaces empty *)
-val board_init : t
-
-(** [space] represents the value contained at a location. It is either Empty, or
-  a Char *)
-type space = 
-  | Empty
-  | Char of char
-
 (** [is_Empty board row col] is true if no character is stored at [row] [col], 
     and false otherwise.
     Raises UnknownPos if [row] or [col] is not wihtin the range o 0 and 14.  *)
@@ -41,14 +40,14 @@ val is_empty : t -> int -> int -> bool
             EmptySpace if no character is stored at [row] [col] *)
 val get_char : t -> int -> int -> char
 
-(** [set_char board row col chr] returns a new board, based on [board], but with
-    [chr] placed at [row] [col]. 
+(** [set_char board row col chr] replaces the space at [row] [col] of [board]
+    with [chr]. 
     Requires: [row] and [col] are both wihtin 0 and 14. 
     No letter currently occupies [row] [col]
     Raises: UnknownPos if the either [row] or [col] is not within 0 and 14. 
             PosOccupied if a letter is already in [row] [col]
             CharacterNotInAlphabet if the character is not in A-Z or a-z.  *)
-val set_char : t -> int -> int -> char -> t
+val set_char : t -> int -> int -> char -> unit
 
 (** [print_board board] prints [board] to console *)
 val print_board : t -> unit

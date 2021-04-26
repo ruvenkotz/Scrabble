@@ -12,19 +12,19 @@ exception EmptySpace
 
 exception CharacterNotInAlphabet
 
-(** Raised when attemptng to access an index of a list outside of the list's 
+(** Raised when attemptng to access an index of an array outside of the array's 
     size*)
 exception IndexOutOfBounds
 
-(** [row] is a list a spaces, organized from left to right. 
+(** [row] is an array a spaces, organized from left to right. 
 Example: The row:
           A B C D E F 
           Would be represented as:
           ['A';'B';'C';'D';'E';'F']          
 Requires: Must be 15 spaces long. *)
-type row = space list
+type row = space array
 
-(** [t] represents the board itself, and it consists of a list of rows. 
+(** [t] represents the board itself, and it consists of an array of rows. 
 The first row represents the topmost row, the second row represents the second 
 row from the top, etc...
 Example: The board:
@@ -36,7 +36,7 @@ Example: The board:
           [['A';'B';'C';'D';'E';'F'];['G';'H';'I';'J';'K';'L'];
           ['M';'N';'O';'P';'Q';'R'];['S';'T';'U';'V';'W';'X']] 
 Requires: must be 15 rows long *)
-type t = row list
+type t = row array
 
 
 (** [space_of_char chr] converts chr into an object of type space with 
@@ -49,124 +49,29 @@ let char_of_space (spce : space) : char = match spce with
 | Empty -> raise(EmptySpace)
 | Char(chr) -> chr
 
-let board_init : t =
-  [[Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;
-    Empty;Empty;Empty];
-    [Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;
-    Empty;Empty;Empty];
-    [Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;
-    Empty;Empty;Empty];
-    [Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;
-    Empty;Empty;Empty];
-    [Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;
-    Empty;Empty;Empty];
-    [Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;
-    Empty;Empty;Empty];
-    [Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;
-    Empty;Empty;Empty];
-    [Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;
-    Empty;Empty;Empty];
-    [Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;
-    Empty;Empty;Empty];
-    [Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;
-    Empty;Empty;Empty];
-    [Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;
-    Empty;Empty;Empty];
-    [Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;
-    Empty;Empty;Empty];
-    [Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;
-    Empty;Empty;Empty];
-    [Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;
-    Empty;Empty;Empty];
-    [Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty;
-    Empty;Empty;Empty]]
-
 let is_empty board row col =
   if row > 14 || row < 0 || col > 14 || col < 0 then raise(UnknownPos) else
-    let current_row = List.nth board row in
-    let current_space = List.nth current_row col in
+    let current_space = board.(row).(col) in
     match current_space with
     | Empty -> true
     | Char(_) -> false
 
 let get_char (board : t) (row : int) (col : int) : char =
   if row > 14 || row < 0 || col > 14 || col < 0 then raise(UnknownPos) else
-    let current_row = List.nth board row in
-    List.nth current_row col |> char_of_space
+    let current_row = board.(row) in
+    current_row.(col) |> char_of_space
 
-(** [updated_list_helper left_lst right_lst index chr] iterates over the 
-    right_lst until we reach the index we're looking for.
-    Note: left_lst is in the reverse order
-    
-    If we're at the index we're looking for, we append the reverse of the 
-    left_lst to the right_lst, but with the first space replaced with [chr]. 
-    Otherwise, we move the head of the right_lst to the head of the left_lst, 
-    and call update_list_helper on the new left_lst, the reminaing right_lst, 
-    and with one index less
-    
-    Raises: PosOccupied if the space we're trying to replace is not Empty *)
-let rec update_space_helper left_lst right_lst index chr =
-  if index = 0 then
-    match List.hd right_lst with
-    | Char(_) -> raise(PosOccupied)
-    | Empty -> List.rev left_lst @ (chr :: List.tl right_lst) 
-  else
-    update_space_helper (List.hd right_lst :: left_lst) (List.tl right_lst) 
-      (index - 1) chr
-
-(** [update_space lst index chr] returns a list with the space at [index] 
-    replaced with chr.
-    Raises: IndexOutOfBounds if index is not between 0 and 14 inclusive. *)
-let update_space lst index chr = 
-  if index < 0 || index > 14 then raise(IndexOutOfBounds) else
-    update_space_helper [] lst index chr
-  
-(** [update_row_helper left_lst right_lst index new_row] will iterate over the 
-    right_lst until we reach the desired index. 
-    Note: The left_lst is in reverse order, to keep time-complexity low.
-    
-    If we are at the desrired index, we append the reverse of the left_lst with 
-    the new row concatenated onto the tail of the right_lst.
-    If we're not at the desired index, we call update_row_helper, with the head 
-    of the right_lst concatenated onto the left_lst, and the rest of the 
-    right_lst *)
-let rec update_row_helper (left_lst : row list) (right_lst : row list) 
-  (index : int) (new_row : row) : row list =
-  if index = 0 then 
-      (List.rev left_lst) @ (new_row :: List.tl right_lst) 
-  else
-    update_row_helper (List.hd right_lst :: left_lst) (List.tl right_lst) 
-      (index - 1) new_row
-
-(** [update_row lst index row] returns a new board with the row at index [index]
-   replaced with [new_row].
-   Raises: IndexOutOfBounds if [index] is less than 0 or greater than 14. *)
-let update_row (board : t) (index : int) (new_row : row) : t = 
-  if index < 0 || index > 14 then raise(IndexOutOfBounds) else
-    update_row_helper [] board index new_row
-
-let set_char (board : t) (row : int) (col: int) (chr : char) : t =
+let set_char (board : t) (row : int) (col : int) (chr : char) : unit = 
   if row > 14 || row < 0 || col > 14 || col < 0 then raise(UnknownPos) else
     let capital_chr = Char.uppercase_ascii chr in
     if Char.code capital_chr < 65 || Char.code capital_chr > 90 then 
       raise(CharacterNotInAlphabet) else
-    let current_row = List.nth board row in
-    let new_row = update_space current_row col (space_of_char chr) in
-    update_row board row new_row
+    if is_empty board row col then board.(row).(col) <- Char(capital_chr) else
+      raise(PosOccupied)
 
-(** [print_row r] iterates over each space in the row, and prints each 
-    character. If the space is empty, a star is printed instead. *)
-let rec print_row (r : row) : unit = match r with
-| [] -> print_newline();
-| h :: t -> 
-  match h with
-  | Empty -> print_string ("* "); print_row t
-  | Char(chr) -> print_string (Char.escaped chr ^ " "); print_row t
-
-(** [print_board_helper row_lst] Iterates over the list of rows, and calls 
-    [print_row r] on each row. *)
-let rec print_board_helper (row_lst : row list) : unit = match row_lst with
-| [] -> print_newline();
-| h :: t -> print_row h; print_board_helper t
-
-let print_board (board : t) : unit = print_board_helper board
+let print_board (board : t) : unit = 
+  let print_space = function 
+  | Empty -> print_string ("* "); 
+  | Char(chr) -> print_string (Char.escaped chr ^ " "); in
+  let print_row row = Array.iter print_space row; print_newline(); in
+  Array.iter print_row board; print_newline();

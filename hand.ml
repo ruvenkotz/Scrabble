@@ -12,7 +12,7 @@ type t = Bag.tile array
 let hand1 = Array.make 7 {letter = 'A'; value = 10 }
 
 let bag = init_bag
-let board = board_init
+let board : Board.t = Array.make_matrix 15 15 Empty
 
 let create_starting_hand hand bag= 
     for i = 0 to 6 do
@@ -105,14 +105,14 @@ let rec place_word board word start_pos end_pos hand =
       then raise(WordDoesNotFit)
     else
       for i = 0 to (end_row - start_row) do
-        print_board (Board.set_char board (i + start_row) start_col (check_letter (List.nth char_list i) hand))
+        print_board (Board.set_char board (i + start_row) start_col (check_letter (List.nth char_list i) hand); board)
       done
   else if start_col < end_col then
     if (end_col - start_col + 1) <> (String.length word)
         then raise(WordDoesNotFit)
     else 
         for i = 0 to (end_col - start_col) do
-          print_board (Board.set_char board start_row (start_col+i) (check_letter (List.nth char_list i) hand))
+          print_board (Board.set_char board start_row (start_col+i) (check_letter (List.nth char_list i) hand); board)
         done
   else 
       raise(InvalidPositioning)

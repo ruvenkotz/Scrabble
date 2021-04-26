@@ -61,7 +61,7 @@ let rec player_act player_number hand=
 else if s = "pass" then 
     print_endline("Skipping turn!")
   else if s = "place" then
-    play_a_word board_init hand bag
+    play_a_word (Array.make_matrix 15 15 Empty) hand bag
   else failwith ""
 with failure -> 
   print_endline("Please enter a valid action");
@@ -109,7 +109,7 @@ let rec player_gen (s) =
       set_hands ();
       print_hands ();
       print_endline("The Board is: ");
-      print_board board_init;
+      print_board (Array.make_matrix 15 15 Empty);
       print_endline("Let the game begin!");
       turn 1 num hands;
     end
