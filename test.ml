@@ -128,25 +128,44 @@ let bag_helper_test2 name bag f expected_output =
 let init = init_bag
 let update_bag = fst(next_tile init)
 let update_2 = fst(next_tile update_bag)
+let third_drawn = snd (next_tile update_2)
+
+let u = return_tile third_drawn update_2
 let bag_test = [
   bag_helper_test "Asserting value of A is correct" init 'A' tile_value 1;
   bag_helper_test "Asserting value of Z is correct" init 'Z' tile_value 10; 
-  (* bag_helper_test2 "Asserting total tiles is updated after 2 draws" update_2 
-  total_count 98; *)
+  bag_helper_test2 "Asserting total tiles is updated after 2 draws" update_2 
+  total_count 98; 
+  bag_helper_test2 "Asserting total tiles is updated after third tile is drawn 
+  and then replaced" update_2 total_count 98; 
 ]
 
  let generate_hand_test name hand expected_output =
-  name >:: fun _ -> assert_equal expected_output (Array.length (Array.make 7 {letter = 'A'; value = 10 }))
-  
+  name >:: fun _ -> assert_equal expected_output (Array.length (Array.make 7 
+  {letter = 'A'; value = 10 }))
+  let tile_getter_test name letter hand ind expected_output =
+    name >:: fun _ -> assert_equal expected_output (tile_getter letter hand ind)
+  let tile_getter_exception_helper name letter hand ind expected_output : test =
+    name >:: fun _ -> assert_raises expected_output (fun () ->tile_getter letter
+     hand ind)
+let test_hand = Array.make 7 {letter = 'A'; value = 10 }
+
+let test_hand2 = Array.append (Array.make 6 {letter = 'A'; value = 10 } ) 
+(Array.make 1{letter='B'; value = 3})
+
 let hand_test = [
-
   generate_hand_test "Test size of Hand" [] 7;
-
+  tile_getter_test "Asserting tile in hand is retrievable" 'A' test_hand 0 
+  {letter = 'A'; value = 10 };
+  tile_getter_test "Checking recursive call properly works when tile needed is 
+  not first one" 'B' test_hand2 0 {letter = 'B'; value = 3 };
+  tile_getter_exception_helper "Checking exception is raised when tile is not in
+  hand" 'C' test_hand 0 LetterNotFound;
 ]
 (** Test suite of all scrabble test*)
 let suite =
   "test suite of all Scrabble Tests"
-  >::: List.flatten [ board_test;bag_test; (*hand_test*)]
+  >::: List.flatten [ board_test;bag_test; hand_test ]
 
 (** Runs the test suite on run *)
 let _ = run_test_tt_main suite

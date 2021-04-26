@@ -27,8 +27,13 @@ into a player's hand*)
       This is used for the right and left player*)
   val print_vert : t -> unit
 
+
+  (** [tile_getter] Returns the tile with the letter value letter in hand. 
+  Throws [LetterNotFound] if not*)
   val tile_getter: char-> t -> int -> Bag.tile
 
+  (** [tile_replace] replaces the given tile with one that is randomly 
+  drawn from the bag*)
   val tile_replace: Bag.tile -> t -> Bag.t -> unit
 
   

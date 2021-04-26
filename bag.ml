@@ -70,4 +70,3 @@ let return_tile tile b =
   let returned = Array.make 1 tile in 
   b.bag <- Array.append returned b.bag;
   b.total_tiles<- b.total_tiles +1
-  

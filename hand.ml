@@ -45,13 +45,20 @@ let print_hor hand =
 
  let print_vert hand = 
   (print_endline"+-----+";
-  print_endline("| " ^ (Char.escaped (Array.get hand 0).letter)  ^ " " ^ (string_of_int (Array.get hand 0).value) ^ " |");
-  print_endline("| " ^ (Char.escaped (Array.get hand 1).letter)  ^ " " ^ (string_of_int (Array.get hand 1).value)  ^ " |");
-  print_endline("| " ^ (Char.escaped (Array.get hand 2).letter)  ^ " " ^ (string_of_int (Array.get hand 2).value)  ^ " |");
-  print_endline("| " ^ (Char.escaped (Array.get hand 3).letter)  ^ " " ^ (string_of_int (Array.get hand 3).value)  ^ " |");
-  print_endline("| " ^ (Char.escaped (Array.get hand 4).letter)  ^ " " ^ (string_of_int (Array.get hand 4).value)  ^ " |");
-  print_endline("| " ^ (Char.escaped (Array.get hand 5).letter)  ^ " " ^ (string_of_int (Array.get hand 5).value)  ^ " |");
-  print_endline("| " ^ (Char.escaped (Array.get hand 6).letter)  ^ " " ^ (string_of_int (Array.get hand 6).value)  ^ " |");
+  print_endline("| " ^ (Char.escaped (Array.get hand 0).letter) 
+   ^ " " ^ (string_of_int (Array.get hand 0).value) ^ " |");
+  print_endline("| " ^ (Char.escaped (Array.get hand 1).letter) 
+   ^ " " ^ (string_of_int (Array.get hand 1).value)  ^ " |");
+  print_endline("| " ^ (Char.escaped (Array.get hand 2).letter) 
+   ^ " " ^ (string_of_int (Array.get hand 2).value)  ^ " |");
+  print_endline("| " ^ (Char.escaped (Array.get hand 3).letter)  
+  ^ " " ^ (string_of_int (Array.get hand 3).value)  ^ " |");
+  print_endline("| " ^ (Char.escaped (Array.get hand 4).letter) 
+   ^ " " ^ (string_of_int (Array.get hand 4).value)  ^ " |");
+  print_endline("| " ^ (Char.escaped (Array.get hand 5).letter) 
+   ^ " " ^ (string_of_int (Array.get hand 5).value)  ^ " |");
+  print_endline("| " ^ (Char.escaped (Array.get hand 6).letter) 
+   ^ " " ^ (string_of_int (Array.get hand 6).value)  ^ " |");
   print_endline ("+-----+"); )
  
 
@@ -62,9 +69,6 @@ let print_hor hand =
  |[] -> raise(LetterNotFound)
  |h :: t -> if h.letter = letter then i else index letter (i+1) t
 
-
-(*Returns the tile with the letter value letter in hand. 
-  Throws [LetterNotFound] if not*)
 let rec tile_getter letter hand ind =  
   if ind<7 then
   if (Array.get hand ind).letter = letter then Array.get hand ind
@@ -81,13 +85,15 @@ else
 (*Splits a word into a list of its characters*)
 let rec split_word l word = match word with
 |"" -> List.rev l
-|_ -> split_word ((String.get word 0) :: l) (String.sub word 1 (String.length word - 1))
+|_ -> split_word ((String.get word 0) :: l) 
+(String.sub word 1 (String.length word - 1))
 
 (*[new_tiles] removes all the tiles played and picks new ones*)
 let rec new_tiles word hand bag = let char_list = split_word [] word in 
 for i = 0 to List.length char_list - 1 do
   let tile = snd (next_tile bag) in  
-  set hand (index (List.nth char_list i) 0 (to_list hand)) {letter = tile.letter; value = tile.value} 
+  set hand (index (List.nth char_list i) 0 (to_list hand)) 
+  {letter = tile.letter; value = tile.value} 
 done
 
 (*Parses the position and places the letter on the board. 
@@ -105,14 +111,16 @@ let rec place_word board word start_pos end_pos hand =
       then raise(WordDoesNotFit)
     else
       for i = 0 to (end_row - start_row) do
-        print_board (Board.set_char board (i + start_row) start_col (check_letter (List.nth char_list i) hand); board)
+        print_board (Board.set_char board (i + start_row) start_col 
+        (check_letter (List.nth char_list i) hand); board)
       done
   else if start_col < end_col then
     if (end_col - start_col + 1) <> (String.length word)
         then raise(WordDoesNotFit)
     else 
         for i = 0 to (end_col - start_col) do
-          print_board (Board.set_char board start_row (start_col+i) (check_letter (List.nth char_list i) hand); board)
+          print_board (Board.set_char board start_row (start_col+i) 
+          (check_letter (List.nth char_list i) hand); board)
         done
   else 
       raise(InvalidPositioning)
@@ -125,7 +133,8 @@ let play_a_word board hand bag =
   print_endline("Choose a position to end your word ");
   let end_pos = read_line() in ();
   print_endline("Write your word: ");
-  let word = read_line() in place_word board word start_pos end_pos (to_list hand); new_tiles word hand bag
+  let word = read_line() in place_word board word start_pos end_pos 
+  (to_list hand); new_tiles word hand bag
 
   
 let rec find_first_tile tile hand acc= match hand with 
