@@ -10,6 +10,7 @@ let hand4 = Array.make 7 {letter = 'A'; value = 10 }
 let num_of_players = ref 0
 let hands = [| hand1; hand2; hand3; hand4|]
 
+
 (*Exchanges tiles in the hand up to the specified number wanted.*)
 let rec exchanging hand ind_num num_ex= 
     if (ind_num<num_ex) then begin
@@ -67,10 +68,24 @@ with failure ->
   print_endline("Please enter a valid action");
   player_act player_number hand
 
-
+  let rec empty_hands_check hands ind =
+    if ind<(!num_of_players) then
+      if Array.length (Array.get hands ind)= 0 then true
+      else empty_hands_check hands (ind+1)
+    else 
+      false
 (*Allows the user to have turns, with either the option to quit or causing 
 there to be player actions for each player otherwise.*)
 let rec turn turn_num play_num hands= 
+let count = total_count bag in
+print_endline (count |> string_of_int);
+if (count = 0) then if empty_hands_check hands 0= true then 
+  begin
+  print_endline("Game is over!");
+  print_endline("The winner is: ");
+  Stdlib.exit 0
+  end
+else
 print_endline("This is Turn " ^string_of_int turn_num);
 print_endline("Keep playing? Please type yes/no");
 let ans = read_line() in 
@@ -84,7 +99,7 @@ else
   done;
   turn (turn_num+1) play_num hands
 
-
+  
 (*Sets the initial hands of the players*)
 let set_hands ()= 
   for i = 0 to !num_of_players-1 do
