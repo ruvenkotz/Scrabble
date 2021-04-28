@@ -20,13 +20,15 @@ into a player's hand*)
       This is used for the top and bottom player*)
   val print_hor : t-> unit
 
+  (*[new_tiles] removes all the tiles played and picks new ones*)
+  val new_tiles : t -> Bag.t -> unit
+
   (* [play_a_word] plays a word from a player's hand onto the board*)
-  val play_a_word : Board.t-> t -> Bag.t -> unit
+  val play_a_word : Board.t-> t -> unit
 
    (** [print_vert] prints out a vertical visualization of the board. 
       This is used for the right and left player*)
   val print_vert : t -> unit
-
 
   (** [tile_getter] Returns the tile with the letter value letter in hand. 
   Throws [LetterNotFound] if not*)
