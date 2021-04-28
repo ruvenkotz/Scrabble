@@ -7,6 +7,8 @@ let hand1 = Array.make 7 {letter = 'A'; value = 10 }
 let hand2 = Array.make 7 {letter = 'A'; value = 10 }
 let hand3 = Array.make 7 {letter = 'A'; value = 10 }
 let hand4 = Array.make 7 {letter = 'A'; value = 10 }
+
+let board = (Array.make_matrix 15 15 Empty)
 let num_of_players = ref 0
 let hands = [| hand1; hand2; hand3; hand4|]
 
@@ -58,10 +60,13 @@ let rec player_act player_number hand=
     print_endline("Your new hand is:");
     print_hor hand;
     end
-else if s = "pass" then 
+  else if s = "pass" then 
     print_endline("Skipping turn!")
   else if s = "place" then
-    play_a_word (Array.make_matrix 15 15 Empty) hand bag
+    for i = 0 to 0 do
+      play_a_word board hand;
+      new_tiles hand bag;
+    done 
   else failwith ""
 with failure -> 
   print_endline("Please enter a valid action");
@@ -109,7 +114,7 @@ let rec player_gen (s) =
       set_hands ();
       print_hands ();
       print_endline("The Board is: ");
-      print_board (Array.make_matrix 15 15 Empty);
+      print_board (board);
       print_endline("Let the game begin!");
       turn 1 num hands;
     end
