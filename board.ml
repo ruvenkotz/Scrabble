@@ -57,7 +57,7 @@ let is_empty board row col =
     | Char(_) -> false
 
 let get_char (board : t) (row : int) (col : int) : char =
-  if row > 14 || row < 0 || col > 14 || col < 0 then '0' else
+  if row > 14 || row < 0 || col > 14 || col < 0 then raise(UnknownPos) else
     let current_row = board.(row) in
     current_row.(col) |> char_of_space
 

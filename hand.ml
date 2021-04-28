@@ -189,6 +189,7 @@ let play_a_word board h  =
     set h (find_first_tile (String.get letter 0)  (to_list h) 0 ) {letter = '*'; value = 0}
   done
 
+
   
 
 
