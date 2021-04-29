@@ -109,6 +109,26 @@ let board_check_word_test name board start_row start_col end_row end_col
     let actual = Board.check_word board start_row start_col end_row end_col in
     assert_equal expected actual ~printer:string_of_int_option
 
+(** [error_notif] is a function which prints out a notification to the console,
+  telling the tester that the error print out are not a failure of the function, 
+  but rather meant to be informative. of why a word was rejected. *)
+let error_notif _ = 
+  print_newline ();
+  print_string "**************************************************************";
+  print_newline();
+  print_string " If a printout appears below, saying 
+  \"Word rejected due to ...\", this is expected. Whenever Board.check_word is 
+  called on an invalid word, the error is printed out to console, so the player 
+  knows why their word was rejected.";
+  print_newline();
+  print_newline ();
+  print_string "  This is NOT a failure raised by oUnit. This error simply means
+  the word was rejected, and tis to be expected if you are testing 
+  Board.check_word on invalid words.";
+  print_newline();
+  print_string "**************************************************************";
+  print_newline()
+
 (** [cat _] are the functions required to change real_board, so that the word
     CAT is placed. *)
 let cat _ = 
@@ -119,7 +139,13 @@ let cat _ =
     placed.*)
 let ice _ =
   set_char real_board 6 6 'I';
-  set_char real_board 8 6 'E'
+  set_char real_board 6 8 'E'
+
+(** [zicu _] are the functions required to place ZICU (a gibberish word) on
+  the board.*)
+let zicu _ =
+  set_char real_board 5 6 'Z';
+  set_char real_board 8 6 'U'
 
 (** [board_test] is the collection of tests testing Board's functions *)
 let board_test = 
@@ -161,8 +187,22 @@ let board_test =
   board_check_word_test "Check word CAT, using the A in CAR, will only return
    5 points, because CAR remains unmodified" 
    real_board 7 6 7 8 cat (Some (5));
-  board_check_word_test "Checking ICE will return Some 5" 
-    real_board 6 6 8 6 ice (Some (11));
+  board_check_word_test "Checking ICE will return Some 11" 
+    real_board 6 6 6 8 ice (Some (11));
+  board_check_word_test "Checking a word at an index out of range of 0..14 
+    will return None" real_board (-1) 7 6 7 error_notif None;
+  board_check_word_test "Checking a word that has an end position higher up than
+    it's start position returns None" real_board 10 10 7 10 (fun _ -> ()) None;
+  board_check_word_test "Checking a word that has an end position further left 
+    than its start position returns None" real_board 7 7 7 3 (fun _ -> ()) None;
+  board_check_word_test "Checking a word that's start and end positions are 
+    diagonal to each other returns None" real_board 2 2 5 5 (fun _ -> ()) None;
+  board_check_word_test "Checking a word on a board without a tile in the center 
+    returns None" half_board 0 0 0 6 (fun _ -> ()) None;
+  board_check_word_test "Checking a word with a space in it returns None"
+    real_board 7 6 7 9 (fun _ -> ()) None;
+  board_check_word_test "Checking a nonreal word returns None" 
+    real_board 5 6 8 6 zicu None;
 ]
 
 (***)

@@ -14,9 +14,19 @@ exception EmptySpace
 
 exception CharacterNotInAlphabet
 
+(** Raised when checking if a word is valid, but no tile is in the center. 
+  Scrabble rules say that the first word must place a tile in the center, 
+  So if no tile is in the cneter, that rule has been broken. *)
 exception NoTileInCenter
 
+(** Raised when attempting to check a word, but the start position is further 
+    up or left of the end position, or if the start and end position are 
+    diagonal from each other. *)
 exception InvalidStartOrEndPos
+
+(** Raised when checking a word, but that word is not in the 
+    English dicitonary. *)
+exception NonRealWord
 
 (** Raised when attemptng to access an index of an array outside of the array's 
     size*)
@@ -95,9 +105,11 @@ let length_and_dir start_row start_col end_row end_col =
   assert (end_row <= 14 && end_row >= 0);
   assert (start_row <= 14 && start_row >= 0);
   if (end_row - start_row = 0) then begin
-    assert(end_col > start_col); Hor(end_col - start_col + 1) end else
+    if end_col > start_col then Hor(end_col - start_col + 1) else 
+      raise(InvalidStartOrEndPos) end else
   if (end_col - start_col = 0) then begin
-    assert(end_row > start_row); Vert(end_row - start_row + 1) end else
+    if end_row > start_row then Vert(end_row - start_row + 1) else 
+      raise(InvalidStartOrEndPos) end else
   raise(InvalidStartOrEndPos)
 
 (** [find_leftmost_nonempty_space board row col] returns the leftmost space 
@@ -400,12 +412,6 @@ let word_value = function
 | NoWord -> 0
 | Word(word, _, _) -> word_value_helper word 0
 
-(**[string_of_word word] returns the string of the word object. 
-    If the word object is NoWord, then the empty string is returned. *)
-let string_of_word = function
-| NoWord -> ""
-| Word(word, _, _) -> word
-
 (** [word_comparator word1 word2] is 
     1 if word1 is a word, and word2 is not a word
     0 if both words are NoWord or both words are a word 
@@ -454,39 +460,118 @@ let check_word_helper board start_row start_col end_row end_col =
       for i = 0 to (len - 1) do
         let row = start_row + i in
         let col = start_col in
-        if is_empty board row col then raise(InvalidStartOrEndPos) else
+        if is_empty board row col then raise(EmptySpace) else
         find_modified_words_vert board row col
       done;
       add_original_word board start_row start_col end_row end_col;
-      if are_words_real () then (count_points ()) else None
+      if are_words_real () then (count_points ()) else raise(NonRealWord)
     | Hor(len) ->
       for i = 0 to (len - 1) do
         let row = start_row in
         let col = start_col + i in
-        if is_empty board row col then raise(InvalidStartOrEndPos) else
+        if is_empty board row col then raise(EmptySpace) else
         find_modified_words_hor board row col
       done;
       add_original_word board start_row start_col end_row end_col;
-      if are_words_real () then (count_points ()) else None
+      if are_words_real () then (count_points ()) else raise(NonRealWord)
 
+(** [exn_print exn] will print out to console why [exn] may have been raised*)
+let exn_print exn = match exn with
+| NoTileInCenter -> 
+  print_newline ();
+  print_string "Word rejected due to the center space being empty. The first play must place a tile in the center space (7, 7). Try again.";
+  print_newline ()
+| InvalidStartOrEndPos -> 
+  print_newline ();
+  print_string "Word rejected due to the end position being further up, left, or diagonal to the start position. Try again.";
+  print_newline()
+| EmptySpace -> 
+  print_newline();
+  print_string "Word rejected because the word either includes spaces, or there was an empty space included in the spaces between your word's start position and end position. Try again.";
+  print_newline()
+| Assert_failure (_, _, _) ->
+  print_newline ();
+  print_string "Word rejected because the starting or ending position was out of range of the board (0..14) x (0..14). Try again.";
+  print_newline ()
+| NonRealWord -> 
+  print_newline ();
+  print_string "Word rejected because this word, or one the words it modifies, is not in the English dictionary. Try again. ";
+  print_newline ();
+| _ -> 
+  print_newline(); print_string "An unkown error occurred."; print_newline()
+
+
+(** [place_word board word_obj] will place word [word] at its correpsonding 
+    location on [board]. [word] is an object of type Word, which contains the 
+    string representation of the word, it's starting location, and it's 
+    direction and length*)
+let place_word board word_obj = match word_obj with
+| NoWord -> ()
+| Word(word, loc, dirct) -> 
+  match dirct with
+  | Vert(len) -> 
+    for i=0 to len - 1 do
+      let row = fst loc + i in
+      let col = snd loc in
+      if is_empty board row col then set_char board row col word.[i] else ()
+    done
+  | Hor(len) ->
+    for i=0 to len - 1 do
+      let row = fst loc in
+      let col = snd loc + i in
+      if is_empty board row col then set_char board row col word.[i] else ()
+    done
+
+(** [build_board_from_current_words board] will replace board with a board consisting
+  of only the verified valid words. *)
+let build_board_from_current_words board =
+  let num_of_words = find_next_index current_words in
+  for i = 0 to num_of_words - 1 do
+    let word_obj = current_words.(i) in
+    place_word board word_obj
+  done
+
+(** [remove_new_word board] will reset the board so that the new characters 
+  which made an invalid word are removed. *)
+let remove_new_word board = 
+  for i=0 to 14 do
+    for j=0 to 14 do
+      board.(i).(j) <- Empty
+    done;
+  done;
+  build_board_from_current_words board
+
+
+ (** [check_word board start_row start_col end_row end_col] iterates over each 
+  letter of the word. Check if it's empty. If it's empty, raise an exception. 
+  If it isn't empty, check left. If the left is not empty. Iterate left until 
+  the beginnning of the word. then iterate right until the end of the word, and 
+  record the word. Repeat until last letter reached, and add the original word 
+  as well. Then check that all words are real, and that they haven't been used 
+  before. If they haven't been used, add the points. If all words are real, 
+  store the word, direction, and starting location. If not 
+  all words are real, remove new characters. *) 
 let check_word board start_row start_col end_row end_col =
   try check_word_helper board start_row start_col end_row end_col with
   | NoTileInCenter -> 
-    print_string ("Error: " ^ (Printexc.to_string NoTileInCenter)); None
+    remove_new_word board;
+    exn_print NoTileInCenter; 
+    None
   | InvalidStartOrEndPos -> 
-    print_string ("Error: " ^ (Printexc.to_string InvalidStartOrEndPos)); None
+    remove_new_word board;
+    exn_print InvalidStartOrEndPos; 
+    None
   | EmptySpace -> 
-    print_string ("Error: " ^ (Printexc.to_string EmptySpace)); None
-  | Assert_failure(a, b, c) ->
-    print_string ("Error: " ^ (Printexc.to_string (Assert_failure(a, b, c)))); None
+    remove_new_word board;
+    exn_print EmptySpace;
+    None
+  | Assert_failure(a, b, c) -> 
+    remove_new_word board;
+    exn_print (Assert_failure(a, b, c)); 
+    None
+  | NonRealWord -> 
+    remove_new_word board; 
+    exn_print (NonRealWord); 
+    None
 
-(* iterate over each letter of the word. Check if it's empty. If it's empty, 
-  raise an exception. If it isn't empty, check left. If the left is not empty. 
-Iterate left until the beginnning of the word. then iterate right until the end 
-of the word, and record the word. Repeat until last letter reached, and add the 
-original word as well. Then check that all words are real, and that they haven't
- been used before. If they haven't been used, add the points. If all words are 
- real, store the word, direction, and starting location. If not all words are 
- real, remove new characters. *)
-
- (* add possible_new_word to current_words, and check for floating words*)
+(** things to do: check for floating words.*)
