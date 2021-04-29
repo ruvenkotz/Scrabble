@@ -45,7 +45,6 @@ with failure ->
   print_endline("Please enter a valid number of tiles!");
   exchange_num (read_line()) hand
 
-
 (*Ruven: I'll change [board_init] once the board is made mutable *)
 let rec player_act player_number hand= 
   print_endline("Choose an action player " ^ (string_of_int player_number) 
@@ -63,26 +62,27 @@ let rec player_act player_number hand=
     end
   else if s = "pass" then 
     print_endline("Skipping turn!")
-  else if s = "place" then
-    for i = 0 to 0 do
+  else if s = "place" then begin
       play_a_word board hand;
       new_tiles hand bag;
-    done 
+      print_endline("Word Placed!")
+  end
   else failwith ""
 with failure -> 
   print_endline("Please enter a valid action");
   player_act player_number hand
 
-  let rec empty_hands_check hands ind =
-    if ind<(!num_of_players) then
-      if Array.length (Array.get hands ind)= 0 then true
-      else empty_hands_check hands (ind+1)
-    else 
-      false
+let rec empty_hands_check hands ind =
+  if ind<(!num_of_players) then
+    if Array.length (Array.get hands ind)= 0 then true
+    else empty_hands_check hands (ind+1)
+  else 
+    false
 (*Allows the user to have turns, with either the option to quit or causing 
 there to be player actions for each player otherwise.*)
 let rec turn turn_num play_num hands= 
 let count = total_count bag in
+print_endline ("The current number of tiles left in the bag is: ");
 print_endline (count |> string_of_int);
 if (count = 0) then if empty_hands_check hands 0= true then 
   begin
@@ -125,8 +125,8 @@ let rec player_gen (s) =
   try let num = (int_of_string s) in 
     if (num=2 || num=3 || num=4) then begin
       num_of_players := num;
-      print_endline("The Hands are:");
       set_hands ();
+      print_endline("The Hands are:");    
       print_hands ();
       print_endline("The Board is: ");
       print_board (board);
