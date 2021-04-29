@@ -5,7 +5,8 @@ MLIS=$(MODULES:=.mli)
 TEST=test.byte
 MAIN=main.byte
 INSTALL=install.txt
-OCAMLBUILD=ocamlbuild -use-ocamlfind
+OCAMLBUILD=ocamlbuild -use-ocamlfind \
+	-plugin-tag 'package(bisect_ppx-ocamlbuild)'
 
 default: build
 	OCAMLRUNPARAM=b utop
@@ -13,8 +14,15 @@ default: build
 build:
 	$(OCAMLBUILD) $(OBJECTS)
 
+bisect:
+	make clean
+	BISECT_COVERAGE=YES ocamlbuild -use-ocamlfind -plugin-tag 'package(bisect_ppx-ocamlbuild)' $(TEST)
+	./$(TEST) -runner sequential
+	bisect-ppx-report html
+
 test:
-	$(OCAMLBUILD) -tag 'debug' $(TEST) && ./$(TEST)
+	make clean
+	$(OCAMLBUILD) -tag 'debug' $(TEST) && ./$(TEST) -runner sequential
 
 play:
 	$(OCAMLBUILD) -tag 'debug' $(MAIN) && OCAMLRUNPARAM=b ./$(MAIN)
@@ -37,4 +45,4 @@ docs-private:
 
 clean:
 	ocamlbuild -clean
-	rm -rf _doc _doc.public _doc.private scrabble.zip *.byte
+	rm -rf _doc _doc.public _doc.private _coverage scrabble.zip *.byte *.coverage

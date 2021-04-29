@@ -83,11 +83,50 @@ let full_board : Board.t = board_builder [
   'B';'C';'D';'E';'F';'G';'H';'I';'J';'K';'L';'M';'N';'O';'P';'Q'
 ]
 
+(** [real_board] is a board that actually contains words.*)
+let real_board : Board.t = Array.make_matrix 15 15 Board.Empty
+
+(**[real_board_init] initializes [real_board] with the word 
+    "CAR" in the middle *)
+let real_board_init = 
+  set_char real_board 6 7 'C';
+  set_char real_board 7 7 'A';
+  set_char real_board 8 7 'R'
+
+(**[string_of_int_option num] returns a string based on the int option [num]. *)
+let string_of_int_option = function
+| None -> "None"
+| Some(num) -> "Some " ^ (Int.to_string num)
+
+(** [board_check_word_test name board start_row start_col end_row end_col 
+    expected] is an oUnit test which checks that the result from 
+    [Board.check_word board start_row start_col end_row end_col] is expected.
+    [steps] is a function of type unit, which will run before check_word runs *)
+let board_check_word_test name board start_row start_col end_row end_col 
+  (steps : 'a -> unit) expected =
+  name >:: fun _ ->
+    steps ();
+    let actual = Board.check_word board start_row start_col end_row end_col in
+    assert_equal expected actual ~printer:string_of_int_option
+
+(** [cat _] are the functions required to change real_board, so that the word
+    CAT is placed. *)
+let cat _ = 
+  set_char real_board 7 6 'C';
+  set_char real_board 7 8 'T'
+
+(** [ice _ ] are the functions requires to change real_board so that ICE is 
+    placed.*)
+let ice _ =
+  set_char real_board 6 6 'I';
+  set_char real_board 8 6 'E'
+
 (** [board_test] is the collection of tests testing Board's functions *)
 let board_test = 
   Board.print_board empty_board;
   Board.print_board half_board;
   Board.print_board full_board;
+  Board.print_board real_board;
   [
   board_is_empty_test "Pos 0 0 on an empty board should be empty" empty_board
     0 0 true;
@@ -114,7 +153,16 @@ let board_test =
     empty_board (-1) 100 'A' Board.UnknownPos;
   board_set_char_raises_test "Set pos 0 0 of empty_board to '@' raises 
     CharacterNotInAlphabet" empty_board 0 0 '@' Board.CharacterNotInAlphabet;
-
+  board_check_word_test "Check word CAR in real_board should return Some 5" 
+    real_board 6 7 8 7 (fun _ -> ()) (Some (5));
+  board_check_word_test "Checking CAR again in the same place should return
+    Some 0, because CAR wasn't modified" 
+    real_board 6 7 8 7 (fun _ -> ()) (Some (0)); 
+  board_check_word_test "Check word CAT, using the A in CAR, will only return
+   5 points, because CAR remains unmodified" 
+   real_board 7 6 7 8 cat (Some (5));
+  board_check_word_test "Checking ICE will return Some 5" 
+    real_board 6 6 8 6 ice (Some (11));
 ]
 
 (***)

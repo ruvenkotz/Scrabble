@@ -1,3 +1,8 @@
 Installation Instructions:
-There is not much to install with our system. All of the source code is in the 
-zip. To start a game of scrabble run make play. 
+
+There are only two required packages for this program: oUnit2, and yojson.
+
+Asumming you have these packages installed: the only command needed to run this
+program is:
+
+make play

@@ -1,5 +1,6 @@
 #require "ounit2";;
 #require "yojson";;
+#require "bisect_ppx.runtime";;
 #directory "_build";;
 #load "bag.cmo";;
 #load "board.cmo";;

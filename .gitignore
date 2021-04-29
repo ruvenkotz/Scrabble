@@ -3,6 +3,8 @@
 *.byte
 *.DS_Store
 *.zip
+*.coverage
 _build
+_coverage
 _doc.private
 _doc.public
