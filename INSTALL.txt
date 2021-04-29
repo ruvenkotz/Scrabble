@@ -1,6 +1,6 @@
 Installation Instructions:
 
-There are only two required packages for this program: oUnit2, and yojson.
+There are only three required packages for this program: oUnit2, yojson, and bisect.
 
 Asumming you have these packages installed: the only command needed to run this
 program is:
