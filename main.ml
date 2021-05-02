@@ -45,6 +45,14 @@ with failure ->
   print_endline("Please enter a valid number of tiles!");
   exchange_num (read_line()) hand
 
+
+let rec place hand = 
+  try   
+      play_a_word board hand;
+      tile_replace {letter = '*'; value = 0} hand bag
+with failure -> 
+  print_endline("Invalid placement!")
+
 (*Ruven: I'll change [board_init] once the board is made mutable *)
 let rec player_act player_number hand= 
   print_endline("Choose an action player " ^ (string_of_int player_number) 
@@ -63,8 +71,7 @@ let rec player_act player_number hand=
   else if s = "pass" then 
     print_endline("Skipping turn!")
   else if s = "place" then begin
-      play_a_word board hand;
-      new_tiles hand bag;
+      place hand;
       print_endline("Word Placed!")
   end
   else failwith ""

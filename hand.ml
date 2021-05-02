@@ -101,12 +101,12 @@ let rec split_word l word = match word with
 (String.sub word 1 (String.length word - 1))
 
 (*[new_tiles] removes all the tiles played and picks new ones*)
-let rec new_tiles (hand : t) bag =  
-for i = 0 to length hand do
-  if (get hand i).letter = '*' then
-  let tile = snd (next_tile bag) in  
-  set hand i tile
-done
+let new_tiles (hand : t) bag =  
+  for i = 0 to (length hand -1) do
+    if Char.equal (get hand 0).letter '*' then
+    let tile = snd (next_tile bag) in  
+    set hand 0 tile
+  done
 
 (*Parses the position and places the letter on the board. 
 Raises a variety of exceptions*)
@@ -158,6 +158,13 @@ let rec find_first_tile tile hand acc= match hand with
      
     
 let tile_replace tile hand bag= 
+  if tile = {letter = '*'; value = 0} then 
+    for i = 0 to (length hand -1) do
+      if Char.equal (get hand i).letter '*' then
+      let tile = snd (next_tile bag) in  
+      set hand i tile
+    done
+  else  
   let ind = find_first_tile tile.letter (to_list hand) 0 in 
   let new_tile = snd (next_tile bag) in
   set hand ind {letter = new_tile.letter; value = new_tile.value }
