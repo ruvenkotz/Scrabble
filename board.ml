@@ -1,5 +1,5 @@
 open Yojson.Basic.Util
-
+open Bag
 (** [space] represents the value contained at a location. It is either Empty, or
   a Char *)
 type space =
@@ -39,6 +39,8 @@ Example: The row:
           ['A';'B';'C';'D';'E';'F']          
 Requires: Must be 15 spaces long. *)
 type row = space array
+
+let bag = init_bag
 
 (** [t] represents the board itself, and it consists of an array of rows. 
 The first row represents the topmost row, the second row represents the second 
@@ -369,6 +371,9 @@ let add_original_word board start_row start_col end_row end_col =
   possible_new_words.(index) <- Word(word, start_pos, loc)
 
 (** [letter_value letter] returns the scrabble value of letter [letter]. *)
+(**Ryan: I think I can use a function in bag for this*)
+
+(*
 let letter_value letter =
   if letter = 'A' then 1 else
   if letter = 'B' then 3 else
@@ -396,13 +401,15 @@ let letter_value letter =
   if letter = 'X' then 8 else
   if letter = 'Y' then 4 else
   10
+*)
 
 (**[word_value_helper word acc] is the sum of letter values in the word so far. 
     Reminaing values to be counted are in string [word], and the accumulated 
     points so far are stored in int [acc].*)
 let rec word_value_helper word acc =
   if String.length word = 0 then acc else
-  let letter_val = letter_value word.[0] in
+  (*let letter_val = letter_value word.[0] in*)
+  let letter_val = tile_value word.[0] in
   let substring_len = String.length word - 1 in
   let substring = String.sub word 1 substring_len in
   word_value_helper substring (acc + letter_val)
@@ -479,23 +486,29 @@ let check_word_helper board start_row start_col end_row end_col =
 let exn_print exn = match exn with
 | NoTileInCenter -> 
   print_newline ();
-  print_string "Word rejected due to the center space being empty. The first play must place a tile in the center space (7, 7). Try again.";
+  print_string "Word rejected due to the center space being empty. The first 
+  play must place a tile in the center space (7, 7). Try again.";
   print_newline ()
 | InvalidStartOrEndPos -> 
   print_newline ();
-  print_string "Word rejected due to the end position being further up, left, or diagonal to the start position. Try again.";
+  print_string "Word rejected due to the end position being further up, left, 
+  or diagonal to the start position. Try again.";
   print_newline()
 | EmptySpace -> 
   print_newline();
-  print_string "Word rejected because the word either includes spaces, or there was an empty space included in the spaces between your word's start position and end position. Try again.";
+  print_string "Word rejected because the word either includes spaces, or there 
+  was an empty space included in the spaces between your word's start position 
+  and end position. Try again.";
   print_newline()
 | Assert_failure (_, _, _) ->
   print_newline ();
-  print_string "Word rejected because the starting or ending position was out of range of the board (0..14) x (0..14). Try again.";
+  print_string "Word rejected because the starting or ending position was out of
+   range of the board (0..14) x (0..14). Try again.";
   print_newline ()
 | NonRealWord -> 
   print_newline ();
-  print_string "Word rejected because this word, or one the words it modifies, is not in the English dictionary. Try again. ";
+  print_string "Word rejected because this word, or one the words it modifies, 
+  is not in the English dictionary. Try again. ";
   print_newline ();
 | _ -> 
   print_newline(); print_string "An unkown error occurred."; print_newline()

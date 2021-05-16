@@ -12,6 +12,8 @@ let board = (Array.make_matrix 15 15 Empty)
 let num_of_players = ref 0
 let hands = [| hand1; hand2; hand3; hand4|]
 
+let scores = [|0;0;0;0|]
+
 
 (*Exchanges tiles in the hand up to the specified number wanted.*)
 let rec exchanging hand ind_num num_ex= 
@@ -45,13 +47,15 @@ with failure ->
   print_endline("Please enter a valid number of tiles!");
   exchange_num (read_line()) hand
 
-
+(**Almost works, but need to make sure tiles don't get replaced that were invalid
+words*)
 let rec place hand = 
-  try   
-      play_a_word board hand;
-      tile_replace {letter = '*'; value = 0} hand bag
+  try  
+      match play_a_word board hand with 
+      | None-> failwith ""
+      | Some i ->  tile_replace {letter = '*'; value = 0} hand bag; i
 with failure -> 
-  print_endline("Invalid placement!")
+  place hand
 
 (*Ruven: I'll change [board_init] once the board is made mutable *)
 let rec player_act player_number hand= 
@@ -71,7 +75,8 @@ let rec player_act player_number hand=
   else if s = "pass" then 
     print_endline("Skipping turn!")
   else if s = "place" then begin
-      place hand;
+      Array.set scores (player_number-1) ((Array.get scores player_number-1)+ 
+      place hand);
       print_endline("Word Placed!")
   end
   else failwith ""
@@ -85,6 +90,11 @@ let rec empty_hands_check hands ind =
     else empty_hands_check hands (ind+1)
   else 
     false
+let print_scores () = 
+  for i = 0 to !num_of_players - 1 do
+    print_endline ("Player" ^ (string_of_int (i+1 ))^":");
+    print_endline (string_of_int (Array.get scores i))
+  done
 (*Allows the user to have turns, with either the option to quit or causing 
 there to be player actions for each player otherwise.*)
 let rec turn turn_num play_num hands= 
@@ -99,6 +109,8 @@ if (count = 0) then if empty_hands_check hands 0= true then
   end
 else
 print_endline("This is Turn " ^string_of_int turn_num);
+print_endline("The Scores are: ");
+print_scores ();
 print_endline("Keep playing? Please type yes/no");
 let ans = read_line() in 
 if String.equal ans "no" then begin
@@ -125,6 +137,7 @@ let print_hands () =
 done
 
 
+
 (*Starts the game is the number of players is valid, otherwise raises an 
 unspecified error not seen by the user and prompts them to re=enter a valid 
 number of players*)
@@ -137,6 +150,8 @@ let rec player_gen (s) =
       print_hands ();
       print_endline("The Board is: ");
       print_board (board);
+      print_endline("The scores are: ");
+      print_scores ();
       print_endline("Let the game begin!");
       turn 1 num hands;
     end
