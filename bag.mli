@@ -25,6 +25,9 @@ exception InvalidChar
 for them.*)
 val init_bag: t
 
+(**[empty_bag] is the bag after all the tiles have been drawn*)
+val empty_bag: t 
+
 (**[next_tile] prints out the value of the tile drawn, and then returns a 
     mutated bag with an updated amount of tiles.
     Raises: *)

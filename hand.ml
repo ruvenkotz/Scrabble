@@ -72,8 +72,10 @@ let print_hor hand =
 
 let rec tile_getter letter hand ind =  
   if ind<7 then
+    begin
   if (Array.get hand ind).letter = letter then Array.get hand ind
   else tile_getter letter hand (ind+1)
+end
 else 
   raise(LetterNotFound)
 
