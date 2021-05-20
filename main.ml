@@ -45,13 +45,20 @@ with failure ->
   print_endline("Please enter a valid number of tiles!");
   exchange_num (read_line()) hand
 
+(*Checks to see whether the center is occupied with a tile after the first word 
+is placef, raises an errorif not*)
+let check_center board =
+ match Board.get_char board 7 7 with 
+ |_ -> ()
 
+(*[place] calls [play_a_word], draws new tiles, then calls [check_center] 
+to make sure that the center position is occupied *)  
 let rec place hand = 
-  try   
-      play_a_word board hand;
-      tile_replace {letter = '*'; value = 0} hand bag
-with failure -> 
-  print_endline("Invalid placement!")
+  play_a_word board hand;
+  check_center board;
+  tile_replace {letter = '*'; value = 0} hand bag;
+  print_endline("Word Placed!")
+
 
 (*Ruven: I'll change [board_init] once the board is made mutable *)
 let rec player_act player_number hand= 
@@ -59,6 +66,7 @@ let rec player_act player_number hand=
   ^ "! You can pass, exchange tiles, or place tiles on board!");
   print_endline("Your current hand is:");
   print_hor hand;
+  let hand_copy = Array.copy hand in
   let s = read_line() in 
   try
   if s = "exchange" then 
@@ -71,13 +79,12 @@ let rec player_act player_number hand=
   else if s = "pass" then 
     print_endline("Skipping turn!")
   else if s = "place" then begin
-      place hand;
-      print_endline("Word Placed!")
-  end
-  else failwith ""
-with failure -> 
-  print_endline("Please enter a valid action");
-  player_act player_number hand
+      place hand 
+  end 
+  else failwith "" 
+with failure ->
+  print_endline("Error: Please Try Again");
+  player_act player_number hand_copy
 
 let rec empty_hands_check hands ind =
   if ind<(!num_of_players) then
@@ -107,7 +114,7 @@ if String.equal ans "no" then begin
 end
 else
   for i = 1 to play_num do 
-    player_act i (Array.get hands (i-1))
+    player_act i (Array.get hands (i-1)) 
   done;
   turn (turn_num+1) play_num hands
 

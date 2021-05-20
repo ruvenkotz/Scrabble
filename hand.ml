@@ -80,7 +80,7 @@ else
 (*Checks to see that the letter chosen is in the player's hand.*)
 let rec check_hand letter hand =  match hand with
   |[] -> raise(LetterNotFound)
-  |h :: t -> if h.letter = letter then true else check_hand letter t
+  |h :: t -> if h.letter = letter || h.letter = ' ' then true else check_hand letter t
 
 (*Checks to see that the letter chosen is on the board. *)
 let check_board letter hand row col board = 
@@ -89,10 +89,6 @@ let check_board letter hand row col board =
     check_hand letter hand
   else raise(LetterNotFound)
   
-(*Checks the hand and the board, raises [LetterNotfound] if it's not in either*)
-(* let check_letter letter hand row col board = 
-  if (check_hand letter hand) || (check_board row col letter board) then letter else
-    raise(LetterNotFound) *)
   
 (*Splits a word into a list of its characters*)
 let rec split_word l word = match word with
@@ -181,6 +177,12 @@ let tile_replace tile hand bag=
       raise(InvalidPositioning)
 
 
+let set_blank_tile l =
+match l with
+| " " -> (print_endline("What letter would you like your blank tile to be?");
+          let letter =  read_line() in letter)
+| _ -> l
+
 let play_a_word board h  = 
   let hand = to_list h in
   print_endline("How many tiles do you want to play ");
@@ -189,9 +191,12 @@ let play_a_word board h  =
   for i = 0 to (int_of_string num_tiles) - 1 do
     print_endline("Choose a letter to play: ");
     let letter = read_line() in ();
-    print_endline("Choose a position to place your tile ");
+    print_endline("Choose a position to place your tile: ");
     let pos = read_line() in ();
-    place_a_letter board letter pos hand;
+    let letter_con = set_blank_tile letter in
+    print_endline("Letter: " ^ letter_con);
+    place_a_letter board letter_con pos hand;
+    print_endline("Letter " ^ letter_con);
     print_board board; 
     set h (find_first_tile (String.get letter 0)  (to_list h) 0 ) {letter = '*'; value = 0}
   done
