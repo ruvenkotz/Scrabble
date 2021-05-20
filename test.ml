@@ -206,26 +206,40 @@ let board_test =
 ]
 
 (***)
-let bag_helper_test name bag c f expected_output =
-  name >:: fun _ -> assert_equal expected_output (f bag c)
+let bag_helper_test name c f expected_output =
+  name >:: fun _ -> assert_equal expected_output (f c)
   ~printer:string_of_int
 
 let bag_helper_test2 name bag f expected_output =
   name >:: fun _ -> assert_equal expected_output (f bag)
   ~printer:string_of_int
+
+let next_tile_exception_helper name bag expected_output : test =
+    name >:: fun _ -> assert_raises expected_output (fun () ->next_tile bag)
+  
+let tile_value_exception_helper name c expected_output : test =
+      name >:: fun _ -> assert_raises expected_output (fun () -> tile_value c)
 let init = init_bag
 let update_bag = fst(next_tile init)
 let update_2 = fst(next_tile update_bag)
 let third_drawn = snd (next_tile update_2)
 
 let u = return_tile third_drawn update_2
+
+let empt = empty_bag
 let bag_test = [
-  bag_helper_test "Asserting value of A is correct" init 'A' tile_value 1;
-  bag_helper_test "Asserting value of Z is correct" init 'Z' tile_value 10; 
+  bag_helper_test "Asserting value of A is correct" 'A' tile_value 1;
+  bag_helper_test "Asserting value of Z is correct" 'Z' tile_value 10; 
+  bag_helper_test "Asserting blank tiles have correct value" ' ' tile_value 0; 
   bag_helper_test2 "Asserting total tiles is updated after 2 draws" update_2 
   total_count 98; 
   bag_helper_test2 "Asserting total tiles is updated after third tile is drawn 
   and then replaced" update_2 total_count 98; 
+  next_tile_exception_helper "Asserting tiles can't be drawn from empty bag" 
+  empt EmptyBag;
+  tile_value_exception_helper "Asserting that InvalidChar exception is raised 
+  when the character was not in the initial bag" 'a' InvalidChar;
+  
 ]
 
  let generate_hand_test name hand expected_output =
@@ -241,6 +255,7 @@ let test_hand = Array.make 7 {letter = 'A'; value = 10 }
 let test_hand2 = Array.append (Array.make 6 {letter = 'A'; value = 10 } ) 
 (Array.make 1{letter='B'; value = 3})
 
+
 let hand_test = [
   generate_hand_test "Test size of Hand" [] 7;
   tile_getter_test "Asserting tile in hand is retrievable" 'A' test_hand 0 
@@ -249,6 +264,8 @@ let hand_test = [
   not first one" 'B' test_hand2 0 {letter = 'B'; value = 3 };
   tile_getter_exception_helper "Checking exception is raised when tile is not in
   hand" 'C' test_hand 0 LetterNotFound;
+  tile_getter_exception_helper "Checking exception is raised when index is g
+  greater than length of hand" 'C' test_hand 8 LetterNotFound;
 ]
 (** Test suite of all scrabble test*)
 let suite =

@@ -1,4 +1,4 @@
-(** CS 3110 Spring 2021 Assignment A2 Adventure
+(** CS 3110 Final Project
 
     @author Ruven Kotz (rk658), Ryan Young (rty22), Efrain Munoz (em745) *)
 

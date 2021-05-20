@@ -29,8 +29,7 @@ let bag_of_json j =
   }
 
 let init_bag:t = bag_of_json j
-
-
+let empty_bag:t = {bag = [||]; total_tiles= 0}
 let next_tile b = 
   if Array.length (b.bag) = 0 then 
   raise (EmptyBag)
@@ -53,6 +52,9 @@ let next_tile b =
 (b,tile_drawn)
 
 
+(**[tile_value_helper] recursively iterates through the array until the tile 
+with the given character is found, and returns the value associated in scrabble
+*)
 let rec tile_value_helper (tiles: tile array) (c:char) =
   match tiles with 
   | [||] -> raise (InvalidChar)
@@ -60,8 +62,8 @@ let rec tile_value_helper (tiles: tile array) (c:char) =
     ti.value else let rec_bag = Array.sub tiles 1 (Array.length tiles-1) in
   tile_value_helper rec_bag c
 
-let tile_value (b:t) (c:char) = 
-  tile_value_helper b.bag c 
+let tile_value (c:char) = 
+  tile_value_helper init_bag.bag c 
 
 let total_count (b:t) =
   b.total_tiles

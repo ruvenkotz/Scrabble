@@ -25,6 +25,9 @@ exception InvalidChar
 for them.*)
 val init_bag: t
 
+(**[empty_bag] is the bag after all the tiles have been drawn*)
+val empty_bag: t 
+
 (**[next_tile] prints out the value of the tile drawn, and then returns a 
     mutated bag with an updated amount of tiles.
     Raises: *)
@@ -34,7 +37,7 @@ val next_tile: t-> (t * tile)
 
 (**[tile_value] is the value associated in scrabble with a character of a 
 given value*)
-val tile_value: t -> char -> int 
+val tile_value: char -> int 
 
 (** [total_count] is the amount of tiles with given char in the bag *)
 val total_count: t -> int

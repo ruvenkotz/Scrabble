@@ -72,8 +72,10 @@ let print_hor hand =
 
 let rec tile_getter letter hand ind =  
   if ind<7 then
+    begin
   if (Array.get hand ind).letter = letter then Array.get hand ind
   else tile_getter letter hand (ind+1)
+end
 else 
   raise(LetterNotFound)
 
@@ -187,6 +189,16 @@ let play_a_word board h  =
   let hand = to_list h in
   print_endline("How many tiles do you want to play ");
   let num_tiles = read_line() in ();
+  print_endline("Enter the starting position of your word ");
+  let start_pos = read_line() in
+  let start_row_col = String.split_on_char ' ' start_pos in
+  let start_row = List.nth start_row_col 0 |> int_of_string in
+  let start_col = List.nth start_row_col 1 |> int_of_string in
+  print_endline("Enter the ending position of your word ");
+  let end_pos = read_line() in
+  let end_row_col = String.split_on_char ' ' end_pos in
+  let end_row = List.nth end_row_col 0 |> int_of_string in
+  let end_col = List.nth end_row_col 1 |> int_of_string in
   (* let tiles_played = Array.make (int_of_string num_tiles) 'A' in *)
   for i = 0 to (int_of_string num_tiles) - 1 do
     print_endline("Choose a letter to play: ");
@@ -198,8 +210,10 @@ let play_a_word board h  =
     place_a_letter board letter_con pos hand;
     print_endline("Letter " ^ letter_con);
     print_board board; 
-    set h (find_first_tile (String.get letter 0)  (to_list h) 0 ) {letter = '*'; value = 0}
-  done
+    set h (find_first_tile (String.get letter 0)  (to_list h) 0 )
+    {letter = '*'; value = 0}
+  done;
+  check_word board start_row start_col end_row end_col
 
 
   
