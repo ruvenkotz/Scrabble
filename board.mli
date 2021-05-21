@@ -107,3 +107,23 @@ val print_board : t -> unit
             because ZICU is not a word in the English dictionary.
     *)
 val check_word : t -> int -> int -> int -> int -> int option
+
+(** [reset_board board] will reset [board] to the state it was in the last time
+    [check_word] was run, and the board was in a valid conditon (aka the last 
+    time [check_word] returned Some int.)*)
+val reset_board : t -> unit
+
+(** [string_of_board board] returns the string representation of [board].
+    Empty spaces are represented by '*'. The string representation of a board 
+    goes from left to right in each row first, then to the next row. There are
+    no spaces between characters of the same row, but there is a space between 
+    to show a distinction of a new row.
+    
+    Example: Board: * * * * *
+                    * * C * *
+                    * * A * *
+                    * * R * *
+                    * * * * *
+                    Has a string representation of:
+                    ***** **C** **A** **R** ***** *)
+val string_of_board : t -> string

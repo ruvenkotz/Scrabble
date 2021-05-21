@@ -1,5 +1,6 @@
 open Yojson.Basic.Util
 open Bag
+
 (** [space] represents the value contained at a location. It is either Empty, or
   a Char *)
 type space =
@@ -13,6 +14,8 @@ exception PosOccupied
 exception EmptySpace
 
 exception CharacterNotInAlphabet
+
+exception FloatingLetter
 
 (** Raised when checking if a word is valid, but no tile is in the center. 
   Scrabble rules say that the first word must place a tile in the center, 
@@ -88,6 +91,26 @@ let print_board (board : t) : unit =
   | Char(chr) -> print_string (Char.escaped chr ^ " "); in
   let print_row row = Array.iter print_space row; print_newline(); in
   Array.iter print_row board; print_newline()
+
+(** [string_of_space space] returns the string represenation of [space]. 
+  Empty spaces are represented by '*' and characters are represented as 
+  themselves.*)
+  let string_of_space = function
+  | Empty -> "*"
+  | Char c -> Char.escaped c
+  
+(** [space_string_combiner space str] concatenates the string represenation of 
+    [space] with the string [str ]*)
+let space_string_combiner space str = string_of_space space ^ str
+  
+(** [string_of_row row] converts [row] into its string representation. *)
+let string_of_row row = Array.fold_right space_string_combiner row " "
+  
+(** [row_string_combiner row str] concatenates the string representation of 
+    [row] with the string [str]*)
+let row_string_combiner row str = string_of_row row ^ str
+  
+let string_of_board board = Array.fold_right row_string_combiner board ""
 
 (** dir is a private type, used to store whether the word is vertical or 
     horizontal, and how long the word is*)
@@ -188,6 +211,27 @@ let rec find_next_index_helper arr acc = match arr.(acc) with
 
 (** [find_next_index arr] finds the next empty index in array [arr]. *)
 let find_next_index arr = find_next_index_helper arr 0
+
+(** [place_word board word_obj] will place word [word] at its correpsonding 
+  location on [board]. [word] is an object of type Word, which contains the 
+  string representation of the word, it's starting location, and it's 
+  direction and length*)
+  let place_word board word_obj = match word_obj with
+  | NoWord -> ()
+  | Word(word, loc, dirct) -> 
+    match dirct with
+    | Vert(len) -> 
+      for i=0 to len - 1 do
+        let row = fst loc + i in
+        let col = snd loc in
+        if is_empty board row col then set_char board row col word.[i] else ()
+      done
+    | Hor(len) ->
+      for i=0 to len - 1 do
+        let row = fst loc in
+        let col = snd loc + i in
+        if is_empty board row col then set_char board row col word.[i] else ()
+      done
 
 (**[find_modified_words_vert board row col] finds all the horizontal 
     words which use the tile located at (row, col) *)
@@ -370,45 +414,11 @@ let add_original_word board start_row start_col end_row end_col =
   let loc = length_and_dir start_row start_col end_row end_col in
   possible_new_words.(index) <- Word(word, start_pos, loc)
 
-(** [letter_value letter] returns the scrabble value of letter [letter]. *)
-(**Ryan: I think I can use a function in bag for this*)
-
-(*
-let letter_value letter =
-  if letter = 'A' then 1 else
-  if letter = 'B' then 3 else
-  if letter = 'C' then 3 else
-  if letter = 'D' then 2 else
-  if letter = 'E' then 1 else
-  if letter = 'F' then 4 else
-  if letter = 'G' then 2 else
-  if letter = 'H' then 4 else
-  if letter = 'I' then 1 else
-  if letter = 'J' then 8 else
-  if letter = 'K' then 5 else
-  if letter = 'L' then 1 else
-  if letter = 'M' then 3 else
-  if letter = 'N' then 1 else
-  if letter = 'O' then 1 else
-  if letter = 'P' then 3 else
-  if letter = 'Q' then 10 else
-  if letter = 'R' then 1 else
-  if letter = 'S' then 1 else
-  if letter = 'T' then 1 else
-  if letter = 'U' then 1 else
-  if letter = 'V' then 4 else
-  if letter = 'W' then 4 else
-  if letter = 'X' then 8 else
-  if letter = 'Y' then 4 else
-  10
-*)
-
 (**[word_value_helper word acc] is the sum of letter values in the word so far. 
     Reminaing values to be counted are in string [word], and the accumulated 
     points so far are stored in int [acc].*)
 let rec word_value_helper word acc =
   if String.length word = 0 then acc else
-  (*let letter_val = letter_value word.[0] in*)
   let letter_val = tile_value word.[0] in
   let substring_len = String.length word - 1 in
   let substring = String.sub word 1 substring_len in
@@ -443,6 +453,67 @@ let append_new_words _ =
   let last_dst_index = find_next_index current_words in
   Array.blit possible_new_words 0 current_words last_dst_index num_of_new_words
 
+(** [cur_and_possible_subarray cur_len pos_len] is the array conatingin all the
+    words of [current_words] and [possible_new_words], without NoWord objects.
+    Requires: At least one of cur_len or pos_len be greater than 0 (In other
+    words, this should only be called once possible new words for this turn 
+    been added to [possible_new_words]. ) *)
+let cur_and_possible_subarray cur_len pos_len = 
+  if cur_len > 0 then
+    let cur_subarray = Array.sub current_words 0 cur_len in 
+    if pos_len > 0 then
+      let pos_subarray = Array.sub possible_new_words 0 pos_len in
+      Array.append pos_subarray cur_subarray else
+    cur_subarray else
+  if pos_len > 0 then Array.sub possible_new_words 0 pos_len else
+    failwith "No letters are on the board. (This should be impossible to reach)"
+
+(** [build_board_cur_and_pos_words] is a function which returns a board, with 
+    all the current and possible new words added onto it.
+    Requires: Possible new words for this turn have already been added to the 
+    array [possible_new_words].*)
+let build_board_cur_and_pos_words () : t =
+  let len_cur_words = find_next_index current_words
+  and len_pos_words = find_next_index possible_new_words in
+  let cur_and_pos_words = cur_and_possible_subarray len_cur_words len_pos_words
+  and new_board = Array.make_matrix 15 15 Empty in
+  for i=0 to len_cur_words + len_pos_words - 1 do
+    let word_obj = cur_and_pos_words.(i) in
+    place_word new_board word_obj
+  done;
+  new_board
+
+(** [center_in_range start_row start_col end_row end_col] checks if the center 
+    tile 7 7 is in rnage of start_row start_col end_row end_col.
+    Requires: range length is greater than one. *)
+let center_in_range start_row start_col end_row end_col =
+  if start_row = 7 then
+    if start_col <= 7 && end_col >= 7 then true else false else
+  if start_col = 7 then
+    if start_row <= 7 && end_row >= 7 then true else false else
+  false
+
+(** [touches_other_word] checks if the new word modifies any other word. 
+    This is true if the original word modifies another word, and false 
+    otherwise. *)
+let touches_other_word () =
+  let num_of_words = find_next_index possible_new_words in
+  if num_of_words >= 2 then true else false
+
+(** [is_original_word_touching board start_row start_col end_row end_col] is 
+    true if the word in range of [start_row] [start_col] to [end_row] [end_col]
+    is either touching the center tile, or is touching another word.
+    Otherwise, return false. *)
+let is_original_word_touching board start_row start_col end_row end_col =
+  if center_in_range start_row start_col end_row end_col || 
+    touches_other_word () then true else false
+
+(** [check_for_floating_words board] is true if there are no floating letters 
+    or words in [board], and false otherwise. *)
+let check_for_floating_words board start_row start_col end_row end_col = 
+  string_of_board board = string_of_board (build_board_cur_and_pos_words ()) &&
+  is_original_word_touching board start_row start_col end_row end_col
+
 (**[count_points] will count the value of all the new words created from this 
     play, and return it as an int option. Requires that all words in 
     possible_new_words are real, and created/modified in this turn *)
@@ -471,7 +542,9 @@ let check_word_helper board start_row start_col end_row end_col =
         find_modified_words_vert board row col
       done;
       add_original_word board start_row start_col end_row end_col;
-      if are_words_real () then (count_points ()) else raise(NonRealWord)
+      if check_for_floating_words board start_row start_col end_row end_col then
+        if are_words_real () then (count_points ()) else raise(NonRealWord) else
+      raise(FloatingLetter)
     | Hor(len) ->
       for i = 0 to (len - 1) do
         let row = start_row in
@@ -480,7 +553,9 @@ let check_word_helper board start_row start_col end_row end_col =
         find_modified_words_hor board row col
       done;
       add_original_word board start_row start_col end_row end_col;
-      if are_words_real () then (count_points ()) else raise(NonRealWord)
+      if check_for_floating_words board start_row start_col end_row end_col then
+        if are_words_real () then (count_points ()) else raise(NonRealWord) else
+      raise(FloatingLetter)
 
 (** [exn_print exn] will print out to console why [exn] may have been raised*)
 let exn_print exn = match exn with
@@ -510,33 +585,17 @@ let exn_print exn = match exn with
   print_string "Word rejected because this word, or one the words it modifies, 
   is not in the English dictionary. Try again. ";
   print_newline ();
+| FloatingLetter ->
+  print_newline ();
+  print_string "Word rejected because there are floating letters on the board, 
+  or the start and end position didn't capture the entire word you placed
+  Try again. ";
+  print_newline ();
 | _ -> 
   print_newline(); print_string "An unkown error occurred."; print_newline()
 
-
-(** [place_word board word_obj] will place word [word] at its correpsonding 
-    location on [board]. [word] is an object of type Word, which contains the 
-    string representation of the word, it's starting location, and it's 
-    direction and length*)
-let place_word board word_obj = match word_obj with
-| NoWord -> ()
-| Word(word, loc, dirct) -> 
-  match dirct with
-  | Vert(len) -> 
-    for i=0 to len - 1 do
-      let row = fst loc + i in
-      let col = snd loc in
-      if is_empty board row col then set_char board row col word.[i] else ()
-    done
-  | Hor(len) ->
-    for i=0 to len - 1 do
-      let row = fst loc in
-      let col = snd loc + i in
-      if is_empty board row col then set_char board row col word.[i] else ()
-    done
-
-(** [build_board_from_current_words board] will replace board with a board consisting
-  of only the verified valid words. *)
+(** [build_board_from_current_words board] will replace board with a board 
+    consisting of only the verified valid words. *)
 let build_board_from_current_words board =
   let num_of_words = find_next_index current_words in
   for i = 0 to num_of_words - 1 do
@@ -544,9 +603,7 @@ let build_board_from_current_words board =
     place_word board word_obj
   done
 
-(** [remove_new_word board] will reset the board so that the new characters 
-  which made an invalid word are removed. *)
-let remove_new_word board = 
+let reset_board board = 
   for i=0 to 14 do
     for j=0 to 14 do
       board.(i).(j) <- Empty
@@ -567,24 +624,26 @@ let remove_new_word board =
 let check_word board start_row start_col end_row end_col =
   try check_word_helper board start_row start_col end_row end_col with
   | NoTileInCenter -> 
-    remove_new_word board;
+    reset_board board;
     exn_print NoTileInCenter; 
     None
   | InvalidStartOrEndPos -> 
-    remove_new_word board;
+    reset_board board;
     exn_print InvalidStartOrEndPos; 
     None
   | EmptySpace -> 
-    remove_new_word board;
+    reset_board board;
     exn_print EmptySpace;
     None
   | Assert_failure(a, b, c) -> 
-    remove_new_word board;
+    reset_board board;
     exn_print (Assert_failure(a, b, c)); 
     None
   | NonRealWord -> 
-    remove_new_word board; 
+    reset_board board; 
     exn_print (NonRealWord); 
     None
-
-(** things to do: check for floating words.*)
+  | FloatingLetter ->
+    reset_board board;
+    exn_print (FloatingLetter);
+    None
