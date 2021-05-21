@@ -69,6 +69,10 @@ let all_tiles_placed hand =
     done
 
 let rec place hand = 
+  print_endline("The Board is: ");
+  print_board (board);
+  print_endline("Your current hand is:");
+  print_hor hand;
   let tiles_placed_ref = ref [] in 
   try  
       match play_a_word board hand tiles_placed_ref with 
@@ -96,7 +100,6 @@ with failure ->
 else 
   failwith "Wanted to change action"
 
-(*Ruven: I'll change [board_init] once the board is made mutable *)
 let rec player_act player_number hand= 
   print_endline("Choose an action player " ^ (string_of_int player_number) 
   ^ "! You can pass, exchange tiles, or place tiles on board!");

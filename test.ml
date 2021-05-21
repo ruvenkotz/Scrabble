@@ -268,24 +268,76 @@ let bag_test = [
   
 ]
 
- let generate_hand_test name hand expected_output =
-  name >:: fun _ -> assert_equal expected_output (Array.length (Array.make 7 
-  {letter = 'A'; value = 10 }))
-  let tile_getter_test name letter hand ind expected_output =
-    name >:: fun _ -> assert_equal expected_output (tile_getter letter hand ind)
-  let tile_getter_exception_helper name letter hand ind expected_output : test =
-    name >:: fun _ -> assert_raises expected_output (fun () ->tile_getter letter
-     hand ind)
-let test_hand = Array.make 7 {letter = 'A'; value = 10 }
+let create_starting_hand_test name hand bag expected_output =
+  name >:: fun _ -> assert_equal expected_output (create_starting_hand hand bag)
 
-let test_hand2 = Array.append (Array.make 6 {letter = 'A'; value = 10 } ) 
+let print_hor_test name hand expected_output =
+  name >:: fun _ -> assert_equal expected_output (print_hor hand)
+
+let print_vert_test name hand expected_output =
+  name >:: fun _ -> assert_equal expected_output (print_vert hand)
+
+let tile_replace_test name tile hand bag expected_output =
+  name >:: fun _ -> assert_equal expected_output (tile_replace tile hand bag)
+
+let tile_replace_exception_test name tile hand bag expected_output =
+  name >:: fun _ -> 
+    assert_raises expected_output (fun () -> tile_replace tile hand bag)
+
+let place_a_letter_test name board letter pos hand expected_output =
+  name >:: fun _ -> assert_equal expected_output (place_a_letter board letter pos hand)
+
+let place_a_letter_exception_test name board letter pos hand expected_output =
+  name >:: fun _ -> assert_raises expected_output (fun () -> place_a_letter board letter pos hand)
+
+let tile_getter_test name letter hand ind expected_output =
+  name >:: fun _ -> assert_equal expected_output (tile_getter letter hand ind)
+
+let tile_getter_exception_helper name letter hand ind expected_output : test =
+    name >:: fun _ -> assert_raises expected_output (fun () ->tile_getter letter
+    hand ind)
+let test_hand = Array.make 7 {letter = 'A'; value = 1 }
+
+let test_hand_dup = Array.make 7 {letter = 'A'; value = 1 }
+let test_hand2 = Array.append (Array.make 6 {letter = 'A'; value = 1 } ) 
 (Array.make 1{letter='B'; value = 3})
 
+let test_hand3 = Array.append (Array.make 6 {letter = 'A'; value = 1 } ) 
+(Array.make 1{letter='*'; value = 0})
 
 let hand_test = [
-  generate_hand_test "Test size of Hand" [] 7;
-  tile_getter_test "Asserting tile in hand is retrievable" 'A' test_hand 0 
-  {letter = 'A'; value = 10 };
+  create_starting_hand_test "Creating a starting hand raises no exceptions" 
+  test_hand_dup init ();
+  print_hor_test "Printing a starting hand raises no exceptions"
+  test_hand (); 
+  print_vert_test "Printing a starting hand raises no exceptions"
+  test_hand (); 
+  tile_replace_test "Replacing a tile in the hand returns unit" 
+  {letter = 'A'; value = 1} test_hand init ();
+  tile_replace_test "Replacing an empty space in the hand returns unit" 
+  {letter = '*'; value = 0} test_hand init ();
+
+  tile_replace_exception_test 
+  "Replacing a tile that isn't in the hand returns unit" 
+  {letter = 'B'; value = 3} test_hand init TileNotFound;
+
+  place_a_letter_test "Place a legal letter" real_board "A" "0 0" 
+  (Array.to_list test_hand) ();
+
+  place_a_letter_exception_test 
+  "Placing a letter not in the hand raises LetterNotFound" 
+  real_board "B" "0 0" (Array.to_list test_hand) LetterNotFound;
+
+  place_a_letter_exception_test 
+  "Placing a letter into an position not on the board raises UnkownPos" 
+  real_board "A" "-1 -1" (Array.to_list test_hand) UnknownPos;
+
+  place_a_letter_exception_test 
+  "Placing a letter into an occupied position raises PosOccupied" 
+  real_board "A" "6 7" (Array.to_list test_hand) PosOccupied;
+
+  (* tile_getter_test "Asserting tile in hand is retrievable" 'A' test_hand 0 
+  {letter = 'A'; value = 10 }; *)
   tile_getter_test "Checking recursive call properly works when tile needed is 
   not first one" 'B' test_hand2 0 {letter = 'B'; value = 3 };
   tile_getter_exception_helper "Checking exception is raised when tile is not in
