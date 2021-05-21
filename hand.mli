@@ -8,6 +8,10 @@
   (**Raised when there s player chooses a letter that isn't in their hand*)
   exception LetterNotFound
 
+  (**Raised when a player chooses a position not on the board 
+  or one that's occupied *)
+  exception InvalidPositioning
+
   (*[create_starting_hand]  uses the [next_tile] function from Bag to add 
   seven tiles into a player's hand*)
   val create_starting_hand : t-> Bag.t-> unit
@@ -19,7 +23,7 @@
   val new_tiles : t -> Bag.t -> unit
 
   (* [play_a_word] plays a word from a player's hand onto the board*)
-  val play_a_word : Board.t-> t -> (*unit*) int option
+  val play_a_word : Board.t-> t -> (*unit*)Bag.tile list ref ->  int option
 
    (** [print_vert] prints out a vertical visualization of the board. 
       This is used for the right and left player*)
@@ -33,4 +37,4 @@
   drawn from the bag*)
   val tile_replace: Bag.tile -> t -> Bag.t -> unit
 
-  
+  val revert_hand: t -> Bag.tile list-> unit

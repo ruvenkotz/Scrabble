@@ -227,19 +227,33 @@ let bag_helper_test name c f expected_output =
 let bag_helper_test2 name bag f expected_output =
   name >:: fun _ -> assert_equal expected_output (f bag)
   ~printer:string_of_int
+
+let next_tile_exception_helper name bag expected_output : test =
+    name >:: fun _ -> assert_raises expected_output (fun () ->next_tile bag)
+  
+let tile_value_exception_helper name c expected_output : test =
+      name >:: fun _ -> assert_raises expected_output (fun () -> tile_value c)
 let init = init_bag
 let update_bag = fst(next_tile init)
 let update_2 = fst(next_tile update_bag)
 let third_drawn = snd (next_tile update_2)
 
 let u = return_tile third_drawn update_2
+
+let empt = empty_bag
 let bag_test = [
   bag_helper_test "Asserting value of A is correct" 'A' tile_value 1;
   bag_helper_test "Asserting value of Z is correct" 'Z' tile_value 10; 
+  bag_helper_test "Asserting blank tiles have correct value" ' ' tile_value 0; 
   bag_helper_test2 "Asserting total tiles is updated after 2 draws" update_2 
   total_count 98; 
   bag_helper_test2 "Asserting total tiles is updated after third tile is drawn 
   and then replaced" update_2 total_count 98; 
+  next_tile_exception_helper "Asserting tiles can't be drawn from empty bag" 
+  empt EmptyBag;
+  tile_value_exception_helper "Asserting that InvalidChar exception is raised 
+  when the character was not in the initial bag" 'a' InvalidChar;
+  
 ]
 
  let generate_hand_test name hand expected_output =

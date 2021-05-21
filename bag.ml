@@ -29,8 +29,7 @@ let bag_of_json j =
   }
 
 let init_bag:t = bag_of_json j
-
-
+let empty_bag:t = {bag = [||]; total_tiles= 0}
 let next_tile b = 
   if Array.length (b.bag) = 0 then 
   raise (EmptyBag)

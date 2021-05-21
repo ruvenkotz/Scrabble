@@ -13,12 +13,18 @@ let num_of_players = ref 0
 let hands = [| hand1; hand2; hand3; hand4|]
 
 let scores = [|0;0;0;0|]
+let max_score = ref 0
+let winner = ref 0 
+let tiles_placed = ref 0
 
-
-(*Exchanges tiles in the hand up to the specified number wanted.*)
+(*Exchanges tiles in the hand up to the specified number wanted.
+TODO: exchange blank tiles and don't let them exchange a tile that they received
+this turn*)
 let rec exchanging hand ind_num num_ex= 
     if (ind_num<num_ex) then begin
     print_endline("What tile would you like to exchange?"); 
+    print_endline("If you have a blank tile that you would like to ezchange, 
+    hit space and then enter");
     try let letter =  read_line() in 
     if String.length letter = 1 then 
     let tile = tile_getter (String.get letter 0) hand 0 in
@@ -37,7 +43,7 @@ else
 (**If a valid number of tiles to exchange was entered, then goes into the 
 exchanging process. Otherwise, asks the user to re-input the number they wanted 
 exchanged*)
-let rec exchange_num s hand= 
+let rec exchange_num s hand=
   try let num_ex = (int_of_string s) in 
     if (num_ex>0 && num_ex < 8) then begin
         exchanging hand 0 num_ex
@@ -45,17 +51,50 @@ let rec exchange_num s hand=
   else failwith ""
 with failure -> 
   print_endline("Please enter a valid number of tiles!");
-  exchange_num (read_line()) hand
-
+  print_endline("Do you still want to exchange tiles? Please type yes/no");
+  let ans = read_line(()) in 
+  if ans = "yes" then 
+    begin
+    print_endline("How many tiles would you like to exchange?");
+    exchange_num (read_line()) hand
+    end
+  else
+  failwith "Wanted to change action"
 (**Almost works, but need to make sure tiles don't get replaced that were invalid
 words*)
+let all_tiles_placed hand = 
+  for i = 0 to Array.length hand do 
+    if Array.get hand i = {letter = '*'; value = 0} then
+      tiles_placed:=(!tiles_placed)+1
+    done
+
 let rec place hand = 
+  let tiles_placed_ref = ref [] in 
   try  
-      match play_a_word board hand with 
+      match play_a_word board hand tiles_placed_ref with 
       | None-> failwith ""
-      | Some i ->  tile_replace {letter = '*'; value = 0} hand bag; i
+      | Some i ->  begin 
+       (* all_tiles_placed hand;*)
+      tile_replace {letter = '*'; value = 0} hand bag;
+      if !tiles_placed=7 then 
+        begin
+        print_endline("You scored 50 points!");
+        50
+        end
+      else 
+        begin 
+        print_endline("You scored " ^ string_of_int i ^ " points!");
+        i
+        end
+    end
 with failure -> 
+  revert_hand hand !tiles_placed_ref;
+  print_endline("Do you still want to place a word? Please type yes or no");
+  let ans = read_line() in 
+  if ans = "yes" then 
   place hand
+else 
+  failwith "Wanted to change action"
 
 (*Ruven: I'll change [board_init] once the board is made mutable *)
 let rec player_act player_number hand= 
@@ -75,14 +114,25 @@ let rec player_act player_number hand=
   else if s = "pass" then 
     print_endline("Skipping turn!")
   else if s = "place" then begin
-      Array.set scores (player_number-1) ((Array.get scores player_number-1)+ 
-      place hand);
-      print_endline("Word Placed!")
+      let score = place hand in 
+      Array.set scores (player_number-1) ((Array.get scores (player_number-1))+ 
+      score);
+      print_endline("Word Placed!");
+      tiles_placed:= 0
   end
   else failwith ""
-with failure -> 
+with failure -> if failure =
+  Failure "" then 
+    begin 
   print_endline("Please enter a valid action");
   player_act player_number hand
+    end 
+  else 
+    begin
+    print_endline("Allowing new action to be chosen!");
+    player_act player_number hand
+  end
+
 
 let rec empty_hands_check hands ind =
   if ind<(!num_of_players) then
@@ -92,9 +142,36 @@ let rec empty_hands_check hands ind =
     false
 let print_scores () = 
   for i = 0 to !num_of_players - 1 do
-    print_endline ("Player" ^ (string_of_int (i+1 ))^":");
+    print_endline ("Player " ^ (string_of_int (i+1 ))^":");
     print_endline (string_of_int (Array.get scores i))
   done
+
+let get_max_score () = 
+  for i = 0 to !num_of_players - 1 do
+  let player_score = Array.get scores i in 
+    if player_score>(!max_score) then 
+      begin
+      max_score:= player_score;
+      winner:= (i+1)
+      end
+done
+
+let end_game ()=
+print_endline("The Final Scores are: ");
+print_scores ();
+get_max_score ();
+if (!max_score)= 0 then 
+  begin
+  print_endline ("It's a tie!");
+  end
+else 
+  begin
+  print_endline("The high score was: " ^ (string_of_int !max_score));
+  print_endline("The winner is: Player " ^ (string_of_int !winner) ^"!");
+  end;
+print_endline("Good game!");
+Stdlib.exit 0
+
 (*Allows the user to have turns, with either the option to quit or causing 
 there to be player actions for each player otherwise.*)
 let rec turn turn_num play_num hands= 
@@ -104,18 +181,19 @@ print_endline (count |> string_of_int);
 if (count = 0) then if empty_hands_check hands 0= true then 
   begin
   print_endline("Game is over!");
-  print_endline("The winner is: ");
-  Stdlib.exit 0
+  end_game ()
   end
+else ()
 else
+  begin
 print_endline("This is Turn " ^string_of_int turn_num);
 print_endline("The Scores are: ");
 print_scores ();
+  end;
 print_endline("Keep playing? Please type yes/no");
 let ans = read_line() in 
 if String.equal ans "no" then begin
-  print_endline("Thank you for playing!");
-  Stdlib.exit 0
+  end_game ()
 end
 else
   for i = 1 to play_num do 
@@ -169,4 +247,3 @@ let main () =
  
 
 let () = main ()
-
