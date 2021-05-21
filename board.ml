@@ -235,9 +235,9 @@ let find_next_index arr = find_next_index_helper arr 0
 
 (**[find_modified_words_vert board row col] finds all the horizontal 
     words which use the tile located at (row, col) *)
-let find_modified_words_vert board row col : unit =
-  let left = find_leftmost_nonempty_space board row col in
-  let right = find_rightmost_nonempty_space board row col in
+let find_modified_words_vert board prev_board row col : unit =
+  let left = find_leftmost_nonempty_space prev_board row col in
+  let right = find_rightmost_nonempty_space prev_board row col in
   if left = right then () else
     let new_word = 
       build_word board (fst left) (snd left) (fst right) (snd right) in
@@ -262,9 +262,9 @@ let rec find_bottommost_nonempty_space board row col =
 
 (** [find_modified_words_hor] finds all the vertical words which use the tile 
     located at (row, col). *)
-let find_modified_words_hor board row col : unit =
-  let top = find_topmost_nonempty_space board row col in
-  let bottom = find_bottommost_nonempty_space board row col in
+let find_modified_words_hor board prev_board row col : unit =
+  let top = find_topmost_nonempty_space prev_board row col in
+  let bottom = find_bottommost_nonempty_space prev_board row col in
   if top = bottom then () else
     let new_word = 
       build_word board (fst top) (snd top) (fst bottom) (snd bottom) in
@@ -514,6 +514,17 @@ let check_for_floating_words board start_row start_col end_row end_col =
   string_of_board board = string_of_board (build_board_cur_and_pos_words ()) &&
   is_original_word_touching board start_row start_col end_row end_col
 
+(** [new_board_from_cur_words ()] returns a new board, with all the current 
+    words placed on it. *)
+let new_board_from_cur_words () : t =
+  let new_board = Array.make_matrix 15 15 Empty 
+  and num_of_words = find_next_index current_words in
+  for i = 0 to num_of_words - 1 do
+    let word_obj = current_words.(i) in
+    place_word new_board word_obj
+  done;
+  new_board
+
 (**[count_points] will count the value of all the new words created from this 
     play, and return it as an int option. Requires that all words in 
     possible_new_words are real, and created/modified in this turn *)
@@ -539,7 +550,8 @@ let check_word_helper board start_row start_col end_row end_col =
         let row = start_row + i in
         let col = start_col in
         if is_empty board row col then raise(EmptySpace) else
-        find_modified_words_vert board row col
+        let prev_board = new_board_from_cur_words () in
+        find_modified_words_vert board prev_board row col
       done;
       add_original_word board start_row start_col end_row end_col;
       if check_for_floating_words board start_row start_col end_row end_col then
@@ -550,7 +562,8 @@ let check_word_helper board start_row start_col end_row end_col =
         let row = start_row in
         let col = start_col + i in
         if is_empty board row col then raise(EmptySpace) else
-        find_modified_words_hor board row col
+        let prev_board = new_board_from_cur_words () in
+        find_modified_words_hor board prev_board row col
       done;
       add_original_word board start_row start_col end_row end_col;
       if check_for_floating_words board start_row start_col end_row end_col then

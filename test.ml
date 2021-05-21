@@ -157,6 +157,15 @@ let floating_with_real_word () =
   floating_char ();
   set_char real_board 6 5 'L'
 
+let words_in_two_directions () =
+  set_char real_board 7 3 'T';
+  set_char real_board 7 4 'O';
+  set_char real_board 7 5 'M';
+  set_char real_board 8 3 'R';
+  set_char real_board 9 3 'I';
+  set_char real_board 10 3 'C';
+  set_char real_board 11 3 'K'
+
 (** [board_test] is the collection of tests testing Board's functions *)
 let board_test = 
   Board.print_board empty_board;
@@ -217,6 +226,9 @@ let board_test =
     real_board 0 0 0 3 floating_char None;
   board_check_word_test "Checking a real word, while there's floating characters
    elsehwere" real_board 6 5 6 8 floating_with_real_word None;
+  board_check_word_test "Checking a word, when the user places tiles in two 
+   different directions, returns None" real_board 7 3 7 8 
+   words_in_two_directions None;
 ]
 
 (***)
