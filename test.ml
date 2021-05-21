@@ -2,6 +2,9 @@ open OUnit2
 open Board
 open Bag
 open Hand
+
+let j = Yojson.Basic.from_file "bag.json"
+let j1 = Yojson.Basic.from_file "empty.json"
 (** [board_is_empty_test name board row col] is an oUnit test named [name] which
     checks that [Board.is_empty board row col] is [expecetd_bool] *)
 let board_is_empty_test name board row col expected_bool =
@@ -245,15 +248,20 @@ let next_tile_exception_helper name bag expected_output : test =
   
 let tile_value_exception_helper name c expected_output : test =
       name >:: fun _ -> assert_raises expected_output (fun () -> tile_value c)
-let init = init_bag
+let init = bag_of_json j 
 let update_bag = fst(next_tile init)
 let update_2 = fst(next_tile update_bag)
 let third_drawn = snd (next_tile update_2)
 
-let u = return_tile third_drawn update_2
+let empt = bag_of_json j1
 
-let empt = empty_bag
-let bag_test = [
+let replaced_tiles_hand = Array.make 7 {letter = '*'; value = 0 } 
+
+let new_in = bag_of_json j
+let bag_test = 
+  return_tile third_drawn update_2;
+  tile_replace {letter = '*'; value = 0 } replaced_tiles_hand new_in ;
+  [
   bag_helper_test "Asserting value of A is correct" 'A' tile_value 1;
   bag_helper_test "Asserting value of Z is correct" 'Z' tile_value 10; 
   bag_helper_test "Asserting blank tiles have correct value" ' ' tile_value 0; 
@@ -265,6 +273,8 @@ let bag_test = [
   empt EmptyBag;
   tile_value_exception_helper "Asserting that InvalidChar exception is raised 
   when the character was not in the initial bag" 'a' InvalidChar;
+  bag_helper_test2 "Asserting total tiles is updated after replacing an entire 
+  hand" new_in total_count 93;
   
 ]
 
@@ -285,10 +295,12 @@ let tile_replace_exception_test name tile hand bag expected_output =
     assert_raises expected_output (fun () -> tile_replace tile hand bag)
 
 let place_a_letter_test name board letter pos hand expected_output =
-  name >:: fun _ -> assert_equal expected_output (place_a_letter board letter pos hand)
+  name >:: fun _ -> assert_equal expected_output 
+  (place_a_letter board letter pos hand)
 
 let place_a_letter_exception_test name board letter pos hand expected_output =
-  name >:: fun _ -> assert_raises expected_output (fun () -> place_a_letter board letter pos hand)
+  name >:: fun _ -> assert_raises expected_output (fun () -> 
+    place_a_letter board letter pos hand)
 
 let tile_getter_test name letter hand ind expected_output =
   name >:: fun _ -> assert_equal expected_output (tile_getter letter hand ind)
@@ -305,7 +317,16 @@ let test_hand2 = Array.append (Array.make 6 {letter = 'A'; value = 1 } )
 let test_hand3 = Array.append (Array.make 6 {letter = 'A'; value = 1 } ) 
 (Array.make 1{letter='*'; value = 0})
 
-let hand_test = [
+let placed_hand = Array.make 7 {letter = '*'; value = 0 }
+
+let placed_tile_list = [{letter = 'A'; value = 1 }; {letter = 'A'; value = 1 };
+{letter = 'A'; value = 1 };{letter = 'A'; value = 1 };
+{letter = 'A'; value = 1 };{letter = 'A'; value = 1 };
+{letter = 'A'; value = 1 }]
+
+let hand_test = 
+  revert_hand placed_hand placed_tile_list;
+  [
   create_starting_hand_test "Creating a starting hand raises no exceptions" 
   test_hand_dup init ();
   print_hor_test "Printing a starting hand raises no exceptions"
@@ -344,6 +365,9 @@ let hand_test = [
   hand" 'C' test_hand 0 LetterNotFound;
   tile_getter_exception_helper "Checking exception is raised when index is g
   greater than length of hand" 'C' test_hand 8 LetterNotFound;
+  tile_getter_exception_helper "Making sure that every intermediate * tile in 
+  reverted back to the original hand after the failure of a word" '*' 
+  placed_hand 0 LetterNotFound;
 ]
 (** Test suite of all scrabble test*)
 let suite =
