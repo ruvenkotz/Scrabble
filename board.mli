@@ -2,11 +2,18 @@
 
     This module stores what letter is stored in what location. *)
 
+ (** [mult] is the private type, which stores the value of the multiplier at 
+    that space. A [Letter] stores the amultiplier just for the letter, and
+    a [Whole] stores the multiplier for the whole word. *)   
+ type mult =
+ | Letter of int
+ | Whole of int   
 
 (** [space] represents the value contained at a location. It is either Empty, or
   a Char *)
   type space = 
   | Empty
+  | Multiplier of mult
   | Char of char
 
 type row = space array
@@ -26,6 +33,11 @@ exception EmptySpace
 (** Raised when attempting to set a character, but the character isn't within 
     A-Z or a-z. *)
 exception CharacterNotInAlphabet
+
+
+(**[board_init ()] returns a board of type t, with all multipliers in the 
+    correct location, and all other spaces Empty. *)
+val board_init : unit -> t
 
 (** [is_Empty board row col] is true if no character is stored at [row] [col], 
     and false otherwise.

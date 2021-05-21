@@ -38,7 +38,7 @@ let board_set_char_raises_test name board row col chr expected_error =
     assert_raises expected_error (fun _ -> Board.set_char board row col chr)
 
 (** [empty_board] is an empty board. *)
-let empty_board : Board.t = Array.make_matrix 15 15 Empty
+let empty_board : Board.t = board_init ()
 
 (** [board_builder_helper current_board counter chr_lst] iterates through each 
     character in [chr_lst], and puts it in the next available position of 
@@ -54,7 +54,7 @@ let rec board_builder_helper current_board counter chr_lst = match chr_lst with
     the next row begins being filled, and so on. 
     Raises: PosUnknown if [chr_lst] is longer than 225 characters *)
 let board_builder chr_lst = 
-  board_builder_helper (Array.make_matrix 15 15 Empty) 0 chr_lst
+  board_builder_helper (board_init ()) 0 chr_lst
 
 (** [half_board] is a board with the first 104 positions filled with letters in 
     alphabetical order. *)
@@ -198,8 +198,8 @@ let board_test =
     empty_board (-1) 100 'A' Board.UnknownPos;
   board_set_char_raises_test "Set pos 0 0 of empty_board to '@' raises 
     CharacterNotInAlphabet" empty_board 0 0 '@' Board.CharacterNotInAlphabet;
-  board_check_word_test "Check word CAR in real_board should return Some 5" 
-    real_board 6 7 8 7 (fun _ -> ()) (Some (5));
+  board_check_word_test "Check word CAR in real_board should return Some 10" 
+    real_board 6 7 8 7 (fun _ -> ()) (Some (10));
   board_check_word_test "Checking CAR again in the same place should return
     Some 0, because CAR wasn't modified" 
     real_board 6 7 8 7 (fun _ -> ()) (Some (0)); 
@@ -207,7 +207,7 @@ let board_test =
    5 points, because CAR remains unmodified" 
    real_board 7 6 7 8 cat (Some (5));
   board_check_word_test "Checking ICE will return Some 11" 
-    real_board 6 6 6 8 ice (Some (11));
+    real_board 6 6 6 8 ice (Some (15));
   board_check_word_test "Checking a word at an index out of range of 0..14 
     will return None" real_board (-1) 7 6 7 error_notif None;
   board_check_word_test "Checking a word that has an end position higher up than

@@ -1,10 +1,15 @@
 open Yojson.Basic.Util
 open Bag
 
+type mult =
+| Letter of int
+| Whole of int
+
 (** [space] represents the value contained at a location. It is either Empty, or
   a Char *)
 type space =
 | Empty
+| Multiplier of mult
 | Char of char
 
 exception UnknownPos
@@ -59,17 +64,50 @@ Example: The board:
 Requires: must be 15 rows long *)
 type t = row array
 
+(** [multiplier_json] is the json object containing all the mulipliers of the 
+    board.*)
+let multiplier_json = Yojson.Basic.from_file "multiplier.json"
+
+type mult_and_pos =
+| Mult_and_pos of int * int * mult
+
+(** [set_multiplier board multiplier] sets the multiplier of a certain 
+    location on the board to the value specified. [Multiplier] is of type 
+    [mult_and_pos], where the position and value is stored as (row, col, mult),
+    where [mult] is of type [mult], and tells whether it's a letter multiplier 
+    or whole word multiplier, and it's multiplying factor. *)
+  let set_multiplier (board : t) = function
+  | Mult_and_pos (row, col, mult) -> board.(row).(col) <- Multiplier mult
+
+
+(**[mult_and_pos_of_json json_obj] returns the multiplier and position from a 
+    json record *)
+let mult_and_pos_of_json json_obj =
+  let row = json_obj |> member "row" |> to_int
+  and col = json_obj |> member "col" |> to_int
+  and letter = json_obj |> member "letter" |> to_bool
+  and value = json_obj |> member "value" |> to_int in
+  if letter then Mult_and_pos (row, col, Letter(value)) else
+    Mult_and_pos (row, col, Whole(value))
+
+let board_init () : t =
+  let board = Array.make_matrix 15 15 Empty in
+  multiplier_json |> member "multipliers" |> to_list |> 
+  List.map mult_and_pos_of_json |> List.iter (set_multiplier board);
+  board
+  
+
 (** [char_of_space spce] converts an object of type space into a character. 
     Raises EmptySpace if [spce] is Empty. *)
 let char_of_space (spce : space) : char = match spce with
-| Empty -> raise(EmptySpace)
+| Empty | Multiplier _ -> raise(EmptySpace)
 | Char(chr) -> chr
 
 let is_empty board row col =
   if row > 14 || row < 0 || col > 14 || col < 0 then raise(UnknownPos) else
     let current_space = board.(row).(col) in
     match current_space with
-    | Empty -> true
+    | Empty | Multiplier _ -> true
     | Char(_) -> false
 
 let get_char (board : t) (row : int) (col : int) : char =
@@ -87,8 +125,12 @@ let set_char (board : t) (row : int) (col : int) (chr : char) : unit =
 
 let print_board (board : t) : unit = 
   let print_space = function 
-  | Empty -> print_string ("* "); 
-  | Char(chr) -> print_string (Char.escaped chr ^ " "); in
+  | Empty -> print_string (" ** "); 
+  | Multiplier m -> begin
+    match m with
+    | Letter v -> print_string (" " ^ string_of_int v ^ "L ")
+    | Whole v -> print_string (" " ^ string_of_int v ^ "W ") end
+  | Char(chr) -> print_string (" " ^ Char.escaped chr ^ "  "); in
   let print_row row = Array.iter print_space row; print_newline(); in
   Array.iter print_row board; print_newline()
 
@@ -96,7 +138,7 @@ let print_board (board : t) : unit =
   Empty spaces are represented by '*' and characters are represented as 
   themselves.*)
   let string_of_space = function
-  | Empty -> "*"
+  | Empty | Multiplier _ -> "*"
   | Char c -> Char.escaped c
   
 (** [space_string_combiner space str] concatenates the string represenation of 
@@ -414,20 +456,72 @@ let add_original_word board start_row start_col end_row end_col =
   let loc = length_and_dir start_row start_col end_row end_col in
   possible_new_words.(index) <- Word(word, start_pos, loc)
 
+(** [muliplier_at_loc board loc] will return a pair containing the 
+    (letter multiplier at [loc], whole word multiplier at [loc]) *)
+ let multiplier_at_loc board loc =
+  let row = fst loc
+  and col = snd loc in
+  match board.(row).(col) with
+  | Empty | Char _ -> (1, 1)
+  | Multiplier m -> 
+    match m with
+    | Letter v -> (v, 1)
+    | Whole v -> (1, v)
+
 (**[word_value_helper word acc] is the sum of letter values in the word so far. 
     Reminaing values to be counted are in string [word], and the accumulated 
     points so far are stored in int [acc].*)
-let rec word_value_helper word acc =
+let rec word_value_helper prev_board word loc dir acc =
+  let multiplier = multiplier_at_loc prev_board loc in
+  let letter_multiplier = fst multiplier in
   if String.length word = 0 then acc else
-  let letter_val = tile_value word.[0] in
-  let substring_len = String.length word - 1 in
+  let letter_val = (tile_value word.[0]) * letter_multiplier
+  and substring_len = String.length word - 1 in
   let substring = String.sub word 1 substring_len in
-  word_value_helper substring (acc + letter_val)
+  match dir with
+  | Vert len -> 
+    let new_loc = ((fst loc) + 1, snd loc)
+    and new_dir = (Vert (len - 1))
+    and new_acc = acc + letter_val in
+    word_value_helper prev_board substring new_loc new_dir new_acc
+  | Hor len -> 
+    let new_loc = (fst loc, snd loc + 1)
+    and new_dir = Hor (len - 1)
+    and new_acc = acc + letter_val in
+    word_value_helper prev_board substring new_loc new_dir new_acc
 
-(**[word_value word] is the sum of letter values in the word [word]. *)
-let word_value = function
+(**[word_multiplier_finder_helper prev_board loc dir acc] finds the multiplier 
+    located at loc using prev_board, and multiplies it with the current
+    multiplier for the rest word, [acc]*)
+let rec word_multiplier_finder_helper prev_board loc dir acc =
+  match dir with
+  | Vert len ->
+    if len > 0 then
+      let new_loc = ((fst loc + 1), snd loc)
+      and new_dir = (Vert (len - 1))
+      and multiplier = snd (multiplier_at_loc prev_board loc) in
+      let new_acc = acc * multiplier in
+      word_multiplier_finder_helper prev_board new_loc new_dir new_acc else
+    acc
+  | Hor len ->
+    if len > 0 then
+      let new_loc = (fst loc, snd loc + 1)
+      and new_dir = Hor (len - 1)
+      and multiplier = snd (multiplier_at_loc prev_board loc) in
+      let new_acc = acc * multiplier in
+      word_multiplier_finder_helper prev_board new_loc new_dir new_acc else
+    acc
+
+let word_multiplier_finder prev_board loc dir = 
+  word_multiplier_finder_helper prev_board loc dir 1
+
+(**[word_value prev_board word] is the sum of letter values in the word [word], 
+    using multipliers found on board [prev_board] *)
+let word_value prev_board = function
 | NoWord -> 0
-| Word(word, _, _) -> word_value_helper word 0
+| Word(word, loc, dir) -> 
+  let word_multiplier = word_multiplier_finder prev_board loc dir in
+  word_multiplier * (word_value_helper prev_board word loc dir 0)
 
 (** [word_comparator word1 word2] is 
     1 if word1 is a word, and word2 is not a word
@@ -476,7 +570,7 @@ let build_board_cur_and_pos_words () : t =
   let len_cur_words = find_next_index current_words
   and len_pos_words = find_next_index possible_new_words in
   let cur_and_pos_words = cur_and_possible_subarray len_cur_words len_pos_words
-  and new_board = Array.make_matrix 15 15 Empty in
+  and new_board = board_init () in
   for i=0 to len_cur_words + len_pos_words - 1 do
     let word_obj = cur_and_pos_words.(i) in
     place_word new_board word_obj
@@ -517,7 +611,7 @@ let check_for_floating_words board start_row start_col end_row end_col =
 (** [new_board_from_cur_words ()] returns a new board, with all the current 
     words placed on it. *)
 let new_board_from_cur_words () : t =
-  let new_board = Array.make_matrix 15 15 Empty 
+  let new_board = board_init ()
   and num_of_words = find_next_index current_words in
   for i = 0 to num_of_words - 1 do
     let word_obj = current_words.(i) in
@@ -528,9 +622,10 @@ let new_board_from_cur_words () : t =
 (**[count_points] will count the value of all the new words created from this 
     play, and return it as an int option. Requires that all words in 
     possible_new_words are real, and created/modified in this turn *)
-let count_points _ =
+let count_points prev_board =
   append_new_words ();
-  Some (possible_new_words |> Array.map word_value |> Array.fold_left ( + ) 0)
+  Some (possible_new_words |> Array.map (word_value prev_board) 
+  |> Array.fold_left ( + ) 0)
 
 (** [check_word_helper board start_row start_col end_row end_col] is an 
     int option, which is Some int if all the words created by writing the word 
@@ -544,30 +639,30 @@ let count_points _ =
 let check_word_helper board start_row start_col end_row end_col =
   if is_empty board 7 7 then raise(NoTileInCenter) else
     Array.fill possible_new_words 0 7 NoWord;
+    let prev_board = new_board_from_cur_words () in
     match length_and_dir start_row start_col end_row end_col with
     | Vert(len) -> 
       for i = 0 to (len - 1) do
         let row = start_row + i in
         let col = start_col in
         if is_empty board row col then raise(EmptySpace) else
-        let prev_board = new_board_from_cur_words () in
+        
         find_modified_words_vert board prev_board row col
       done;
       add_original_word board start_row start_col end_row end_col;
       if check_for_floating_words board start_row start_col end_row end_col then
-        if are_words_real () then (count_points ()) else raise(NonRealWord) else
+        if are_words_real () then (count_points prev_board) else raise(NonRealWord) else
       raise(FloatingLetter)
     | Hor(len) ->
       for i = 0 to (len - 1) do
         let row = start_row in
         let col = start_col + i in
         if is_empty board row col then raise(EmptySpace) else
-        let prev_board = new_board_from_cur_words () in
         find_modified_words_hor board prev_board row col
       done;
       add_original_word board start_row start_col end_row end_col;
       if check_for_floating_words board start_row start_col end_row end_col then
-        if are_words_real () then (count_points ()) else raise(NonRealWord) else
+        if are_words_real () then (count_points prev_board) else raise(NonRealWord) else
       raise(FloatingLetter)
 
 (** [exn_print exn] will print out to console why [exn] may have been raised*)
