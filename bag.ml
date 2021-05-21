@@ -65,7 +65,7 @@ let rec tile_value_helper (tiles: tile array) (c:char) =
 let tile_value (c:char) = 
   tile_value_helper init_bag.bag c 
 
-let total_count (b:t) =
+let total_count b =
   b.total_tiles
 
 let return_tile tile b = 

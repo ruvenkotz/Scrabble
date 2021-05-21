@@ -21,6 +21,7 @@ exception TileNotFound
 (***Raised when the charactr is not between A-Z*)
 exception InvalidChar
 
+val bag_of_json: Yojson.Basic.t -> t
 (**[init_bag] makes the initial bag with 102 tiles, with the appropriate counts 
 for them.*)
 val init_bag: t
