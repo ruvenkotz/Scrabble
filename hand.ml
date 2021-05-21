@@ -184,7 +184,13 @@ match l with
           let letter =  read_line() in letter)
 | _ -> l
 
-let play_a_word board h  = 
+let rec print_tile_lst tile_lst = 
+  match tile_lst with 
+  | []-> ()
+  | h::t -> print_endline(Char.escaped h.letter);
+  print_tile_lst t
+
+let play_a_word board h tiles_lst = 
   let hand = to_list h in
   print_endline("How many tiles do you want to play ");
   let num_tiles = read_line() in ();
@@ -202,20 +208,32 @@ let play_a_word board h  =
   for i = 0 to (int_of_string num_tiles) - 1 do
     print_endline("Choose a letter to play: ");
     let letter = read_line() in ();
+    tiles_lst:= ((tile_getter (String.get letter 0) h 0)::!tiles_lst);
     print_endline("Choose a position to place your tile: ");
     let pos = read_line() in ();
     let letter_con = set_blank_tile letter in
     print_endline("Letter: " ^ letter_con);
     place_a_letter board letter_con pos hand;
     print_endline("Letter " ^ letter_con);
-    print_board board; 
-    set h (find_first_tile (String.get letter 0)  (to_list h) 0 )
-    {letter = '*'; value = 0}
+    print_board board;
+    set h (find_first_tile (String.get letter 0) (to_list h) 0 )
+    {letter = '*'; value = 0};
   done;
   check_word board start_row start_col end_row end_col
 
-
+ 
+(**Reverts hand back to original in case of failure*)
+let rec revert_hand hand tile_lst = 
+  match tile_lst with 
+  [] -> ()
+  | h::t -> let cont = ref true in 
+  for i = 0 to (length hand -1) do
+    if (Char.equal (get hand i).letter '*' && (!cont) = true) then
+    set hand i h;
+    cont := false;
+  done;
+  revert_hand hand t
   
-
+  
 
 

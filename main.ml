@@ -65,18 +65,30 @@ words*)
 let all_tiles_placed hand = 
   for i = 0 to Array.length hand do 
     if Array.get hand i = {letter = '*'; value = 0} then
-      tiles_placed:=!tiles_placed+1
+      tiles_placed:=(!tiles_placed)+1
     done
 
 let rec place hand = 
+  let tiles_placed_ref = ref [] in 
   try  
-      match play_a_word board hand with 
+      match play_a_word board hand tiles_placed_ref with 
       | None-> failwith ""
-      | Some i ->  all_tiles_placed hand;
+      | Some i ->  begin 
+       (* all_tiles_placed hand;*)
       tile_replace {letter = '*'; value = 0} hand bag;
-      if !tiles_placed=7 then 50
-      else i
+      if !tiles_placed=7 then 
+        begin
+        print_endline("You scored 50 points!");
+        50
+        end
+      else 
+        begin 
+        print_endline("You scored " ^ string_of_int i ^ " points!");
+        i
+        end
+    end
 with failure -> 
+  revert_hand hand !tiles_placed_ref;
   print_endline("Do you still want to place a word? Please type yes or no");
   let ans = read_line() in 
   if ans = "yes" then 
@@ -102,8 +114,9 @@ let rec player_act player_number hand=
   else if s = "pass" then 
     print_endline("Skipping turn!")
   else if s = "place" then begin
-      Array.set scores (player_number-1) ((Array.get scores player_number-1)+ 
-      place hand);
+      let score = place hand in 
+      Array.set scores (player_number-1) ((Array.get scores (player_number-1))+ 
+      score);
       print_endline("Word Placed!");
       tiles_placed:= 0
   end

@@ -147,6 +147,16 @@ let zicu _ =
   set_char real_board 5 6 'Z';
   set_char real_board 8 6 'U'
 
+let floating_char () = 
+  set_char real_board 0 0 'C';
+  set_char real_board 0 1 'H';
+  set_char real_board 0 2 'A';
+  set_char real_board 0 3 'R'
+
+let floating_with_real_word () =
+  floating_char ();
+  set_char real_board 6 5 'L'
+
 (** [board_test] is the collection of tests testing Board's functions *)
 let board_test = 
   Board.print_board empty_board;
@@ -203,6 +213,10 @@ let board_test =
     real_board 7 6 7 9 (fun _ -> ()) None;
   board_check_word_test "Checking a nonreal word returns None" 
     real_board 5 6 8 6 zicu None;
+  board_check_word_test "Checking a floating word returns None" 
+    real_board 0 0 0 3 floating_char None;
+  board_check_word_test "Checking a real word, while there's floating characters
+   elsehwere" real_board 6 5 6 8 floating_with_real_word None;
 ]
 
 (***)
