@@ -4,7 +4,6 @@ open Array
 exception LetterNotFound
 exception WordDoesNotFit
 exception InvalidPositioning
-exception SpaceOccupied
 
 
 type t = Bag.tile array 
