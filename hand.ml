@@ -14,7 +14,7 @@ let hand1 = Array.make 7 {letter = 'A'; value = 10 }
 let bag = init_bag
 
 (*Dummy board used for testing purposes*)
-let board : Board.t = Array.make_matrix 15 15 Empty
+let board : Board.t = board_init ()
 
 let create_starting_hand hand bag= 
     for i = 0 to 6 do

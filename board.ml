@@ -1,5 +1,4 @@
 open Yojson.Basic.Util
-open Bag
 
 type mult =
 | Letter of int
@@ -48,7 +47,7 @@ Example: The row:
 Requires: Must be 15 spaces long. *)
 type row = space array
 
-let bag = init_bag
+let bag = Bag.init_bag
 
 (** [t] represents the board itself, and it consists of an array of rows. 
 The first row represents the topmost row, the second row represents the second 
@@ -76,8 +75,8 @@ type mult_and_pos =
     [mult_and_pos], where the position and value is stored as (row, col, mult),
     where [mult] is of type [mult], and tells whether it's a letter multiplier 
     or whole word multiplier, and it's multiplying factor. *)
-  let set_multiplier (board : t) = function
-  | Mult_and_pos (row, col, mult) -> board.(row).(col) <- Multiplier mult
+let set_multiplier (board : t) = function
+| Mult_and_pos (row, col, mult) -> board.(row).(col) <- Multiplier mult
 
 
 (**[mult_and_pos_of_json json_obj] returns the multiplier and position from a 
@@ -245,6 +244,12 @@ let current_words = Array.make 1000 NoWord
     guaranteed to have modified by the newly placed word. *)
 let possible_new_words = Array.make 8 NoWord
 
+(** [words_touching_but_not_modified] is an array which maintains the words 
+    which are touched by the newly placed word, but not modified. In other 
+    words, this turn's new word uses a tile from these words, without 
+    changing these words.*)
+let words_touching_but_not_modified = Array.make 20 NoWord
+
 (** [find_next_index_helper arr acc] iterates over arr until an empty space is 
     found, and returns the accumulator [acc]*)
 let rec find_next_index_helper arr acc = match arr.(acc) with
@@ -285,7 +290,9 @@ let find_modified_words_vert board prev_board row col : unit =
       build_word board (fst left) (snd left) (fst right) (snd right) in
     let dir = length_and_dir (fst left) (snd left) (fst right) (snd right) in
     let word_and_loc  = Word(new_word, left, dir) in
-    if Array.mem word_and_loc current_words then () else
+    if Array.mem word_and_loc current_words then 
+      let index = find_next_index words_touching_but_not_modified in
+      words_touching_but_not_modified.(index) <- word_and_loc else
       let index = find_next_index possible_new_words in
       possible_new_words.(index) <- word_and_loc
 
@@ -312,9 +319,11 @@ let find_modified_words_hor board prev_board row col : unit =
       build_word board (fst top) (snd top) (fst bottom) (snd bottom) in
     let dir = length_and_dir (fst top) (snd top) (fst bottom) (snd bottom) in
     let word_and_loc  = Word(new_word, top, dir) in
-    if Array.mem word_and_loc current_words then () else
-      let index = find_next_index possible_new_words in
-      possible_new_words.(index) <- word_and_loc
+    if Array.mem word_and_loc current_words then
+      let index = find_next_index words_touching_but_not_modified in
+      words_touching_but_not_modified.(index) <- word_and_loc else
+    let index = find_next_index possible_new_words in
+    possible_new_words.(index) <- word_and_loc
 
 (** [index_of_helper] iterates over arr until obj is found, and returns the 
     current index [cur_index]*)
@@ -475,7 +484,7 @@ let rec word_value_helper prev_board word loc dir acc =
   let multiplier = multiplier_at_loc prev_board loc in
   let letter_multiplier = fst multiplier in
   if String.length word = 0 then acc else
-  let letter_val = (tile_value word.[0]) * letter_multiplier
+  let letter_val = (Bag.tile_value word.[0]) * letter_multiplier
   and substring_len = String.length word - 1 in
   let substring = String.sub word 1 substring_len in
   match dir with
@@ -591,7 +600,9 @@ let center_in_range start_row start_col end_row end_col =
     This is true if the original word modifies another word, and false 
     otherwise. *)
 let touches_other_word () =
-  let num_of_words = find_next_index possible_new_words in
+  let num_of_modified_words = find_next_index possible_new_words
+  and num_of_tch_but_unmod = find_next_index words_touching_but_not_modified in
+  let num_of_words = num_of_modified_words + num_of_tch_but_unmod in
   if num_of_words >= 2 then true else false
 
 (** [is_original_word_touching board start_row start_col end_row end_col] is 
@@ -639,6 +650,7 @@ let count_points prev_board =
 let check_word_helper board start_row start_col end_row end_col =
   if is_empty board 7 7 then raise(NoTileInCenter) else
     Array.fill possible_new_words 0 7 NoWord;
+    Array.fill words_touching_but_not_modified 0 19 NoWord;
     let prev_board = new_board_from_cur_words () in
     match length_and_dir start_row start_col end_row end_col with
     | Vert(len) -> 
@@ -714,11 +726,8 @@ let build_board_from_current_words board =
   done
 
 let reset_board board = 
-  for i=0 to 14 do
-    for j=0 to 14 do
-      board.(i).(j) <- Empty
-    done;
-  done;
+  let new_board = board_init () in
+  Array.blit new_board 0 board 0 15;
   build_board_from_current_words board
 
 

@@ -8,7 +8,7 @@ let hand2 = Array.make 7 {letter = 'A'; value = 10 }
 let hand3 = Array.make 7 {letter = 'A'; value = 10 }
 let hand4 = Array.make 7 {letter = 'A'; value = 10 }
 
-let board = (Array.make_matrix 15 15 Empty) (*board_init ()*)
+let board = board_init ()
 let num_of_players = ref 0
 let hands = [| hand1; hand2; hand3; hand4|]
 
