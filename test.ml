@@ -1,3 +1,20 @@
+(**TEST PLAN: The scrabble game mainly comprised of three backend modules:
+bag, board, and hand. As all three components of the scrabble game involved 
+mutable structures, it was harder to test some of the aspects especially when 
+the structure was just being mutated. There were also certain functions that 
+required user input, making them hard to be tested. For function that had a 
+non-unit output, white box testing was used. We looked at the code written and 
+tried to develop test cases that would catch errors and the various cases 
+that could occur because of conditionals. For testing the functions that had
+unit as an output, the function was first called. Then, we would test aspects 
+of the system that we could check (i.e. that the total number of tiles in bag 
+was updated and correct, the hand does not contain a certain letter anymore, 
+etc.). So, we manually tested these. We are confident our system is correct 
+because all of the exposed functions were tested in some way, either 
+automatically or manually, and our main module containing the front end of the 
+scrabble game used all of these functions.*)
+
+
 open OUnit2
 open Board
 open Bag

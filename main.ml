@@ -8,7 +8,7 @@ let hand2 = Array.make 7 {letter = 'A'; value = 10 }
 let hand3 = Array.make 7 {letter = 'A'; value = 10 }
 let hand4 = Array.make 7 {letter = 'A'; value = 10 }
 
-let board = (Array.make_matrix 15 15 Empty)
+let board = (Array.make_matrix 15 15 Empty) (*board_init ()*)
 let num_of_players = ref 0
 let hands = [| hand1; hand2; hand3; hand4|]
 
@@ -95,7 +95,6 @@ with failure ->
 else 
   failwith "Wanted to change action"
 
-(*Ruven: I'll change [board_init] once the board is made mutable *)
 let rec player_act player_number hand= 
   print_endline("Choose an action player " ^ (string_of_int player_number) 
   ^ "! You can pass, exchange tiles, or place tiles on board!");
@@ -186,14 +185,13 @@ print_scores ();
   end;
 print_endline("Keep playing? Please type yes/no");
 let ans = read_line() in 
-if String.equal ans "no" then begin
-  end_game ()
-end else
+if String.equal ans "yes" then begin
   for i = 1 to play_num do 
     player_act i (Array.get hands (i-1))
   done;
   turn (turn_num+1) play_num hands
-
+end else
+  end_game ()
   
 (*Sets the initial hands of the players*)
 let set_hands ()= 
@@ -214,7 +212,8 @@ unspecified error not seen by the user and prompts them to re=enter a valid
 number of players*)
 let rec player_gen (s) =
   try let num = (int_of_string s) in 
-    if (num=2 || num=3 || num=4) then begin
+    if (num=2 || num=3 || num=4) then 
+      begin
       num_of_players := num;
       set_hands ();
       print_endline("The Hands are:");    
@@ -234,6 +233,17 @@ let rec player_gen (s) =
 (*Starting up game*)
 let main () =
   print_endline("Welcome to Scrabble!");
+  print_endline("The rules of scrabble are: after the first turn, the player 
+  must place tiles that allows all vertical and horizontal tiles to be valid 
+  words. There are no diagonal words allowed. The other actions a player can 
+  take is exchanging tiles or passing their turn. The game ends when the bag 
+  of tiles is empty, and a player has placed all their tiles");
+  print_endline("The board is a 15 by 15 board. To play a word, the player will
+  be asked to input both the number of tiles they want to place down, and the 
+  start and end position of their word. They will then place tile by tile. 
+  The proper way to input is to type in the row, and then space, and then the 
+  column. The rows and columns range from 0 to 14. So, for example, if you 
+  want to place a tile in the middle of the board, you will type 7 7");
   print_endline("How many players do you want? Enter either 2,3, or 4");
   player_gen (read_line())
  

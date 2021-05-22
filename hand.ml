@@ -144,11 +144,13 @@ match l with
 | _ -> l
 
 (*[print_tile_lst] prints all the letter in a tile list*)
+(*
 let rec print_tile_lst tile_lst = 
   match tile_lst with 
   | []-> ()
   | h::t -> print_endline(Char.escaped h.letter);
   print_tile_lst t
+  *)
 
 let play_a_word board h tiles_lst = 
   let hand = to_list h in
@@ -167,8 +169,9 @@ let play_a_word board h tiles_lst =
   (* let tiles_played = Array.make (int_of_string num_tiles) 'A' in *)
   for i = 0 to (int_of_string num_tiles) - 1 do
     print_endline("Choose a letter to play: ");
+    print_endline("If you want to play a blank tile hit the space bar");
     let letter = read_line() in ();
-    tiles_lst:= (List.nth hand (index (String.get letter 0) 0 hand)) ::!tiles_lst;
+    tiles_lst:=(List.nth hand (index (String.get letter 0) 0 hand))::!tiles_lst;
     print_endline("Choose a position to place your tile: ");
     let pos = read_line() in ();
     let letter_con = set_blank_tile letter in

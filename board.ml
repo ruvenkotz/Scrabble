@@ -651,7 +651,8 @@ let check_word_helper board start_row start_col end_row end_col =
       done;
       add_original_word board start_row start_col end_row end_col;
       if check_for_floating_words board start_row start_col end_row end_col then
-        if are_words_real () then (count_points prev_board) else raise(NonRealWord) else
+        if are_words_real () then (count_points prev_board) else 
+          raise(NonRealWord) else
       raise(FloatingLetter)
     | Hor(len) ->
       for i = 0 to (len - 1) do
@@ -662,7 +663,8 @@ let check_word_helper board start_row start_col end_row end_col =
       done;
       add_original_word board start_row start_col end_row end_col;
       if check_for_floating_words board start_row start_col end_row end_col then
-        if are_words_real () then (count_points prev_board) else raise(NonRealWord) else
+        if are_words_real () then (count_points prev_board) else 
+          raise(NonRealWord) else
       raise(FloatingLetter)
 
 (** [exn_print exn] will print out to console why [exn] may have been raised*)
