@@ -56,14 +56,9 @@ let rec exchange_num s hand=
       exchange_num (read_line()) hand
       end else
     failwith "Wanted to change action"
-<<<<<<< HEAD
 
 (**[all_tiles_placed] counts the number of tiles placed, and is used to 
 check whether 50 points should be awarded.*)
-=======
-(**Almost works, but need to make sure tiles don't get replaced that 
-    were invalid words*)
->>>>>>> 82fc4f285d3e4f9f839dd939d6846fdf7a2a070c
 let all_tiles_placed hand = 
   for i = 0 to Array.length hand do 
     if Array.get hand i = {letter = '*'; value = 0} then
