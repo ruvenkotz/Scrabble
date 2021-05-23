@@ -123,6 +123,10 @@ let set_char (board : t) (row : int) (col : int) (chr : char) : unit =
       raise(PosOccupied)
 
 let print_board (board : t) : unit = 
+  print_string "  | 00  01  02  03  04  05  06  07  08  09  10  11  12  13  14";
+  print_newline ();
+  print_string "__|____________________________________________________________";
+  print_newline ();
   let print_space = function 
   | Empty -> print_string (" ** "); 
   | Multiplier m -> begin
@@ -130,8 +134,11 @@ let print_board (board : t) : unit =
     | Letter v -> print_string (" " ^ string_of_int v ^ "L ")
     | Whole v -> print_string (" " ^ string_of_int v ^ "W ") end
   | Char(chr) -> print_string (" " ^ Char.escaped chr ^ "  "); in
-  let print_row row = Array.iter print_space row; print_newline(); in
-  Array.iter print_row board; print_newline()
+  let print_row i row = 
+    if i < 10 then print_string ("0" ^ string_of_int i ^ "|") else 
+    print_string (string_of_int i ^ "|");
+    Array.iter print_space row; print_newline(); in
+  Array.iteri print_row board; print_newline()
 
 (** [string_of_space space] returns the string represenation of [space]. 
   Empty spaces are represented by '*' and characters are represented as 
@@ -481,9 +488,9 @@ let add_original_word board start_row start_col end_row end_col =
     Reminaing values to be counted are in string [word], and the accumulated 
     points so far are stored in int [acc].*)
 let rec word_value_helper prev_board word loc dir acc =
+  if String.length word = 0 then acc else
   let multiplier = multiplier_at_loc prev_board loc in
   let letter_multiplier = fst multiplier in
-  if String.length word = 0 then acc else
   let letter_val = (Bag.tile_value word.[0]) * letter_multiplier
   and substring_len = String.length word - 1 in
   let substring = String.sub word 1 substring_len in
