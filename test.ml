@@ -179,22 +179,30 @@ let zicu _ =
   set_char real_board 5 6 'Z';
   set_char real_board 8 6 'U'
 
+(** [floating_char ()] places the word "CHAR" horizontally in the top left
+    corner of [real_board]. *)
 let floating_char () = 
   set_char real_board 0 0 'C';
   set_char real_board 0 1 'H';
   set_char real_board 0 2 'A';
   set_char real_board 0 3 'R'
 
+(** [floating_with_real_word ()] makes a real word, and some floating 
+    characters elsewhere in the same turn. *)
 let floating_with_real_word () =
   floating_char ();
   set_char real_board 6 5 'L'
 
+(** [floating_bat ()] creates the real word, "BAT", but doesn't conect it
+    to the rest of the words already on [real_board].*)
 let floating_bat () =
   set_char real_board 0 14 'B';
   set_char real_board 1 14 'A';
   set_char real_board 2 14 'T'
 
-let words_in_two_directions () =
+(** [words_in_two_directions ()] places two words in two different directions
+in the same turn. *)
+  let words_in_two_directions () =
   set_char real_board 7 3 'T';
   set_char real_board 7 4 'O';
   set_char real_board 7 5 'M';
@@ -203,17 +211,24 @@ let words_in_two_directions () =
   set_char real_board 10 3 'C';
   set_char real_board 11 3 'K'
 
+ (** [word_with_space ()] places the word "SEA" to the left of "CAT", which is 
+    already on [real_board]. "SEA CAT" is a real word, but has a space in it. *) 
 let word_with_space () =
   set_char real_board 7 2 'S';
   set_char real_board 7 3 'E';
   set_char real_board 7 4 'A'
 
+(** [vert_word_with_space ()] places the word "GRIP" vertically above the word 
+    "CAR" which is already on [real_board]. "GRIP CAR" is a real word, but
+    has a space. *)
 let vert_word_with_space () =
   set_char real_board 1 7 'G';
   set_char real_board 2 7 'R';
   set_char real_board 3 7 'I';
   set_char real_board 4 7 'P'
 
+(** [long_made_up_word1 ()] places a 15 letter long gibberish word on 
+    [real_board]*)
 let long_made_up_word1 () = 
   set_char real_board 5 0 'A';
   set_char real_board 5 1 'P';
@@ -231,6 +246,8 @@ let long_made_up_word1 () =
   set_char real_board 5 13 'N';
   set_char real_board 5 14 'O'
 
+(** [long_made_up_word2 ()] places a 15 letter long gibberish word on 
+    [real_board]*)
   let long_made_up_word2 () = 
     set_char real_board 5 0 'T';
     set_char real_board 5 1 'V';
@@ -248,22 +265,31 @@ let long_made_up_word1 () =
     set_char real_board 5 13 'N';
     set_char real_board 5 14 'O'
   
+
+(** [tomcat ()] places the word "TOMCAT" using the word "CAT" that already 
+    appears on [real_board] *)
 let tomcat () =
   set_char real_board 7 3 'T';
   set_char real_board 7 4 'O';
   set_char real_board 7 5 'M'
 
+(** [atlas ()] places the word "ATLAS" vertically on [real_board] using the 
+    'T' in "TOMCAT"*)
 let atlas () =
   set_char real_board 6 3 'A';
   set_char real_board 8 3 'L';
   set_char real_board 9 3 'A';
   set_char real_board 10 3 'S'
 
+(** [mesa ()] places the word "MESA" on [real_board] using the second 'A' in 
+    "ATLAS". *)
 let mesa () =
   set_char real_board 9 0 'M';
   set_char real_board 9 1 'E';
   set_char real_board 9 2 'S'
 
+(** [myrica ()] places the word "MYRICA" on [real_board] using the 'M' in 
+    "MESA"*)
 let myrica () =
   set_char real_board 10 0 'Y';
   set_char real_board 11 0 'R';
@@ -271,10 +297,14 @@ let myrica () =
   set_char real_board 13 0 'C';
   set_char real_board 14 0 'A'
 
+
+(** [raw ()] places the word "RAW" on [real_board] using the 'R' in "MYRICA"*)
 let raw () =
   set_char real_board 11 1 'A';
   set_char real_board 11 2 'W'
 
+(** [acclimatization ()] places the word "ACCLIMATIZATION" horizontally 
+    along the bottom edge of [real_board] *)
 let acclimatization () =
   set_char real_board 14 1 'C';
   set_char real_board 14 2 'C';
@@ -291,6 +321,9 @@ let acclimatization () =
   set_char real_board 14 13 'O';
   set_char real_board 14 14 'N'
 
+
+(** [vert_acclimatization ()] places the word "ACCLIMATIZATION" along the 
+    right edge of [real_board]. *)
 let vert_acclimatization () =
   set_char real_board 0 14 'A';
   set_char real_board 1 14 'C';
@@ -307,6 +340,8 @@ let vert_acclimatization () =
   set_char real_board 12 14 'I';
   set_char real_board 13 14 'O'
 
+(** [pleuropneumonia ()] places the word "PLEUROPNEUMONIA" accross the top edge
+    of [real_board] *)
 let pleuropneumonia () =
   set_char real_board 0 0 'P';
   set_char real_board 0 1 'L';

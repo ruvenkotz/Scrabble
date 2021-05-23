@@ -1,4 +1,4 @@
-(** Representation of static board data.
+(** Representation of board data.
 
     This module stores what letter is stored in what location. *)
 
@@ -9,8 +9,8 @@
  | Letter of int
  | Whole of int   
 
-(** [space] represents the value contained at a location. It is either Empty, or
-  a Char *)
+(** [space] represents the value contained at a location. It is either [Empty],
+    or a [Char] containing a character *)
   type space = 
   | Empty
   | Multiplier of mult
@@ -126,10 +126,10 @@ val check_word : t -> int -> int -> int -> int -> int option
 val reset_board : t -> unit
 
 (** [string_of_board board] returns the string representation of [board].
-    Empty spaces are represented by '*'. The string representation of a board 
-    goes from left to right in each row first, then to the next row. There are
-    no spaces between characters of the same row, but there is a space between 
-    to show a distinction of a new row.
+    Empty spaces and multipliers are represented by '*'. The string 
+    representation of a board goes from left to right in each row first, 
+    then to the next row. There are no spaces between characters of the 
+    same row, but there is a space between to show a distinction of a new row.
     
     Example: Board: * * * * *
                     * * C * *

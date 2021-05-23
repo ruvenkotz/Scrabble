@@ -179,7 +179,7 @@ let set_char (board : t) (row : int) (col : int) (chr : char) : unit =
 let print_board (board : t) : unit = 
   print_string "  | 00  01  02  03  04  05  06  07  08  09  10  11  12  13  14";
   print_newline ();
-  print_string "__|____________________________________________________________";
+  print_string "__|___________________________________________________________";
   print_newline ();
   let print_space = function 
   | Empty -> print_string (" ** "); 
@@ -270,7 +270,7 @@ let add_last_hor board start_row start_col acc =
     the start position matches the end position. *)
 let rec build_word_helper board start_row start_col end_row end_col acc =
   match length_and_dir start_row start_col end_row end_col with
-  | Vert(len) -> if len = 2 then add_last_ver board start_row start_col acc else 
+  | Vert(len) -> if len = 2 then add_last_ver board start_row start_col acc else
     let new_char = Char.escaped (get_char board start_row start_col) in
     let new_acc = acc ^ new_char in
     let new_row = start_row + 1 in
@@ -325,7 +325,7 @@ let find_next_index arr = find_next_index_helper arr 0
   string representation of the word, it's starting location, and it's 
   direction and length*)
   let place_word board word_obj = match word_obj with
-  | NoWord -> ()
+  | NoWord -> () (* Should be impossible to reach *)
   | Word(word, loc, dirct) -> 
     match dirct with
     | Vert(len) -> 
@@ -699,6 +699,25 @@ let count_points prev_board =
   Some (possible_new_words |> Array.map (word_value prev_board) 
   |> Array.fold_left ( + ) 0)
 
+let erase_last_turns_temporary_arrays () =
+  Array.fill possible_new_words 0 7 NoWord;
+  Array.fill words_touching_but_not_modified 0 19 NoWord
+
+(** [check_possible_words board prev_board start_row start_col end_row end_col]
+    checks to make sure that none of the possible new words are floating, and 
+    that all the possible new words are real. If both of those conditions are
+    true, then [check_possible_words] returns the number of points gained in
+    in this turn, including multipliers. 
+    Requires: new words for this turn have been added to [possible_new_words].
+    Raises: FloatingLetter if one of the words is not connected to any other
+            word, or if there's floating letters elsewhere. 
+            NonRealWord if any of the possible new words is not real. *)
+let check_possible_words board prev_board start_row start_col end_row end_col =
+  if check_for_floating_words board start_row start_col end_row end_col then
+    if are_words_real () then (count_points prev_board) else 
+      raise(NonRealWord) else
+  raise(FloatingLetter)
+
 (** [check_word_helper board start_row start_col end_row end_col] is an 
     int option, which is Some int if all the words created by writing the word 
     positioned at (start_row, start_col) to (end_row, end_col) are real, where
@@ -710,8 +729,7 @@ let count_points prev_board =
               start position. *)
 let check_word_helper board start_row start_col end_row end_col =
   if is_empty board 7 7 then raise(NoTileInCenter) else
-    Array.fill possible_new_words 0 7 NoWord;
-    Array.fill words_touching_but_not_modified 0 19 NoWord;
+    erase_last_turns_temporary_arrays ();
     let prev_board = new_board_from_cur_words () in
     match length_and_dir start_row start_col end_row end_col with
     | Vert(len) -> 
@@ -719,14 +737,10 @@ let check_word_helper board start_row start_col end_row end_col =
         let row = start_row + i in
         let col = start_col in
         if is_empty board row col then raise(EmptySpace) else
-        
         find_modified_words_vert board prev_board row col
       done;
       add_original_word board start_row start_col end_row end_col;
-      if check_for_floating_words board start_row start_col end_row end_col then
-        if are_words_real () then (count_points prev_board) else 
-          raise(NonRealWord) else
-      raise(FloatingLetter)
+      check_possible_words board prev_board start_row start_col end_row end_col
     | Hor(len) ->
       for i = 0 to (len - 1) do
         let row = start_row in
@@ -735,10 +749,7 @@ let check_word_helper board start_row start_col end_row end_col =
         find_modified_words_hor board prev_board row col
       done;
       add_original_word board start_row start_col end_row end_col;
-      if check_for_floating_words board start_row start_col end_row end_col then
-        if are_words_real () then (count_points prev_board) else 
-          raise(NonRealWord) else
-      raise(FloatingLetter)
+      check_possible_words board prev_board start_row start_col end_row end_col
 
 (** [build_board_from_current_words board] will replace board with a board 
     consisting of only the verified valid words. *)
