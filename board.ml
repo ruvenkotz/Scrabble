@@ -172,10 +172,10 @@ let set_char (board : t) (row : int) (col : int) (chr : char) : unit =
     if is_empty board row col then board.(row).(col) <- Char(capital_chr) else
       raise(PosOccupied)
     with 
-    |UnknownPos -> exn_print UnknownPos
-    |CharacterNotInAlphabet -> exn_print CharacterNotInAlphabet
-    |PosOccupied -> exn_print PosOccupied;
-    failwith ""
+    |UnknownPos -> exn_print UnknownPos; raise(UnknownPos)
+    |CharacterNotInAlphabet -> 
+      exn_print CharacterNotInAlphabet; raise(CharacterNotInAlphabet)
+    |PosOccupied -> exn_print PosOccupied; raise(PosOccupied)
 let print_board (board : t) : unit = 
   print_string "  | 00  01  02  03  04  05  06  07  08  09  10  11  12  13  14";
   print_newline ();
