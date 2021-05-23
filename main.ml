@@ -58,8 +58,8 @@ let rec exchange_num s hand=
       exchange_num (read_line()) hand
       end else
     failwith "Wanted to change action"
-(**Almost works, but need to make sure tiles don't get replaced that were invalid
-words*)
+(**Almost works, but need to make sure tiles don't get replaced that 
+    were invalid words*)
 let all_tiles_placed hand = 
   for i = 0 to Array.length hand do 
     if Array.get hand i = {letter = '*'; value = 0} then
