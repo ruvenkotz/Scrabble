@@ -379,9 +379,9 @@ let hand_test =
   tile_getter_test "Checking recursive call properly works when tile needed is 
   not first one" 'B' test_hand2 0 {letter = 'B'; value = 3 };
   tile_getter_exception_helper "Checking exception is raised when tile is not in
-  hand" 'C' test_hand 0 LetterNotFound;
+  hand" 'C' test_hand_dup 0 LetterNotFound;
   tile_getter_exception_helper "Checking exception is raised when index is g
-  greater than length of hand" 'C' test_hand 8 LetterNotFound;
+  greater than length of hand" 'C' test_hand_dup 8 LetterNotFound;
   tile_getter_exception_helper "Making sure that every intermediate * tile in 
   reverted back to the original hand after the failure of a word" '*' 
   placed_hand 0 LetterNotFound;
