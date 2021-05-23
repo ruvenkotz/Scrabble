@@ -9,7 +9,7 @@ exception InvalidPositioning
 type t = Bag.tile array 
 
 (*Dummy hand used for testing purposes*)
-let hand1 = Array.make 7 {letter = 'A'; value = 10 }
+let hand1 = Array.make 7 {letter = 'A'; value = 1 }
 
 let bag = init_bag
 
@@ -22,28 +22,37 @@ let create_starting_hand hand bag=
     set hand i {letter = tile.letter; value = tile.value } 
   done
 
+let rec print_helper hand =
+  match hand with
+  | [] -> []
+  | h :: t -> 
+    if h.value == 10 
+      then string_of_int h.value :: print_helper t
+      else ("0" ^ string_of_int h.value)  :: print_helper t
 
-let print_hor hand =  
- (print_endline"+---------------------------+";
+let print_hor hand = 
+ 
+ (print_endline"+----------------------------------+";
   print_endline (
   "| "  ^ (Char.escaped (Array.get hand 0).letter)  ^
-  " | " ^ (Char.escaped (Array.get hand 1).letter)  ^
-  " | " ^ (Char.escaped (Array.get hand 2).letter)  ^
-  " | " ^ (Char.escaped (Array.get hand 3).letter)  ^
-  " | " ^ (Char.escaped (Array.get hand 4).letter)  ^
-  " | " ^ (Char.escaped (Array.get hand 5).letter)  ^
-  " | " ^ (Char.escaped (Array.get hand 6).letter)  ^ 
-  " |");
+  "  | " ^ (Char.escaped (Array.get hand 1).letter)  ^
+  "  | " ^ (Char.escaped (Array.get hand 2).letter)  ^
+  "  | " ^ (Char.escaped (Array.get hand 3).letter)  ^
+  "  | " ^ (Char.escaped (Array.get hand 4).letter)  ^
+  "  | " ^ (Char.escaped (Array.get hand 5).letter)  ^
+  "  | " ^ (Char.escaped (Array.get hand 6).letter)  ^ 
+  "  |");
+  let l = print_helper (to_list hand) in 
   print_endline (
-  "| "  ^ (string_of_int (Array.get hand 0).value)  ^
-  " | " ^ (string_of_int (Array.get hand 1).value)  ^
-  " | " ^ (string_of_int (Array.get hand 2).value)  ^
-  " | " ^ (string_of_int (Array.get hand 3).value)  ^
-  " | " ^ (string_of_int (Array.get hand 4).value)  ^
-  " | " ^ (string_of_int (Array.get hand 5).value)  ^
-  " | " ^ (string_of_int (Array.get hand 6).value)  ^ 
+  "| "  ^ (List.nth l 0)  ^
+  " | " ^ (List.nth l 1)  ^
+  " | " ^ (List.nth l 2)  ^
+  " | " ^ (List.nth l 3)  ^
+  " | " ^ (List.nth l 4)  ^
+  " | " ^ (List.nth l 5)  ^
+  " | " ^ (List.nth l 6)  ^ 
   " |");
-  print_endline"+---------------------------+")
+  print_endline"+----------------------------------+")
 
  let print_vert hand = 
   (print_endline"+-----+";
