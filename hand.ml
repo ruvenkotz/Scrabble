@@ -94,13 +94,6 @@ let rec check_hand letter hand =  match hand with
   raise(LetterNotFound)
   |h :: t -> if h.letter = letter || h.letter = ' ' then true 
   else check_hand letter t
-
-(*[check_board] checks to see that the letter chosen is on the board. *)
-let check_board letter hand row col board = 
-  if (Board.get_char board row col) = letter then true
-  else if (Board.get_char board row col) = '0' then
-    check_hand letter hand
-  else raise(LetterNotFound)
   
 (*[split_word] splits a word into a list of its characters*)
 let rec split_word l word = match word with
@@ -182,12 +175,12 @@ let play_a_word board h tiles_lst =
     print_endline("Choose a letter to play: ");
     print_endline("If you want to play a blank tile hit the space bar");
     let letter = read_line() in ();
-    tiles_lst:=(List.nth hand (index (String.get letter 0) 0 hand))::!tiles_lst;
     print_endline("Choose a position to place your tile: ");
     let pos = read_line() in ();
     let letter_con = set_blank_tile letter in
     print_endline("Letter: " ^ letter_con);
-    place_a_letter board letter_con pos (*hand*) (to_list h);
+    place_a_letter board letter_con pos (to_list h);
+    tiles_lst:=(List.nth hand (index (String.get letter 0) 0 hand))::!tiles_lst;
     print_endline("Letter " ^ letter_con);
     print_board board;
     set h (find_first_tile (String.get letter 0) (to_list h) 0 )

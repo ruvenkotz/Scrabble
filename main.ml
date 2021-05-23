@@ -91,8 +91,10 @@ with failure ->
   reset_board board;
   print_endline("Do you still want to place a word? Please type yes or no");
   let ans = read_line() in 
-  if ans = "yes" then 
-  place hand
+  if ans = "yes" then( 
+  print_endline ("Your current hand is:");
+  print_hor hand;
+  place hand)
 else 
   failwith "Wanted to change action"
 
