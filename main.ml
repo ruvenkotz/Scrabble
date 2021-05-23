@@ -56,14 +56,8 @@ let rec exchange_num s hand=
       exchange_num (read_line()) hand
       end else
     failwith "Wanted to change action"
-<<<<<<< HEAD
-
-(**[all_tiles_placed] counts the number of tiles placed, and is used to 
-check whether 50 points should be awarded.*)
-=======
 (**Almost works, but need to make sure tiles don't get replaced that 
     were invalid words*)
->>>>>>> 82fc4f285d3e4f9f839dd939d6846fdf7a2a070c
 let all_tiles_placed hand = 
   for i = 0 to Array.length hand do 
     if Array.get hand i = {letter = '*'; value = 0} then
@@ -177,8 +171,8 @@ let end_game ()=
   print_endline("Good game!");
   Stdlib.exit 0
 
-(*[turn] allows the user to have turns, with either the option to quit or causing 
-there to be player actions for each player otherwise.*)
+(*[turn] allows the user to have turns, with either the option to quit or 
+  causing there to be player actions for each player otherwise.*)
 let rec turn turn_num play_num hands= 
   let count = total_count bag in
   print_endline ("The current number of tiles left in the bag is: ");
@@ -218,9 +212,9 @@ let print_hands () =
 
 
 
-(*[player_gen] starts the game is the number of players is valid, otherwise raises an 
-unspecified error not seen by the user and prompts them to re=enter a valid 
-number of players*)
+(*[player_gen] starts the game is the number of players is valid, 
+  otherwise raises an unspecified error not seen by the user and 
+  prompts them to re=enter a valid number of players*)
 let rec player_gen (s) =
   try let num = (int_of_string s) in 
     if (num=2 || num=3 || num=4) then 
