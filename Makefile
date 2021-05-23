@@ -28,7 +28,7 @@ play:
 	$(OCAMLBUILD) -tag 'debug' $(MAIN) && OCAMLRUNPARAM=b ./$(MAIN)
 
 zip:
-	zip scrabble.zip *.ml* *.sh *.json $(INSTALL) _tags .merlin .ocamlinit Makefile
+	zip scrabble.zip *.ml* *.sh *.json *.txt $(INSTALL) _tags .merlin .ocamlinit Makefile
 
 docs: build docs-public docs-private
 	
