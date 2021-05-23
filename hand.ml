@@ -72,8 +72,8 @@ let print_hor hand =
   print_endline ("+-----+"); )
  
 
-(*[index] returns the index of a tile given a character. Raise [LetterNotFound] if it
-  does not exist.*)
+(*[index] returns the index of a tile given a character. Raise [LetterNotFound] 
+  if it does not exist.*)
  let rec index letter i = function
  |[] -> print_endline("Error: tile is not in your hand"); raise(LetterNotFound)
  |h :: t -> if h.letter = letter then i else index letter (i+1) t
