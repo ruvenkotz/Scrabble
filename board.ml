@@ -113,15 +113,69 @@ let get_char (board : t) (row : int) (col : int) : char =
   if row > 14 || row < 0 || col > 14 || col < 0 then raise(UnknownPos) else
     let current_row = board.(row) in
     current_row.(col) |> char_of_space
-
+    
+(** [exn_print exn] will print out to console why [exn] may have been raised*)
+let exn_print exn = match exn with
+| NoTileInCenter -> 
+  print_newline ();
+  print_string "Word rejected due to the center space being empty. The first 
+  play must place a tile in the center space (7, 7). Try again.";
+  print_newline ()
+| InvalidStartOrEndPos -> 
+  print_newline ();
+  print_string "Word rejected due to the end position being further up, left, 
+  or diagonal to the start position. Try again.";
+  print_newline()
+| EmptySpace -> 
+  print_newline();
+  print_string "Word rejected because the word either includes spaces, or there 
+  was an empty space included in the spaces between your word's start position 
+  and end position. Try again.";
+  print_newline()
+| Assert_failure (_, _, _) ->
+  print_newline ();
+  print_string "Word rejected because the starting or ending position was out of
+   range of the board (0..14) x (0..14). Try again.";
+  print_newline ()
+| NonRealWord -> 
+  print_newline ();
+  print_string "Word rejected because this word, or one the words it modifies, 
+  is not in the English dictionary. Try again. ";
+  print_newline ();
+| FloatingLetter ->
+  print_newline ();
+  print_string "Word rejected because there are floating letters on the board, 
+  or the start and end position didn't capture the entire word you placed
+  Try again. ";
+  print_newline ();
+| UnknownPos ->
+  print_newline ();
+  print_string "You entered a position that was not on the board. Try again. ";
+  print_newline ();
+| CharacterNotInAlphabet ->
+  print_newline ();
+  print_string "You entered a letter that was not in the alphabet. Try again. ";
+  print_newline ();
+| PosOccupied ->
+    print_newline ();
+    print_string "You tried to place a letter in an occupied spot. Try again. ";
+    print_newline ();
+| _ -> 
+  print_newline(); print_string "An unkown error occurred."; print_newline()
+  
 let set_char (board : t) (row : int) (col : int) (chr : char) : unit = 
+  try
   if row > 14 || row < 0 || col > 14 || col < 0 then raise(UnknownPos) else
     let capital_chr = Char.uppercase_ascii chr in
     if Char.code capital_chr < 65 || Char.code capital_chr > 90 then 
       raise(CharacterNotInAlphabet) else
     if is_empty board row col then board.(row).(col) <- Char(capital_chr) else
       raise(PosOccupied)
-
+    with 
+    |UnknownPos -> exn_print UnknownPos
+    |CharacterNotInAlphabet -> exn_print CharacterNotInAlphabet
+    |PosOccupied -> exn_print PosOccupied;
+    failwith ""
 let print_board (board : t) : unit = 
   print_string "  | 00  01  02  03  04  05  06  07  08  09  10  11  12  13  14";
   print_newline ();
@@ -685,43 +739,6 @@ let check_word_helper board start_row start_col end_row end_col =
         if are_words_real () then (count_points prev_board) else 
           raise(NonRealWord) else
       raise(FloatingLetter)
-
-(** [exn_print exn] will print out to console why [exn] may have been raised*)
-let exn_print exn = match exn with
-| NoTileInCenter -> 
-  print_newline ();
-  print_string "Word rejected due to the center space being empty. The first 
-  play must place a tile in the center space (7, 7). Try again.";
-  print_newline ()
-| InvalidStartOrEndPos -> 
-  print_newline ();
-  print_string "Word rejected due to the end position being further up, left, 
-  or diagonal to the start position. Try again.";
-  print_newline()
-| EmptySpace -> 
-  print_newline();
-  print_string "Word rejected because the word either includes spaces, or there 
-  was an empty space included in the spaces between your word's start position 
-  and end position. Try again.";
-  print_newline()
-| Assert_failure (_, _, _) ->
-  print_newline ();
-  print_string "Word rejected because the starting or ending position was out of
-   range of the board (0..14) x (0..14). Try again.";
-  print_newline ()
-| NonRealWord -> 
-  print_newline ();
-  print_string "Word rejected because this word, or one the words it modifies, 
-  is not in the English dictionary. Try again. ";
-  print_newline ();
-| FloatingLetter ->
-  print_newline ();
-  print_string "Word rejected because there are floating letters on the board, 
-  or the start and end position didn't capture the entire word you placed
-  Try again. ";
-  print_newline ();
-| _ -> 
-  print_newline(); print_string "An unkown error occurred."; print_newline()
 
 (** [build_board_from_current_words board] will replace board with a board 
     consisting of only the verified valid words. *)

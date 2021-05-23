@@ -5,7 +5,6 @@ exception LetterNotFound
 exception WordDoesNotFit
 exception InvalidPositioning
 
-
 type t = Bag.tile array 
 
 (*Dummy hand used for testing purposes*)
@@ -128,6 +127,8 @@ let tile_replace tile hand bag=
   let new_tile = snd (next_tile bag) in
   set hand ind {letter = new_tile.letter; value = new_tile.value }
 
+
+
 (*[place_a letter] plays the letter from the hand onto the given position on the
 board.*)
   let place_a_letter board l pos hand = 
@@ -136,7 +137,8 @@ board.*)
     let row = List.nth start_row_col 0 |> int_of_string in
     let col = List.nth start_row_col 1 |> int_of_string in
     if check_hand letter hand then 
-      (Board.set_char board row col letter)
+         Board.set_char board row col letter
+
 
 
 (*[set_blank_tile] set the blank tile to the tile of the player's choice if they

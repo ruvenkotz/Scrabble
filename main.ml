@@ -118,6 +118,8 @@ let rec player_act player_number hand=
       Array.set scores (player_number-1) ((Array.get scores (player_number-1))+ 
       score);
       print_endline("Word Placed!");
+      print_endline("Your new hand is:");
+      print_hor hand;
       tiles_placed:= 0
   end else failwith ""
 with failure -> if failure =
