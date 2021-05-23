@@ -108,13 +108,12 @@ let new_tiles (hand : t) bag =
     set hand 0 tile
   done
 
-(*[find_first_tiles] finds the first occurence of a tile in a hand. 
+(**[find_first_tiles] finds the first occurence of a tile in a hand. 
 Returns the index*)
 let rec find_first_tile tile hand acc= match hand with 
   |[]-> print_endline("Error: tile is not in your hand"); raise (TileNotFound)
   |h::t -> if tile = h.letter then acc else find_first_tile tile t (acc+1)
-     
-    
+      
 let tile_replace tile hand bag= 
   if tile = {letter = '*'; value = 0} then 
     for i = 0 to (length hand -1) do
@@ -126,7 +125,6 @@ let tile_replace tile hand bag=
   let ind = find_first_tile tile.letter (to_list hand) 0 in 
   let new_tile = snd (next_tile bag) in
   set hand ind {letter = new_tile.letter; value = new_tile.value }
-
 
 
 (*[place_a letter] plays the letter from the hand onto the given position on the
