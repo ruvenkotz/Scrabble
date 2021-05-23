@@ -530,6 +530,8 @@ let tile_getter_exception_helper name letter hand ind expected_output : test =
 let test_hand = Array.make 7 {letter = 'A'; value = 1 }
 
 let test_hand_dup = Array.make 7 {letter = 'A'; value = 1 }
+
+let test_hand_dup2 = Array.make 7 {letter = 'A'; value = 1 }
 let test_hand2 = Array.append (Array.make 6 {letter = 'A'; value = 1 } ) 
 (Array.make 1{letter='B'; value = 3})
 
@@ -558,8 +560,8 @@ let hand_test =
   {letter = '*'; value = 0} test_hand init ();
 
   tile_replace_exception_test 
-  "Replacing a tile that isn't in the hand returns unit" 
-  {letter = 'B'; value = 3} test_hand init TileNotFound;
+  "Replacing a tile that isn't in the hand raises TileNotFound" 
+  {letter = 'B'; value = 3} test_hand_dup2 init TileNotFound;
 
   place_a_letter_test "Place a legal letter" empty_board "A" "0 0" 
   (Array.to_list test_hand) ();
@@ -581,7 +583,7 @@ let hand_test =
   tile_getter_test "Checking recursive call properly works when tile needed is 
   not first one" 'B' test_hand2 0 {letter = 'B'; value = 3 };
   tile_getter_exception_helper "Checking exception is raised when tile is not in
-  hand" 'C' test_hand_dup 0 LetterNotFound;
+  hand" 'C' test_hand_dup2 0 LetterNotFound;
   tile_getter_exception_helper "Checking exception is raised when index is g
   greater than length of hand" 'C' test_hand_dup 8 LetterNotFound;
   tile_getter_exception_helper "Making sure that every intermediate * tile in 
