@@ -8,7 +8,7 @@ let hand2 = Array.make 7 {letter = 'A'; value = 10 }
 let hand3 = Array.make 7 {letter = 'A'; value = 10 }
 let hand4 = Array.make 7 {letter = 'A'; value = 10 }
 
-let board = board_init ()
+let board =board_init ()
 let num_of_players = ref 0
 let hands = [| hand1; hand2; hand3; hand4|]
 
@@ -88,6 +88,7 @@ let rec place hand =
     end
 with failure -> 
   revert_hand hand !tiles_placed_ref;
+  reset_board board;
   print_endline("Do you still want to place a word? Please type yes or no");
   let ans = read_line() in 
   if ans = "yes" then 

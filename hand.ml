@@ -81,8 +81,10 @@ else
 
 (*[check_hand] checks to see that the letter chosen is in the player's hand.*)
 let rec check_hand letter hand =  match hand with
-  |[] -> print_endline("Error: tile is not in your hand"); raise(LetterNotFound)
-  |h :: t -> if h.letter = letter || h.letter = ' ' then true else check_hand letter t
+  |[] -> print_endline("Error: tile is not in your hand"); 
+  raise(LetterNotFound)
+  |h :: t -> if h.letter = letter || h.letter = ' ' then true 
+  else check_hand letter t
 
 (*[check_board] checks to see that the letter chosen is on the board. *)
 let check_board letter hand row col board = 
@@ -176,13 +178,13 @@ let play_a_word board h tiles_lst =
     let pos = read_line() in ();
     let letter_con = set_blank_tile letter in
     print_endline("Letter: " ^ letter_con);
-    place_a_letter board letter_con pos hand;
+    place_a_letter board letter_con pos (*hand*) (to_list h);
     print_endline("Letter " ^ letter_con);
     print_board board;
-    print_endline("Your current hand is:");
-    print_hor (of_list hand);
     set h (find_first_tile (String.get letter 0) (to_list h) 0 )
     {letter = '*'; value = 0};
+    print_endline("Your current hand is:");
+    print_hor (h);
   done;
   check_word board start_row start_col end_row end_col
 
